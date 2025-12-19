@@ -132,6 +132,9 @@ GameObject:
   - component: {fileID: 208128507}
   - component: {fileID: 208128506}
   - component: {fileID: 208128508}
+  - component: {fileID: 208128510}
+  - component: {fileID: 208128509}
+  - component: {fileID: 208128511}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -206,7 +209,8 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 774387617}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &208128506
@@ -221,16 +225,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6d06de307a6f05b43bc79f7b11058ed4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerLookState: 0
   movementSpeed: 3.31
-  jumpSpeed: 10.33
-  groundLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  groundCheckRadius: 0
-  groundCheck: {fileID: 0}
-  startHealth: 0
-  currentHealth: 0
 --- !u!50 &208128507
 Rigidbody2D:
   serializedVersion: 5
@@ -304,6 +299,53 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
+--- !u!114 &208128509
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 208128502}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0c123c83a1c20a9d78953be66accfe70, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  jumpSpeed: 5.36
+  groundLayers:
+    serializedVersion: 2
+    m_Bits: 8
+  groundCheckRadius: 0.28
+  groundCheck: {fileID: 774387617}
+  doubleJumpEnabled: 0
+  doubleJumpMultiplier: 1.55
+--- !u!114 &208128510
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 208128502}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8d7e21287e658836fb4c544bcbc83ab7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rb: {fileID: 208128507}
+  StartingHealth: 100
+--- !u!114 &208128511
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 208128502}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6d8d84b8c2f775c61b1687273d8ea856, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  dashDistance: 2.49
 --- !u!1 &340417492
 GameObject:
   m_ObjectHideFlags: 0
@@ -335,6 +377,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   items:
   - item: {fileID: 11400000, guid: 033d23a60c3a04d32898ae21d6098c94, type: 2}
+    amountOfItem: 1
+    spawnAtStart: 1
+  - item: {fileID: 11400000, guid: d2e5c77e03098360aa75287b3297ac6c, type: 2}
     amountOfItem: 1
     spawnAtStart: 1
 --- !u!4 &340417494
@@ -573,6 +618,37 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &774387616
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 774387617}
+  m_Layer: 0
+  m_Name: GroundCheck
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &774387617
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 774387616}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: -0.485, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 208128504}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1895722879
 GameObject:
   m_ObjectHideFlags: 0
@@ -584,7 +660,7 @@ GameObject:
   - component: {fileID: 1895722882}
   - component: {fileID: 1895722881}
   - component: {fileID: 1895722880}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Square
   m_TagString: Untagged
   m_Icon: {fileID: 0}

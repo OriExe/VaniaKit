@@ -2,6 +2,7 @@ using System;
 using ResourceManager;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using Player;
 
 public class SwordItem : MonoBehaviour, IEquipable
 {
@@ -63,6 +64,6 @@ public class SwordItem : MonoBehaviour, IEquipable
 
     public void Unequip()
     {
-        throw new System.NotImplementedException();
+        Destroy(gameObject);
     }
 }
