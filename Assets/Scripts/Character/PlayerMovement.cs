@@ -2,34 +2,40 @@ using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-/// <summary>
-/// Player character controller
-/// Things to include
-/// Player Movement
-/// Variable Jump Height
-/// Apex Modifiers
-/// Jump buffering
-/// Coyote Time (Leaving the platform)
-/// Clamped fall speed (Make fallign fun)
-/// Edge detection 
-/// </summary>
+
 
 namespace Player
 {
+    /// <summary>
+    /// Player character controller
+    /// Things to include
+    /// Player Movement
+    /// Variable Jump Height
+    /// Apex Modifiers
+    /// Jump buffering
+    /// Coyote Time (Leaving the platform)
+    /// Clamped fall speed (Make fallign fun)
+    /// Edge detection 
+    /// </summary>
     [RequireComponent(typeof(PlayerController))]
     public class PlayerMovement : MonoBehaviour
     {
         private PlayerController _playerController;
         private static PlayerMovement _instance; //Static Instance of player controller
-        public enum lookStates
+        public enum lookStatesHorizontal
         {
-            up,
-            down,
             left,
             right
         }
-        private lookStates playerLookState; //Where is the player currently looking
 
+        public enum lookStatesVertical
+        {
+            up,
+            down,
+            none,
+        }
+        private lookStatesHorizontal playerHorizontalLookState; //Where is the player currently looking
+        private lookStatesVertical playerVerticalLookState = lookStatesVertical.none;
         private Rigidbody2D rb => _playerController.getPlayerRigidbody();
         private InputAction m_moveAction;
         [SerializeField]private float movementSpeed;
@@ -58,21 +64,25 @@ namespace Player
 
            
             #region MoveStates
-            if (moveValue.y > 0)
+            if (moveValue.y > 0.4f)
             {
-                playerLookState = lookStates.up;
+                playerVerticalLookState = lookStatesVertical.up;
             }
-            else if (moveValue.y < 0)
+            else if (moveValue.y < -0.4f)
             {
-                playerLookState = lookStates.down;
+                playerVerticalLookState = lookStatesVertical.down;
             }
-            else if (moveValue.x > 0)
+            else
             {
-                playerLookState = lookStates.right;
+                playerVerticalLookState = lookStatesVertical.none;
+            }
+            if (moveValue.x > 0)
+            {
+                playerHorizontalLookState = lookStatesHorizontal.right;
             }
             else if (moveValue.x < 0)
             {
-                playerLookState = lookStates.left;
+                playerHorizontalLookState = lookStatesHorizontal.left;
             }
             
            
@@ -86,9 +96,14 @@ namespace Player
         }
         
 
-        public static lookStates returnCurrentState()
+        public static lookStatesHorizontal returnHorizontalLookState()
         {
-            return _instance.playerLookState;
+            return _instance.playerHorizontalLookState;
+        }
+
+        public static lookStatesVertical returnVerticalLookState()
+        {
+            return _instance.playerVerticalLookState;
         }
     }
 }

@@ -33,19 +33,26 @@ public class SwordItem : MonoBehaviour, IEquipable
                 attackingBox.SetActive(true);
                 attackingCooldown = secondsToWaitTillNextAttack;
 
-                switch (PlayerMovement.returnCurrentState())
+                switch (PlayerMovement.returnVerticalLookState())
                 {
-                    case PlayerMovement.lookStates.up:
+                    case PlayerMovement.lookStatesVertical.up:
                         attackingBox.transform.localPosition = new Vector3(transform.localPosition.x,1f,transform.localPosition.z);
                         break;
-                    case PlayerMovement.lookStates.down:
+                    case PlayerMovement.lookStatesVertical.down:
                         attackingBox.transform.localPosition = new Vector3(transform.localPosition.x,-1f,transform.localPosition.z);
                         break;
-                    case PlayerMovement.lookStates.left:
-                        attackingBox.transform.localPosition = new Vector3(-1f,transform.localPosition.y,transform.localPosition.z);
-                        break;
-                    case PlayerMovement.lookStates.right:
-                        attackingBox.transform.localPosition = new Vector3(1f,transform.localPosition.y,transform.localPosition.z);
+                    case PlayerMovement.lookStatesVertical.none:
+                        switch (PlayerMovement.returnHorizontalLookState())
+                        {
+                            case PlayerMovement.lookStatesHorizontal.left:
+                                attackingBox.transform.localPosition = new Vector3(-1f,transform.localPosition.y,transform.localPosition.z);
+                                break;
+                            case PlayerMovement.lookStatesHorizontal.right:
+                                attackingBox.transform.localPosition = new Vector3(1f,transform.localPosition.y,transform.localPosition.z);
+                                break;
+                            default:
+                                throw new ArgumentOutOfRangeException();
+                        }
                         break;
                     default:
                         throw new ArgumentOutOfRangeException();

@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.Serialization;
 
 namespace Player
 {
@@ -8,17 +9,21 @@ namespace Player
     {
         private InputActionAsset inputActions;
         [SerializeField] private Rigidbody2D rb;
-        [SerializeField] private int StartingHealth = 100;
+        [SerializeField] private int startingHealth = 100;
         private int currentHealth;
+        private InputAction m_moveAction;
         // Start is called once before the first execution of Update after the MonoBehaviour is created
         void Awake()
         {
-            currentHealth = StartingHealth;
+            m_moveAction = InputSystem.actions.FindAction("Move");
+            currentHealth = startingHealth;
             if (rb == null)
             {
                 rb = GetComponent<Rigidbody2D>(); //Just get whatever ridigboy component is in the player
             }
         }
+
+        
 
         private void onEnable()
         {

@@ -26,6 +26,8 @@ namespace Player
 
         private PlayerController _playerController;
 
+        [HideInInspector]public bool isDashing;
+
         // Start is called once before the first execution of Update after the MonoBehaviour is created
 
         protected event EventHandler onPlayerLand;
@@ -48,7 +50,9 @@ namespace Player
         void Update()
         {
             isGrounded = Physics2D.OverlapCircle(groundCheck.position, groundCheckRadius, groundLayers);
-            
+
+            if (isDashing)
+                return;
             if (m_jumpAction.WasPressedThisFrame() && isGrounded)
             {
                 jump();

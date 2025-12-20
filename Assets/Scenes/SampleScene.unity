@@ -319,6 +319,7 @@ MonoBehaviour:
   groundCheck: {fileID: 774387617}
   doubleJumpEnabled: 0
   doubleJumpMultiplier: 1.55
+  isDashing: 0
 --- !u!114 &208128510
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -332,7 +333,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rb: {fileID: 208128507}
-  StartingHealth: 100
+  startingHealth: 100
 --- !u!114 &208128511
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -345,7 +346,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6d8d84b8c2f775c61b1687273d8ea856, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dashDistance: 2.49
+  dashDistance: 0.15
+  dashingTime: 0.13
 --- !u!1 &340417492
 GameObject:
   m_ObjectHideFlags: 0
