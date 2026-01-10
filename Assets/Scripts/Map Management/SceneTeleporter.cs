@@ -15,14 +15,15 @@ public class SceneTeleporter : MonoBehaviour
     [SerializeField] private String destination;
     [Tooltip("The name of the scene you want to load")]
     [SerializeField]private String sceneName;
-    private Scene scene;
+
+    public string NAMESCENEOBJECTISIN { get; private set; } //The scene the object is in
     
     /// <summary>
     /// Makes sure the box colider is a trigger
     /// </summary>
     private void Start()
     {
-        scene = SceneManager.GetSceneByName(sceneName);
+        NAMESCENEOBJECTISIN = SceneManager.GetActiveScene().name;
         GetComponent<BoxCollider2D>().isTrigger = true;       
     }
 
@@ -32,10 +33,11 @@ public class SceneTeleporter : MonoBehaviour
     /// <param name="other"></param>
     private void OnTriggerEnter(Collider other)
     {
-        //Fade to black
-        //Load scene async 
-        //If scene loaded teleport the player to the spawn point 
-        //Unload this scene
+        StartCoroutine((FadeToBlack()));
+        
+        StartCoroutine(loadNewScene());
+        
+        StartCoroutine((unFadeFromBlack()));
     }
 
     private IEnumerator FadeToBlack()
@@ -43,9 +45,47 @@ public class SceneTeleporter : MonoBehaviour
         yield return new WaitForEndOfFrame();
     }
 
+    private IEnumerator loadNewScene()
+    {
+        Scene currentScene = SceneManager.GetActiveScene();
+        AsyncOperation sceneLoading = SceneManager.LoadSceneAsync(sceneName, LoadSceneMode.Additive);//Load scene async
+        while (sceneLoading.isDone == false)
+        {
+            yield return null;
+        }
+
+        if (sceneLoading.isDone)
+        {
+            SceneManager.SetActiveScene(SceneManager.GetSceneByName(sceneName));
+            Debug.Log("Scene loading done");
+            
+        }
+        //If scene loaded teleport the player to the spawn point 
+        //Unload this scene
+        SceneManager.UnloadSceneAsync(currentScene);
+    }
     private IEnumerator unFadeFromBlack()
     {
         yield return new WaitForEndOfFrame(); 
+    }
+
+    private void findSpawnPoint()
+    {
+        SceneTeleporter[] sceneTeleporter = GameObject.FindObjectsByType<SceneTeleporter>(FindObjectsSortMode.None);
+        Transform spawnPoint;
+
+        foreach (SceneTeleporter spawnPoints in sceneTeleporter)
+        {
+            if (spawnPoints.NAMESCENEOBJECTISIN == sceneName)
+            {
+                Debug.Log("In right scene");
+                if (spawnPoints.gameObject.name == destination)
+                {
+                    Debug.unityLogger.Log("Found destination");
+                    spawnPoint = spawnPoints.gameObject.transform;;
+                }
+            }
+        }
     }
 }
 
