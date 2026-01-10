@@ -1,11 +1,13 @@
 using UnityEngine;
+using System.Collections;
+using System.Collections.Generic;
 
 public class InventoryData {
     private string itemPath; 
     private int amountOfItem;
     private bool isitemStackable;
-
-    public static list<InventoryData> allInventoryData; 
+    
+    public static List<InventoryData> allInventoryData; 
 
     InventoryData (string path, int amount, bool itemStackable)
     {
@@ -14,6 +16,6 @@ public class InventoryData {
         amountOfItem = amount;
         isitemStackable = itemStackable;
 
-        allInventoryData.push(this);
+        allInventoryData.Add(this);
     }
 }
