@@ -7,23 +7,37 @@ namespace Player
     [RequireComponent(typeof(Rigidbody2D))]
     public class PlayerController : MonoBehaviour, IDamageable
     {
+        #region Events
+
+        protected virtual void onPLayerHit()
+        {
+            
+        }
+        #endregion
+        
         private InputActionAsset inputActions;
         [SerializeField] private Rigidbody2D rb;
         [SerializeField] private int startingHealth = 100;
-        private int currentHealth;
+        protected int currentHealth;
         private InputAction m_moveAction;
+        delegate void OnPlayerDead();
+        OnPlayerDead onPlayerDead;
         // Start is called once before the first execution of Update after the MonoBehaviour is created
         void Awake()
         {
             m_moveAction = InputSystem.actions.FindAction("Move");
             currentHealth = startingHealth;
+            onPlayerDead += playerDead;
             if (rb == null)
             {
                 rb = GetComponent<Rigidbody2D>(); //Just get whatever ridigboy component is in the player
             }
         }
 
-        
+        void playerDead()
+        {
+            
+        }
 
         private void onEnable()
         {
@@ -47,6 +61,10 @@ namespace Player
         {
             currentHealth -= damage;
             Debug.Log("Player has taken " + damage + " damage: Current Health: " + currentHealth );
+            if (currentHealth <= 0)
+            {
+                onPlayerDead.Invoke();
+            }
         }
         
     }

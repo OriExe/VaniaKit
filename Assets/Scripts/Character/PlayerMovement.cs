@@ -20,6 +20,12 @@ namespace Player
     [RequireComponent(typeof(PlayerController))]
     public class PlayerMovement : MonoBehaviour
     {
+        #region Events
+        protected virtual void onPlayerMove(lookStatesHorizontal direction)
+        {
+            
+        }
+        #endregion
         private PlayerController _playerController;
         private static PlayerMovement _instance; //Static Instance of player controller
         public enum lookStatesHorizontal
@@ -79,10 +85,12 @@ namespace Player
             if (moveValue.x > 0)
             {
                 playerHorizontalLookState = lookStatesHorizontal.right;
+                onPlayerMove(lookStatesHorizontal.right);
             }
             else if (moveValue.x < 0)
             {
                 playerHorizontalLookState = lookStatesHorizontal.left;
+                onPlayerMove(lookStatesHorizontal.left);
             }
             
            

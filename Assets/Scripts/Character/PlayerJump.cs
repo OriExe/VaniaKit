@@ -30,7 +30,29 @@ namespace Player
 
         // Start is called once before the first execution of Update after the MonoBehaviour is created
 
-        protected event EventHandler onPlayerLand;
+        #region Events
+
+        
+        protected virtual void onPlayerJump()
+        {
+            
+        }
+
+        protected virtual void onPlayerDoubleJump()
+        {
+            
+        }
+
+        protected virtual void onPlayerLand()
+        {
+            
+        }
+
+        protected virtual void onPlayerReleaseJump()
+        {
+            
+        }
+        #endregion
         private void Awake()
         {
             _playerController = GetComponent<PlayerController>();
@@ -50,21 +72,24 @@ namespace Player
         void Update()
         {
             isGrounded = Physics2D.OverlapCircle(groundCheck.position, groundCheckRadius, groundLayers);
-
+            
             if (isDashing)
                 return;
             if (m_jumpAction.WasPressedThisFrame() && isGrounded)
             {
                 jump();
+                onPlayerJump();
             }
 
             if ( m_jumpAction.WasPressedThisFrame() && !isGrounded && !playerHasJumped && doubleJumpEnabled)//Let the player double jump
             {
                 doubleJump();
+                onPlayerDoubleJump();
             }
             if (m_jumpAction.WasReleasedThisFrame() && rb.linearVelocity.y > 0)
             {
                 releaseJump();
+                onPlayerReleaseJump();
             }
         }
         

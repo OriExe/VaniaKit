@@ -7,6 +7,18 @@ namespace Player
 {
     public class PlayerDash : MonoBehaviour, IEquipable
     {
+        #region Events
+
+        protected virtual void onPlayerDash()
+        {
+            
+        }
+
+        protected virtual void onPlayerDashFinish()
+        {
+            
+        }
+        #endregion
         [SerializeField] private float dashDistance;
         [SerializeField] private float dashingTime;
         private float dashTimeLeft;
@@ -38,6 +50,7 @@ namespace Player
                 playerJump.isDashing = true;
                 _playerController.getPlayerRigidbody().gravityScale = 0;
                 dashTimeLeft = dashingTime;
+                onPlayerDash();
             }
 
             if (hasDashed) //When dashing
@@ -61,6 +74,7 @@ namespace Player
                 playerJump.isDashing = false;
                 hasDashed = false;
                 _playerController.getPlayerRigidbody().gravityScale = currentGravityScale;
+                onPlayerDashFinish();
             }
             
         }
