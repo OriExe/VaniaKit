@@ -15,6 +15,7 @@ namespace Player
         }
         #endregion
         
+        private static PlayerController instance;
         private InputActionAsset inputActions;
         [SerializeField] private Rigidbody2D rb;
         [SerializeField] private int startingHealth = 100;
@@ -25,6 +26,14 @@ namespace Player
         // Start is called once before the first execution of Update after the MonoBehaviour is created
         void Awake()
         {
+            if (instance == null)
+            {
+                instance = this;
+            }
+            else
+            {
+                Destroy(gameObject);
+            }
             m_moveAction = InputSystem.actions.FindAction("Move");
             currentHealth = startingHealth;
             onPlayerDead += playerDead;
@@ -32,6 +41,7 @@ namespace Player
             {
                 rb = GetComponent<Rigidbody2D>(); //Just get whatever ridigboy component is in the player
             }
+            DontDestroyOnLoad(gameObject);
         }
 
         void playerDead()

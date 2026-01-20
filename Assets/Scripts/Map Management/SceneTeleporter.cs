@@ -15,15 +15,13 @@ public class SceneTeleporter : MonoBehaviour
     [SerializeField] private String destination;
     [Tooltip("The name of the scene you want to load")]
     [SerializeField]private String sceneName;
-
-    public string NAMESCENEOBJECTISIN { get; private set; } //The scene the object is in
     
+    bool justTeleported = false;
     /// <summary>
     /// Makes sure the box colider is a trigger
     /// </summary>
     private void Start()
     {
-        NAMESCENEOBJECTISIN = SceneManager.GetActiveScene().name;
         GetComponent<BoxCollider2D>().isTrigger = true;       
     }
 
@@ -31,16 +29,27 @@ public class SceneTeleporter : MonoBehaviour
     /// Teleports the player to anothe scene
     /// </summary>
     /// <param name="other"></param>
-    private void OnTriggerEnter(Collider other)
+    private void OnTriggerEnter2D(Collider2D other)
     {
-        StartCoroutine((FadeToBlack()));
-        
-        StartCoroutine(loadNewScene());
-        
-        StartCoroutine((unFadeFromBlack()));
+        if (!justTeleported && other.CompareTag("Player"))
+        {
+            Debug.Log("Trigger entered");
+            StartCoroutine((FadeToBlack()));
+            
+            StartCoroutine(loadNewScene());
+            
+            StartCoroutine((unFadeFromBlack()));
+        }
+        else
+        {
+            if (other.CompareTag("Player"))
+            {
+                justTeleported = false;
+            }
+        }
     }
 
-    private IEnumerator FadeToBlack()
+    private IEnumerator FadeToBlack() //Not implemented yet 
     {
         yield return new WaitForEndOfFrame();
     }
@@ -58,35 +67,46 @@ public class SceneTeleporter : MonoBehaviour
         {
             SceneManager.SetActiveScene(SceneManager.GetSceneByName(sceneName));
             Debug.Log("Scene loading done");
-            
+            findSpawnPoint();
         }
         //If scene loaded teleport the player to the spawn point 
         //Unload this scene
         SceneManager.UnloadSceneAsync(currentScene);
     }
-    private IEnumerator unFadeFromBlack()
+    private IEnumerator unFadeFromBlack() //Not implemented yet
     {
         yield return new WaitForEndOfFrame(); 
     }
 
     private void findSpawnPoint()
     {
-        SceneTeleporter[] sceneTeleporter = GameObject.FindObjectsByType<SceneTeleporter>(FindObjectsSortMode.None);
-        Transform spawnPoint;
+        SceneTeleporter[] sceneTeleporter = FindObjectsByType<SceneTeleporter>(FindObjectsSortMode.None);
+        Transform spawnPoint = null;
 
         foreach (SceneTeleporter spawnPoints in sceneTeleporter)
         {
-            if (spawnPoints.NAMESCENEOBJECTISIN == sceneName)
+            if (spawnPoints.gameObject.scene.name == sceneName)
             {
                 Debug.Log("In right scene");
                 if (spawnPoints.gameObject.name == destination)
                 {
-                    Debug.unityLogger.Log("Found destination");
-                    spawnPoint = spawnPoints.gameObject.transform;;
+                    Debug.Log("Found destination");
+                    spawnPoints.justTeleported = true;
+                    spawnPoint = spawnPoints.gameObject.transform;
+                    break;
                 }
             }
         }
+        if (spawnPoint != null)
+        {
+            GameObject.FindGameObjectWithTag("Player").transform.position = spawnPoint.position;
+        }
+        else
+        {
+            Debug.Log("No spawn point with correct name found");
+        }
     }
+    
 }
 
 

@@ -12,15 +12,9 @@ namespace ResourceManager
         void Awake()
         {
             //Keeps the inventory alive between levels
-            DontDestroyOnLoad(gameObject);
             if (_instance == null)
             {
                 _instance = this; //Spawns a static value of the inventory 
-            }
-            else
-            {
-                Debug.LogError("There is more than one instance of Inventory in the scene"); 
-                Destroy(this);
             }
         }
         
