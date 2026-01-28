@@ -1,9 +1,9 @@
 using UnityEngine;
 using System.Collections.Generic;
-using Player;
+using Vaniakit.Player;
 using UnityEngine.InputSystem;
 
-namespace Player
+namespace Vaniakit.Player
 {
     public class PlayerDash : MonoBehaviour, IEquipable
     {

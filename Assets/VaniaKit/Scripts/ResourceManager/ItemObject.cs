@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-namespace ResourceManager
+namespace Vaniakit.ResourceManager
 {
    [CreateAssetMenu(fileName = "New Item", menuName = "Vaniakit/Item")]
     public class ItemObject : ScriptableObject

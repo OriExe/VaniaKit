@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 
-namespace ResourceManager
+namespace Vaniakit.ResourceManager
 {
     public class Inventory : MonoBehaviour 
     {
@@ -17,8 +17,11 @@ namespace ResourceManager
                 _instance = this; //Spawns a static value of the inventory 
             }
         }
-        
 
+        public static void addItemToInventory(InventorySlot itemToGive)
+        {
+            _instance.items.Add(itemToGive);
+        }
         public static List<InventorySlot> GetAllItems() //Returns all items in the list
         {
             return _instance.items;
@@ -49,8 +52,9 @@ namespace ResourceManager
     {
         public ItemObject item;
         [SerializeField]private int amountOfItem;
-        private IEquipable scriptInGame;
-        [Tooltip("Do you want to equip the item at the start of a game")]
+        [Tooltip("The script that allows for code to be executed when equipped")]
+        private IEquipable itemCode;
+        [Tooltip("Do you want to equip the item at the start of a game useful for ablities")]
         public bool spawnAtStart;
         /// <summary>
         /// Adds {X} amount of item to your inventory.
@@ -67,10 +71,23 @@ namespace ResourceManager
         
         public void SetScriptInGame(IEquipable script)
         {
-            if (scriptInGame != null)
+            if (itemCode == null)
             {
-                scriptInGame = script;
+                itemCode = script;
             }
+        }
+
+        public IEquipable GetItemScriptInGame()
+        {
+            if (itemCode != null)
+            {
+                return itemCode;
+            }
+            else
+            {
+                Debug.LogWarning("This item doesn't have an IEquipable interface attached so can't be equiped. \n It may be currency");
+            }
+            return null;
         }
         
     }

@@ -2,7 +2,7 @@ using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-namespace Player
+namespace Vaniakit.Player
 {
     [RequireComponent(typeof(PlayerController))]
     public class PlayerJump : MonoBehaviour
@@ -12,6 +12,7 @@ namespace Player
         [Header("GroundCheck")]
         [SerializeField] private LayerMask groundLayers;
         public bool isGrounded {get; private set;}
+        private bool isInAir = false;
         [SerializeField] private float groundCheckRadius;
         [Tooltip("What object will check below for ground")]
         [SerializeField] private Transform groundCheck;
@@ -23,7 +24,6 @@ namespace Player
         [SerializeField] private float doubleJumpMultiplier = 1f;
 
         private bool playerHasJumped = false;
-
         private PlayerController _playerController;
 
         [HideInInspector]public bool isDashing;
@@ -45,7 +45,7 @@ namespace Player
 
         protected virtual void onPlayerLand()
         {
-            
+            Debug.Log("Player landed");
         }
 
         protected virtual void onPlayerReleaseJump()
@@ -71,11 +71,11 @@ namespace Player
         // Update is called once per frame
         void Update()
         {
-            isGrounded = Physics2D.OverlapCircle(groundCheck.position, groundCheckRadius, groundLayers);
+            isGrounded = Physics2D.OverlapCircle(groundCheck.position, groundCheckRadius, groundLayers); 
             
-            if (isDashing)
+            if (isDashing) //don't run while dashing
                 return;
-            if (m_jumpAction.WasPressedThisFrame() && isGrounded)
+            if (m_jumpAction.WasPressedThisFrame() && isGrounded) //When the player presses the jump button
             {
                 jump();
                 onPlayerJump();
@@ -86,10 +86,16 @@ namespace Player
                 doubleJump();
                 onPlayerDoubleJump();
             }
-            if (m_jumpAction.WasReleasedThisFrame() && rb.linearVelocity.y > 0)
+            if (m_jumpAction.WasReleasedThisFrame() && rb.linearVelocity.y > 0) //When the player releases the jump button
             {
                 releaseJump();
                 onPlayerReleaseJump();
+            }
+
+            if (isInAir && isGrounded && rb.linearVelocity.y <= 0) //When player lands
+            {
+                isInAir = false;
+                onPlayerLand();
             }
         }
         
@@ -100,6 +106,7 @@ namespace Player
         {
             rb.linearVelocity = new Vector2(rb.linearVelocity.x, jumpSpeed);
             playerHasJumped = false;
+            isInAir = true;
         }
         
         /// <summary>

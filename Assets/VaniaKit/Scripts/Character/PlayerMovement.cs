@@ -4,7 +4,7 @@ using UnityEngine.InputSystem;
 
 
 
-namespace Player
+namespace Vaniakit.Player
 {
     /// <summary>
     /// Player character controller
@@ -25,13 +25,18 @@ namespace Player
         {
             
         }
+        protected virtual void onPlayerIdle()
+        {
+            Debug.Log("Player Idle");
+        }
+        
         #endregion
         private PlayerController _playerController;
         private static PlayerMovement _instance; //Static Instance of player controller
         public enum lookStatesHorizontal
         {
             left,
-            right
+            right,
         }
 
         public enum lookStatesVertical
@@ -45,7 +50,7 @@ namespace Player
         private Rigidbody2D rb => _playerController.getPlayerRigidbody();
         private InputAction m_moveAction;
         [SerializeField]private float movementSpeed;
-        
+        private bool playerNotMoving;
         // Start is called once before the first execution of Update after the MonoBehaviour is created
         private void Awake()
         {
@@ -86,13 +91,24 @@ namespace Player
             {
                 playerHorizontalLookState = lookStatesHorizontal.right;
                 onPlayerMove(lookStatesHorizontal.right);
+                playerNotMoving = false;
+                
             }
             else if (moveValue.x < 0)
             {
                 playerHorizontalLookState = lookStatesHorizontal.left;
                 onPlayerMove(lookStatesHorizontal.left);
+                playerNotMoving = false;
             }
-            
+            else
+            {
+                if (!playerNotMoving)
+                {
+                    onPlayerIdle();
+                    playerNotMoving = true;
+                }
+                
+            }
            
             #endregion
         }
