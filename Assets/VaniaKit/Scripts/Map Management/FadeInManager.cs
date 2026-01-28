@@ -1,14 +1,15 @@
 using UnityEngine.SceneManagement;
 using UnityEngine;
 using System.Collections;
-using VaniaKit.Manager;
+using Vaniakit.Manager;
 
 namespace Vaniakit.Map.Management
 {
+    [RequireComponent(typeof(MapManagementEvents))]
     public class FadeInManager : MonoBehaviour
     {
         public static FadeInManager instance;
-
+        
         void Start()
         {
             if (instance == null)
@@ -23,6 +24,7 @@ namespace Vaniakit.Map.Management
         }
         public IEnumerator FadeToBlack(string sceneName, string destination) 
         {
+            MapManagementEvents.instance.onRoomStartsLoading();
             float elapsedTime = 0;
             while (elapsedTime < Managers.instance.timetakenToFade)
             {
@@ -50,6 +52,12 @@ namespace Vaniakit.Map.Management
             }
         }
         
+        /// <summary>
+        /// Loads the new scene and then unloads the old scene
+        /// </summary>
+        /// <param name="sceneName"></param>
+        /// <param name="destination"></param>
+        /// <returns></returns>
         private IEnumerator loadNewScene(string sceneName, string destination)
         {
             Scene currentScene = SceneManager.GetActiveScene();
@@ -64,10 +72,20 @@ namespace Vaniakit.Map.Management
                 SceneManager.SetActiveScene(SceneManager.GetSceneByName(sceneName));
                 Debug.Log("Scene loading done");
                 findSpawnPoint(sceneName, destination);
+                MapManagementEvents.instance.onRoomLoaded();
             }
             //If scene loaded teleport the player to the spawn point 
             //Unload this scene
-            SceneManager.UnloadSceneAsync(currentScene);
+            AsyncOperation sceneUnloading =  SceneManager.UnloadSceneAsync(currentScene);
+            while (sceneUnloading.isDone == false)
+            {
+                yield return null;
+            }
+
+            if (sceneUnloading.isDone)
+            {   
+                MapManagementEvents.instance.onRoomFullyLoaded();
+            }
         }
         
         private void findSpawnPoint(string sceneName, string destination)
@@ -83,7 +101,7 @@ namespace Vaniakit.Map.Management
                     if (spawnPoints.gameObject.name == destination)
                     {
                         Debug.Log("Found destination");
-                        spawnPoints.JustTeleportedHere();
+                        spawnPoints.justTeleportedHere();
                         spawnPoint = spawnPoints.gameObject.transform;
                         break;
                     }

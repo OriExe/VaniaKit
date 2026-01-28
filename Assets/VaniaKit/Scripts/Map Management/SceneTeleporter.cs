@@ -4,7 +4,7 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
-using VaniaKit.Manager;
+using Vaniakit.Manager;
 
 namespace Vaniakit.Map.Management
 {
@@ -50,7 +50,7 @@ namespace Vaniakit.Map.Management
             }
         }
 
-        public void JustTeleportedHere()
+        public void justTeleportedHere()
         {
             justTeleported = true;
         }

@@ -32,10 +32,11 @@ namespace Vaniakit.Collections
                 player = other.transform;
                 doDamage(other.transform);
 
-                if (isDeadly)
-                {
-                    TeleportToNearestCheckpoint.TeleportPlayerToNearestCheckpoint(other.transform); //Can be commented out if you want your own solution
-                }
+                //Code like this should be included in your player controller script
+                // if (isDeadly)
+                // {
+                //     TeleportToNearestCheckpoint.TeleportPlayerToNearestCheckpoint(other.transform); //Can be commented out if you want your own solution
+                // }
             }
         }
 

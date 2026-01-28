@@ -2,7 +2,7 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace VaniaKit.Manager
+namespace Vaniakit.Manager
 {
     public class Managers : MonoBehaviour
     {
