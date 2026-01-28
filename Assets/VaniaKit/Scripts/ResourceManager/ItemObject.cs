@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace Vaniakit.ResourceManager
 {
@@ -12,7 +13,7 @@ namespace Vaniakit.ResourceManager
             Ablity,
         }
         
-        [SerializeField]private string name;
+        [FormerlySerializedAs("name")] [SerializeField]private string itemName;
         [TextArea(15,15)]
         [SerializeField] private string description;
         [SerializeField]private Categories category;
@@ -26,7 +27,7 @@ namespace Vaniakit.ResourceManager
 
         public string getName()
         {
-            return name;
+            return itemName;
         }
     }
 }

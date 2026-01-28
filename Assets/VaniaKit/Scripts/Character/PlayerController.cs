@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.Serialization;
@@ -7,22 +8,35 @@ namespace Vaniakit.Player
     [RequireComponent(typeof(Rigidbody2D))]
     public class PlayerController : MonoBehaviour, IDamageable
     {
-        #region Events
-
-        protected virtual void onPLayerHit()
-        {
-            
-        }
-        #endregion
-        
         private static PlayerController instance;
         private InputActionAsset inputActions;
         [SerializeField] private Rigidbody2D rb;
         [SerializeField] private int startingHealth = 100;
         protected int currentHealth;
-        private InputAction m_moveAction;
         delegate void OnPlayerDead();
         OnPlayerDead onPlayerDead;
+        
+        #region Events
+
+        /// <summary>
+        /// When player is hit normally, won't be called if critical
+        /// </summary>
+        /// <param name="damage"></param>
+        protected virtual void onPLayerHit(int damage = 0)
+        {
+            Debug.Log("Player has taken " + damage + " damage: Current Health: " + currentHealth );
+        }
+
+        /// <summary>
+        /// Called if they hit a trap for example 
+        /// </summary>
+        protected virtual void onPlayerHitCritical(int damage = 0)
+        {
+            Debug.Log("Player has taken critical damage of  " + damage + " + : Current Health: " + currentHealth);
+        }
+        #endregion
+        
+       
         // Start is called once before the first execution of Update after the MonoBehaviour is created
         void Awake()
         {
@@ -34,20 +48,17 @@ namespace Vaniakit.Player
             {
                 Destroy(gameObject);
             }
-            m_moveAction = InputSystem.actions.FindAction("Move");
             currentHealth = startingHealth;
-            onPlayerDead += playerDead;
             if (rb == null)
             {
                 rb = GetComponent<Rigidbody2D>(); //Just get whatever ridigboy component is in the player
             }
             DontDestroyOnLoad(gameObject);
         }
-
-        void playerDead()
-        {
-            
-        }
+        
+        /// <summary>
+        /// Event that triggers when the player dies
+        /// </summary>
 
         private void onEnable()
         {
@@ -67,15 +78,39 @@ namespace Vaniakit.Player
         
         #endregion
         
-        public void OnHit(int damage = 0)
+        /// <summary>
+        /// Can be activated by an enemy or trap and do damage to the player
+        /// </summary>
+        /// <param name="damage"> How much damage to do</param>
+        /// <param name="isCritical">If the player needs to respawn to the nearest checkpoint </param>
+        public void OnHit(int damage = 0, bool isCritical = false) 
         {
             currentHealth -= damage;
-            Debug.Log("Player has taken " + damage + " damage: Current Health: " + currentHealth );
+            
             if (currentHealth <= 0)
             {
-                onPlayerDead.Invoke();
+                try
+                {
+                    onPlayerDead.Invoke();
+                }
+                catch (NullReferenceException)
+                {
+                    Debug.LogWarning("No Script triggers the player dead event");
+                }
+                catch (Exception e)
+                {
+                    Debug.LogError(e);
+                }
+                return;
             }
+            if (!isCritical)
+                onPLayerHit(damage);
+            else
+                onPlayerHitCritical(damage);
         }
+        
+        
+        
         
     }
     

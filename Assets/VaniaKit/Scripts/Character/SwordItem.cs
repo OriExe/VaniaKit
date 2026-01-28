@@ -17,6 +17,54 @@ namespace Vaniakit.Items
         private InputAction m_attack;
         
         [SerializeField] private GameObject attackingBox;
+
+        protected enum playerLookingDirection
+        {
+            up,
+            down,
+            right,
+            left
+        }
+        /// <summary>
+        /// States the directin the player attacks at, can be used with the onPlayerAttack event.
+        /// </summary>
+        /// <exception cref="ArgumentOutOfRangeException"></exception>
+        protected playerLookingDirection attackingDirecton
+        {
+            get
+            {
+                switch (PlayerMovement.returnVerticalLookState())
+                {
+                    case PlayerMovement.lookStatesVertical.up:
+                        return playerLookingDirection.up;
+                     
+                    case PlayerMovement.lookStatesVertical.down:
+                        return playerLookingDirection.down;
+                    
+                    case PlayerMovement.lookStatesVertical.none:
+                        switch (PlayerMovement.returnHorizontalLookState())
+                        {
+                            case PlayerMovement.lookStatesHorizontal.left:
+                                return playerLookingDirection.left;
+                     
+                            case PlayerMovement.lookStatesHorizontal.right:
+                                return playerLookingDirection.right;
+                           
+                            default:
+                                throw new ArgumentOutOfRangeException();
+                        }
+                    
+                    default:
+                        throw new ArgumentOutOfRangeException();
+                }
+            }
+            
+        }
+        protected virtual void onPlayerAttack()
+        {
+            Debug.Log("Player attacked in the " + attackingDirecton + " direction");
+        }
+        
         // Start is called once before the first execution of Update after the MonoBehaviour is created
         void Start()
         {
@@ -59,8 +107,11 @@ namespace Vaniakit.Items
                         default:
                             throw new ArgumentOutOfRangeException();
                     }
+
+                    onPlayerAttack();
                 }
             }
+            
         }
 
         /// <summary>
