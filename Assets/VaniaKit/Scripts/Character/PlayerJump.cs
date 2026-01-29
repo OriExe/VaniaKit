@@ -35,12 +35,12 @@ namespace Vaniakit.Player
         
         protected virtual void onPlayerJump()
         {
-            
+            Debug.Log("Played Jumped");
         }
 
         protected virtual void onPlayerDoubleJump()
         {
-            
+            Debug.Log("Player DoubleJump");
         }
 
         protected virtual void onPlayerLand()
@@ -50,7 +50,7 @@ namespace Vaniakit.Player
 
         protected virtual void onPlayerReleaseJump()
         {
-            
+            Debug.Log("Player Released Jump");
         }
         #endregion
         private void Awake()
