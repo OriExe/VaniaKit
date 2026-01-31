@@ -20,6 +20,14 @@ namespace Vaniakit.Player
     [RequireComponent(typeof(PlayerController))]
     public class PlayerMovement : MonoBehaviour
     {
+        private PlayerController _playerController;
+        private static PlayerMovement _instance; 
+        private lookStatesHorizontal playerHorizontalLookState; //Where is the player currently looking
+        private lookStatesVertical playerVerticalLookState = lookStatesVertical.none;
+        private Rigidbody2D rb => _playerController.getPlayerRigidbody();
+        private InputAction m_moveAction;
+        [SerializeField]private float movementSpeed;
+        private bool playerNotMoving;//Static Instance of player controller
         #region Events
         protected virtual void onPlayerMove(lookStatesHorizontal direction)
         {
@@ -31,8 +39,7 @@ namespace Vaniakit.Player
         }
         
         #endregion
-        private PlayerController _playerController;
-        private static PlayerMovement _instance; //Static Instance of player controller
+       
         public enum lookStatesHorizontal
         {
             left,
@@ -45,12 +52,7 @@ namespace Vaniakit.Player
             down,
             none,
         }
-        private lookStatesHorizontal playerHorizontalLookState; //Where is the player currently looking
-        private lookStatesVertical playerVerticalLookState = lookStatesVertical.none;
-        private Rigidbody2D rb => _playerController.getPlayerRigidbody();
-        private InputAction m_moveAction;
-        [SerializeField]private float movementSpeed;
-        private bool playerNotMoving;
+    
         // Start is called once before the first execution of Update after the MonoBehaviour is created
         private void Awake()
         {

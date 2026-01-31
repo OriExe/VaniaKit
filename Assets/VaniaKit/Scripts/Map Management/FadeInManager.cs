@@ -2,6 +2,7 @@ using UnityEngine.SceneManagement;
 using UnityEngine;
 using System.Collections;
 using Vaniakit.Manager;
+using Vaniakit.Player;
 
 namespace Vaniakit.Map.Management
 {
@@ -35,8 +36,7 @@ namespace Vaniakit.Map.Management
                 yield return null;
             }
 
-            StartCoroutine(loadNewScene(sceneName, destination)) ;
-            StartCoroutine(unFadeFromBlack());
+            StartCoroutine(loadNewScene(sceneName, destination));
         }
         
         public IEnumerator unFadeFromBlack() 
@@ -85,6 +85,8 @@ namespace Vaniakit.Map.Management
             if (sceneUnloading.isDone)
             {   
                 MapManagementEvents.instance.onRoomFullyLoaded();
+                PlayerCamera.snapCameraToPlayer();
+                StartCoroutine(unFadeFromBlack());
             }
         }
         

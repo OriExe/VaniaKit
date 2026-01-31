@@ -23,7 +23,7 @@ namespace Vaniakit.Player
         [Range(0f, 2.99f)] [Tooltip("How much higher or lower you jump compared to normal")]
         [SerializeField] private float doubleJumpMultiplier = 1f;
 
-        private bool playerHasJumped = false;
+        private bool playerHasDoubleJumped = false;
         private PlayerController _playerController;
 
         [HideInInspector]public bool isDashing;
@@ -52,6 +52,11 @@ namespace Vaniakit.Player
         {
             Debug.Log("Player Released Jump");
         }
+
+        protected virtual void onPlayerLeavesGround()
+        {
+            Debug.Log("Player Leaves Ground");
+        }
         #endregion
         private void Awake()
         {
@@ -71,8 +76,9 @@ namespace Vaniakit.Player
         // Update is called once per frame
         void Update()
         {
-            isGrounded = Physics2D.OverlapCircle(groundCheck.position, groundCheckRadius, groundLayers); 
-            
+            isGrounded = Physics2D.OverlapCircle(groundCheck.position, groundCheckRadius, groundLayers);
+
+          
             if (isDashing) //don't run while dashing
                 return;
             if (m_jumpAction.WasPressedThisFrame() && isGrounded) //When the player presses the jump button
@@ -80,8 +86,14 @@ namespace Vaniakit.Player
                 jump();
                 onPlayerJump();
             }
+            
+            if (!isGrounded && !isInAir) //Player has jumped or is falling
+            {
+                isInAir = true;
+                playerHasDoubleJumped = false;
+            }
 
-            if ( m_jumpAction.WasPressedThisFrame() && !isGrounded && !playerHasJumped && doubleJumpEnabled)//Let the player double jump
+            if ( m_jumpAction.WasPressedThisFrame() && !isGrounded && !playerHasDoubleJumped && doubleJumpEnabled)//Let the player double jump
             {
                 doubleJump();
                 onPlayerDoubleJump();
@@ -105,8 +117,6 @@ namespace Vaniakit.Player
         private void jump()
         {
             rb.linearVelocity = new Vector2(rb.linearVelocity.x, jumpSpeed);
-            playerHasJumped = false;
-            isInAir = true;
         }
         
         /// <summary>
@@ -115,7 +125,7 @@ namespace Vaniakit.Player
         private void doubleJump()
         {
             rb.linearVelocity = new Vector2(rb.linearVelocity.x, doubleJumpMultiplier * jumpSpeed);
-            playerHasJumped = true;
+            playerHasDoubleJumped = true;
         }
         
         /// <summary>

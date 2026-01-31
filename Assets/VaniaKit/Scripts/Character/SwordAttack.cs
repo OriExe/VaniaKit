@@ -24,11 +24,17 @@ namespace Vaniakit.Items
             gameObject.SetActive(false);
         }
 
-        private void OnTriggerEnter(Collider other)
+        private void OnTriggerEnter2D(Collider2D other)
         {
-            if (!other.CompareTag("Player") && !other.TryGetComponent<IDamageable>(out IDamageable damageable))
+            Debug.Log("Sword Hit" + other.name);
+            if (!other.CompareTag("Player") && other.TryGetComponent<IDamageable>(out IDamageable damageable))
             {
                 damageable.OnHit();
+                Debug.Log("Hit");
+            }
+            else
+            {
+                Debug.Log("No Damageable Component");
             }
         }
     }
