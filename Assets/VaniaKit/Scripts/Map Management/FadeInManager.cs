@@ -67,6 +67,8 @@ namespace Vaniakit.Map.Management
                 yield return null;
             }
 
+            //If scene loaded teleport the player to the spawn point 
+           
             if (sceneLoading.isDone)
             {
                 SceneManager.SetActiveScene(SceneManager.GetSceneByName(sceneName));
@@ -74,7 +76,6 @@ namespace Vaniakit.Map.Management
                 findSpawnPoint(sceneName, destination);
                 MapManagementEvents.instance.onRoomLoaded();
             }
-            //If scene loaded teleport the player to the spawn point 
             //Unload this scene
             AsyncOperation sceneUnloading =  SceneManager.UnloadSceneAsync(currentScene);
             while (sceneUnloading.isDone == false)
