@@ -1,7 +1,6 @@
 using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using UnityEngine.Serialization;
 
 namespace Vaniakit.Player
 {
@@ -91,7 +90,10 @@ namespace Vaniakit.Player
             {
                 try
                 {
-                    onPlayerDead.Invoke();
+                    if (onPlayerDead != null)
+                        onPlayerDead.Invoke();
+                    else 
+                        Debug.Log("No methods trigger onPlayerDead");
                 }
                 catch (NullReferenceException)
                 {

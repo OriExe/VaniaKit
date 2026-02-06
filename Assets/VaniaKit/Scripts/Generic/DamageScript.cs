@@ -23,7 +23,7 @@ namespace Vaniakit.Collections
         {
             elapsedTime = timeToDoDamageAgain;
         }
-
+//
         private void OnCollisionEnter2D(Collision2D other)
         {
             if (other.gameObject.CompareTag("Player"))
