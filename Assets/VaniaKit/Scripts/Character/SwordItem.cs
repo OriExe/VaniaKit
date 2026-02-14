@@ -121,7 +121,7 @@ namespace Vaniakit.Items
         {
             GameObject player = GameObject.FindGameObjectWithTag("Player");
             GameObject obj = Instantiate(gameObject, player.transform.position, Quaternion.identity, player.transform);
-            obj.transform.position = new Vector3(0, 0, 0);
+            //obj.transform.position = new Vector3(0, 0, 0);
         }
 
         public void Unequip()

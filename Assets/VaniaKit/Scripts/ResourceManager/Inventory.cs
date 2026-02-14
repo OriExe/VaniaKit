@@ -1,7 +1,9 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
+using Vaniakit.Manager;
 
 namespace Vaniakit.ResourceManager
 {
@@ -26,10 +28,35 @@ namespace Vaniakit.ResourceManager
         {
             return _instance.items;
         }
-
-        private void Start()
+        
+        /// <summary>
+        /// Checks if there's an instance of the manager script 
+        /// </summary>
+        /// <returns></returns>
+        IEnumerator Start()
         {
-            foreach (InventorySlot item in items)
+            loadAllNecessaryItems();
+            yield return new WaitForSeconds(2);
+            //Checks if the main manager exists 
+            if (Managers.instance == null)
+            {
+                Debug.LogWarning("There is no Manager found in the scene. You should add one otherwise your inventory will be deleted");
+            }
+            else
+            {
+                if (Managers.instance.gameObject.transform != gameObject.transform.parent)
+                {
+                    Debug.LogWarning("Your Inventory is not the child of the main managers object. You should move your Inventory there otherwise your Inventory may be deleted when you load another scene");
+                }
+            }
+        }
+
+        /// <summary>
+        /// Loads all item that should start at the start of the game another function so it works with the save method in the future
+        /// </summary>
+        public static void loadAllNecessaryItems()
+        {
+            foreach (InventorySlot item in _instance.items)
             {
                 if (item.item.actionScript.TryGetComponent(out IEquipable script))
                 {

@@ -1,0 +1,7 @@
+<ui:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <Style src="project://database/Assets/VaniaKit/Scripts/Fast%20Travel%20System/FastTravelData.uss?fileID=7433441132597879392&amp;guid=5c212e9bb309975b08e7530003dd8875&amp;type=3#FastTravelData" />
+    <ui:Label text="Hello World! From UXML" />
+    <ui:Label text="Made with the ui builder" class="custom-label" />
+    <ui:Button text="This is a button" />
+    <ui:Toggle label="Number" name="Toggle1" />
+</ui:UXML>

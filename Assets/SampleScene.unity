@@ -166,6 +166,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c017da8865604632bfed7881ce610cca, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  uiCanvas: {fileID: 2117012337}
+  fadePanelObj: {fileID: 0}
+  timetakenToFade: 0.25
 --- !u!82 &45296631
 AudioSource:
   m_ObjectHideFlags: 0
@@ -396,9 +399,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 34d602ce6a5e8c939a93d01ef92e3016, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  uiCanvas: {fileID: 2117012337}
-  fadePanelObj: {fileID: 0}
-  timetakenToFade: 1
 --- !u!4 &92939997
 Transform:
   m_ObjectHideFlags: 0

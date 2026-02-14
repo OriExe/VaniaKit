@@ -27,7 +27,7 @@ namespace Vaniakit.Map.Management
         }
         public virtual void onRoomLoaded()
         {
-            Debug.Log("Room loaded!");
+            Debug.Log("Room loaded! Depriccted event");
         }
 
         public virtual void onRoomStartsLoading()

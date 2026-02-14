@@ -58,27 +58,37 @@ namespace Vaniakit.Map.Management
         {
             MapManagementEvents.instance.onRoomStartsLoading(); //Triggers global room is loading event
             float elapsedTime = 0;
-            while (elapsedTime < timetakenToFade)
+            if (uiCanvas != null)
             {
-                elapsedTime += Time.deltaTime;
-                Color Transparent = Color.black;
-                Transparent.a = 0f;
-                fadePanel.color = Color.Lerp(Transparent, Color.black, elapsedTime / timetakenToFade);
-                yield return null;
+                while (elapsedTime < timetakenToFade)
+                {
+                    elapsedTime += Time.deltaTime;
+                    Color Transparent = Color.black;
+                    Transparent.a = 0f;
+                    fadePanel.color = Color.Lerp(Transparent, Color.black, elapsedTime / timetakenToFade);
+                    yield return null;
+                }
             }
-
+            
             StartCoroutine(loadNewScene(sceneName, destination));
         }
         
         public IEnumerator unFadeFromBlack() 
         {
-            float elapsedTime = 0;
-            while (elapsedTime < timetakenToFade)
+            if (uiCanvas != null)
             {
-                elapsedTime += Time.deltaTime;
-                Color Transparent = Color.black;
-                Transparent.a = 0f;
-                fadePanel.color =  Color.Lerp(Color.black, Transparent, elapsedTime / timetakenToFade);
+                float elapsedTime = 0;
+                while (elapsedTime < timetakenToFade)
+                {
+                    elapsedTime += Time.deltaTime;
+                    Color Transparent = Color.black;
+                    Transparent.a = 0f;
+                    fadePanel.color =  Color.Lerp(Color.black, Transparent, elapsedTime / timetakenToFade);
+                    yield return null;
+                }
+            }
+            else
+            {
                 yield return null;
             }
         }
@@ -105,7 +115,7 @@ namespace Vaniakit.Map.Management
         private IEnumerator loadNewScene(string sceneName, string destination)
         {
             Scene currentScene = SceneManager.GetActiveScene();
-            AsyncOperation sceneLoading = SceneManager.LoadSceneAsync(sceneName, LoadSceneMode.Additive);//Load scene async
+            AsyncOperation sceneLoading = SceneManager.LoadSceneAsync(sceneName);//Load scene async
             while (sceneLoading.isDone == false)
             {
                 yield return null;
@@ -118,21 +128,24 @@ namespace Vaniakit.Map.Management
                 SceneManager.SetActiveScene(SceneManager.GetSceneByName(sceneName));
                 Debug.Log("Scene loading done");
                 findSpawnPoint(sceneName, destination);
-                MapManagementEvents.instance.onRoomLoaded();
-            }
-            //Unload this scene
-            AsyncOperation sceneUnloading =  SceneManager.UnloadSceneAsync(currentScene);
-            while (sceneUnloading.isDone == false)
-            {
-                yield return null;
-            }
-
-            if (sceneUnloading.isDone)
-            {   
                 MapManagementEvents.instance.onRoomFullyLoaded();
-                PlayerCamera.snapCameraToPlayer();
-                StartCoroutine(unFadeFromBlack());
+                PlayerCamera.snapCameraToPlayer(); //Snap view to the camera
+                StartCoroutine(unFadeFromBlack()); //Reveal scene
             }
+            //Not needed seems to cause issues
+            // //Unload this scene
+            // AsyncOperation sceneUnloading =  SceneManager.UnloadSceneAsync(currentScene);
+            // while (sceneUnloading.isDone == false)
+            // {
+            //     yield return null;
+            // }
+            //
+            // if (sceneUnloading.isDone)
+            // {   
+            //     
+            //     PlayerCamera.snapCameraToPlayer();
+            //     StartCoroutine(unFadeFromBlack());
+            // }
         }
         
         /// <summary>
