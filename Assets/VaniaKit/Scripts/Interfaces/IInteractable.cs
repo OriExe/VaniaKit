@@ -1,4 +1,4 @@
 public interface IInteractable 
 {
-    void IonInteract();
+    void onInteract();
 }

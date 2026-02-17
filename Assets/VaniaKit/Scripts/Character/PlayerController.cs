@@ -12,9 +12,9 @@ namespace Vaniakit.Player
         [SerializeField] private Rigidbody2D rb;
         [SerializeField] private int startingHealth = 100;
         protected int currentHealth;
+        private InputAction m_InteractAction;
         delegate void OnPlayerDead();
         OnPlayerDead onPlayerDead;
-        
         #region Events
 
         /// <summary>
@@ -33,6 +33,11 @@ namespace Vaniakit.Player
         {
             Debug.Log("Player has taken critical damage of  " + damage + " + : Current Health: " + currentHealth);
         }
+
+        protected virtual void onPlayerInteractedWithAnObject(string nameOfObject)
+        {
+            Debug.Log("Interacted with a " + nameOfObject);
+        }
         #endregion
         
        
@@ -50,9 +55,10 @@ namespace Vaniakit.Player
             currentHealth = startingHealth;
             if (rb == null)
             {
-                rb = GetComponent<Rigidbody2D>(); //Just get whatever ridigboy component is in the player
+                rb = GetComponent<Rigidbody2D>(); //Just get whatever rigidbody component is in the player
             }
             DontDestroyOnLoad(gameObject);
+            m_InteractAction = InputSystem.actions.FindAction("Interact");
         }
         
         /// <summary>
@@ -77,6 +83,19 @@ namespace Vaniakit.Player
         
         #endregion
         
+
+        private void OnTriggerStay2D(Collider2D other)
+        {
+            if (m_InteractAction.WasPressedThisFrame())
+            {
+                if (other.TryGetComponent(out IInteractable interactable))
+                {
+                    interactable.onInteract();
+                    onPlayerInteractedWithAnObject(interactable.GetType().ToString());
+                }
+            }
+        }
+
         /// <summary>
         /// Can be activated by an enemy or trap and do damage to the player
         /// </summary>

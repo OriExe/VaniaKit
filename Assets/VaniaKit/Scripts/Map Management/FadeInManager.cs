@@ -4,7 +4,7 @@ using UnityEngine.UI;
 using System.Collections;
 using Vaniakit.Manager;
 using Vaniakit.Player;
-
+using Vaniakit.Misc;
 namespace Vaniakit.Map.Management
 {
     [RequireComponent(typeof(MapManagementEvents))]
@@ -155,18 +155,17 @@ namespace Vaniakit.Map.Management
         /// <param name="destination"></param>
         private void findSpawnPoint(string sceneName, string destination)
         {
-            SceneTeleporter[] sceneTeleporter = FindObjectsByType<SceneTeleporter>(FindObjectsSortMode.None);
+            ATeleporterMonoBehaviour[] sceneTeleporter = FindObjectsByType<ATeleporterMonoBehaviour>(FindObjectsSortMode.None);
             Transform spawnPoint = null;
 
-            foreach (SceneTeleporter spawnPoints in sceneTeleporter)
+            foreach (ATeleporterMonoBehaviour spawnPoints in sceneTeleporter)
             {
                 if (spawnPoints.gameObject.scene.name == sceneName)
                 {
                     Debug.Log("In right scene");
-                    if (spawnPoints.gameObject.name == destination)
+                    if (spawnPoints.amITheRightObject(destination))
                     {
                         Debug.Log("Found destination");
-                        spawnPoints.justTeleportedHere();
                         spawnPoint = spawnPoints.gameObject.transform;
                         break;
                     }

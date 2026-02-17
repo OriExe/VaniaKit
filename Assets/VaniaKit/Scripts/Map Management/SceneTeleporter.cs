@@ -9,7 +9,7 @@ using Vaniakit.Manager;
 namespace Vaniakit.Map.Management
 {
         [RequireComponent(typeof(BoxCollider2D))]
-    public class SceneTeleporter : MonoBehaviour
+    public class SceneTeleporter : Vaniakit.Misc.ATeleporterMonoBehaviour
     {
         //VARIABLES NEEDED
         //SceneToLoad
@@ -21,9 +21,18 @@ namespace Vaniakit.Map.Management
         [SerializeField]private String sceneName;
         
         bool justTeleported = false;
+
         /// <summary>
         /// Makes sure the box colider is a trigger
         /// </summary>
+
+        #region Events
+        protected virtual void onPlayerLoadedHere()
+        {
+            Debug.Log("Player has loaded here");
+        }
+        #endregion
+        
         private void Start()
         {
             GetComponent<BoxCollider2D>().isTrigger = true;
@@ -49,10 +58,16 @@ namespace Vaniakit.Map.Management
                 }
             }
         }
-
-        public void justTeleportedHere()
+        
+        public override bool amITheRightObject(string gameObjectName)
         {
-            justTeleported = true;
+            if (gameObjectName == gameObject.name)
+            {
+                onPlayerLoadedHere();
+                justTeleported = true;
+                return true;
+            }
+            return false;
         }
     }
 

@@ -10,14 +10,14 @@ namespace Vaniakit.Collections
     /// A scripts that lets players equip items.
     /// Uses the ShowTextTool in Vaniakit.Collections
     /// </summary>
-    public class EquipItem : ItemHolder
+    public class EquipItem : ItemHolder,IInteractable
     {
         [SerializeField] private string showText;
         private bool playerNearby;
         private InputAction m_InteractAction;
         private void Start()
         {
-            m_InteractAction = InputSystem.actions.FindAction("Interact");
+            
         }
 
         private void OnTriggerEnter2D(Collider2D other)
@@ -38,16 +38,10 @@ namespace Vaniakit.Collections
             }
         }
 
-        private void Update()
+        public void onInteract()
         {
-            if (playerNearby)
-            {
-                if (m_InteractAction.WasPressedThisFrame())
-                {
-                    givePlayerItem(true);
-                    Destroy(gameObject);
-                }
-            }
+            givePlayerItem(true);
+            Destroy(gameObject);
         }
     }
 }
