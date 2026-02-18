@@ -17,7 +17,7 @@ namespace Vaniakit.Collections
         private float elapsedTime;
         bool startTimer = false;
 
-        private Transform player;
+        private IDamageable damagedObj;
 
         private void Start()
         {
@@ -26,11 +26,11 @@ namespace Vaniakit.Collections
 //
         private void OnCollisionEnter2D(Collision2D other)
         {
-            if (other.gameObject.CompareTag("Player"))
+            if (other.gameObject.TryGetComponent<IDamageable>(out IDamageable damageObj))
             {
                 startTimer = true;
-                player = other.transform;
-                doDamage(other.transform);
+                damagedObj = damageObj;
+                doDamage(damagedObj);
 
                 //Code like this should be included in your player controller script
                 // if (isDeadly)
@@ -47,24 +47,25 @@ namespace Vaniakit.Collections
                 elapsedTime -= Time.deltaTime;
                 if (elapsedTime <= 0)
                 {
-                    doDamage(player);
+                    doDamage(damagedObj);
                 }
             }
         }
 
         private void OnCollisionExit2D(Collision2D other)
         {
-            if (other.gameObject.CompareTag("Player"))
+            other.gameObject.TryGetComponent<IDamageable>(out IDamageable otherCollision);
+            if (otherCollision == damagedObj)
             {
                 startTimer = false;
                 elapsedTime = timeToDoDamageAgain;
             }
         }
 
-        private void doDamage(Transform player)
+        private void doDamage(IDamageable damageObj)
         {
             elapsedTime = timeToDoDamageAgain;
-            player.gameObject.GetComponent<IDamageable>().OnHit(damage, isDeadly);
+            damageObj.OnHit(damage, isDeadly);
         }
     }
 }
