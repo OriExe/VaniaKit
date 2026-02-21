@@ -13,6 +13,8 @@ namespace Vaniakit.Ai
         [Header("PLayer Detection ranges")]
         [Tooltip("Line of Sight Distance in Yellow")]
         [SerializeField] private float lineOfSightDistance;
+
+        [SerializeField] private Transform rayStartingPoint;
         [Tooltip("Detection Range in Red")]
         [SerializeField] private float detectionRange;
         [Header("Grounded Values")]
@@ -32,12 +34,13 @@ namespace Vaniakit.Ai
         
         protected virtual void onPlayerInLineOfSight()
         {
-            
+                
+            Debug.Log("Player in line of sight");
         }
 
         protected virtual void onPlayerNearby()
         {
-            
+            Debug.Log("Player Nearby");
         }
 
         protected virtual void onIdle()
@@ -54,8 +57,40 @@ namespace Vaniakit.Ai
         private void Update()
         {
             patrolling();
+            detectPlayer();
+            applyGravity();
         }
 
+        //Runs code that detects if the player is in either detection radius
+        void detectPlayer()
+        {
+            if (lineOfSightDistance > 0f) //Only runs if the line of the sight is more than 0
+            {
+                RaycastHit2D hit = Physics2D.Raycast(rayStartingPoint.position, Vector2.right, lineOfSightDistance);
+                if (hit)
+                {
+                    if (hit.transform.CompareTag("Player"))
+                    {
+                        onPlayerInLineOfSight();
+                    }
+                }
+            }
+
+            if (detectionRange > 0f) //Only runs if the range is bigger than 0
+            {
+                RaycastHit2D[] hits = Physics2D.CircleCastAll(transform.position,detectionRange,Vector2.zero);
+                if (hits.Length > 0) //Goes through all items that were caught in the cast.
+                {
+                    foreach (RaycastHit2D hit in hits)
+                    {
+                        if (hit.transform.CompareTag("Player"))
+                        {
+                            onPlayerNearby();
+                        }
+                    }
+                }
+            }
+        }
         void applyGravity()
         {
             if (groundCheck == null)
@@ -63,7 +98,11 @@ namespace Vaniakit.Ai
                 Debug.LogWarning("Ground Check is null Ai won't fall");
                 return;
             }
-            transform.position = transform.up * -0.0981f * Time.deltaTime;
+            isGrounded = Physics2D.OverlapCircle(groundCheck.position, groundedDetectionRange, groundMask);
+            if (!isGrounded)
+            {
+                transform.position = new Vector3(transform.position.x, transform.position.y + -0.981f * Time.deltaTime, transform.position.z);
+            }
         }
         public void OnHit(int damage = 0, bool isCritical = false)
         {
@@ -75,7 +114,7 @@ namespace Vaniakit.Ai
             {
                 health-=damage;
             }
-
+            onTakenDamage();
             if (health == 0)
             {
                 onDeath();
@@ -96,8 +135,13 @@ namespace Vaniakit.Ai
                 onReachedPatrolPoint(pointToFollowIndex);
                 aiIdle = true;
             }
+
             if (!aiIdle)
-                transform.position = Vector2.MoveTowards(transform.position, pointsToGoTo[pointToFollowIndex].position, speed / 1 * Time.deltaTime);
+            {
+                Vector2 targetPoint = new Vector2(pointsToGoTo[pointToFollowIndex].position.x, transform.position.y);
+                transform.position = Vector2.MoveTowards(transform.position, targetPoint, speed / 1 * Time.deltaTime);
+                
+            }
         }
 
         protected void switchPointToPatrol()
@@ -113,7 +157,9 @@ namespace Vaniakit.Ai
             Gizmos.color = Color.red;
             Gizmos.DrawWireSphere(transform.position, detectionRange);
             Gizmos.color = Color.yellow;
-            Gizmos.DrawRay(transform.position, transform.TransformDirection(Vector2.right) * lineOfSightDistance);
+            Gizmos.DrawRay(rayStartingPoint.position, Vector2.right * lineOfSightDistance);
+            Gizmos.color = Color.white;
+            Gizmos.DrawWireSphere(groundCheck.position, groundedDetectionRange);
         }
     }
 }
