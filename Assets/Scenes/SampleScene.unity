@@ -1303,7 +1303,6 @@ GameObject:
   - component: {fileID: 730341809}
   - component: {fileID: 730341808}
   - component: {fileID: 730341807}
-  - component: {fileID: 730341806}
   m_Layer: 0
   m_Name: Enemy (1)
   m_TagString: Untagged
@@ -1311,31 +1310,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &730341806
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 730341805}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c9401fb8bb7bbdd4cb34d55dd5a890d8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  speed: 5.36
-  pointsToGoTo:
-  - {fileID: 536011545}
-  - {fileID: 123772932}
-  health: 10
-  lineOfSightDistance: 6.27
-  rayStartingPoint: {fileID: 1002355307}
-  detectionRange: 5.11
-  groundedDetectionRange: 0.04
-  groundCheck: {fileID: 1515817253}
-  groundMask:
-    serializedVersion: 2
-    m_Bits: 8
 --- !u!61 &730341807
 BoxCollider2D:
   m_ObjectHideFlags: 0

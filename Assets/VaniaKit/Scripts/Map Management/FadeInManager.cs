@@ -5,7 +5,7 @@ using System.Collections;
 using Vaniakit.Manager;
 using Vaniakit.Player;
 using Vaniakit.Misc;
-namespace Vaniakit.Map.Management
+namespace Vaniakit.Map
 {
     [RequireComponent(typeof(MapManagementEvents))]
     public class FadeInManager : MonoBehaviour

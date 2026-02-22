@@ -6,7 +6,7 @@ using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using Vaniakit.Manager;
 
-namespace Vaniakit.Map.Management
+namespace Vaniakit.Map
 {
         [RequireComponent(typeof(BoxCollider2D))]
     public class SceneTeleporter : Vaniakit.Misc.ATeleporterMonoBehaviour

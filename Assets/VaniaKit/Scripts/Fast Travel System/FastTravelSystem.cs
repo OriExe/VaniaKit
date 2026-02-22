@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using Vaniakit.Map.Management;
+using Vaniakit.Map;
 
 namespace Vaniakit.FastTravelSystem
 {

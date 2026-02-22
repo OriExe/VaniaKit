@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Vaniakit.Map.Management
+namespace Vaniakit.Map
 {
     public class MusicManager : MonoBehaviour
     {

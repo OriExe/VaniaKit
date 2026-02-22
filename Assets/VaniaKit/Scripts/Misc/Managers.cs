@@ -61,6 +61,8 @@ namespace Vaniakit.Manager
                 Debug.LogWarning("FastTravelSystemLoadError, There may not be a json file for FastTravel. That's usually Fine if you don't have a Fast Travel System.");
                 Debug.LogError(e);
             }
+            //Load Event System
+            Vaniakit.Events.EventManager.loadEventSystem();
             onGameReady();
     
         }

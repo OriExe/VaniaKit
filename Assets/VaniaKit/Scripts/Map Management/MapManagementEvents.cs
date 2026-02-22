@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-namespace Vaniakit.Map.Management
+namespace Vaniakit.Map
 {
     public class MapManagementEvents : MonoBehaviour
     {
