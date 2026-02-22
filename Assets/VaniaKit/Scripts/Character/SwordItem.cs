@@ -8,8 +8,6 @@ namespace Vaniakit.Items
 {
     public class SwordItem : MonoBehaviour, IEquipable
     {
-        [SerializeField] private float damage;
-
         [SerializeField] private float range;
 
         [SerializeField] private float secondsToWaitTillNextAttack;

@@ -103,6 +103,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   player: {fileID: 0}
   howLongAttackBoxAppears: 0.4
+  damage: 10
 --- !u!61 &3141105880568669301
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -194,7 +195,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2af7ff28bda4c0d93aa3a1ac07948b65, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  damage: 2
   range: 10
   secondsToWaitTillNextAttack: 0.42
   attackingBox: {fileID: 2228714785293332058}

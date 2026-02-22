@@ -1327,11 +1327,11 @@ MonoBehaviour:
   pointsToGoTo:
   - {fileID: 536011545}
   - {fileID: 123772932}
-  health: 2.7
+  health: 10
   lineOfSightDistance: 6.27
   rayStartingPoint: {fileID: 1002355307}
-  detectionRange: 1.45
-  groundedDetectionRange: 0.19
+  detectionRange: 5.11
+  groundedDetectionRange: 0.04
   groundCheck: {fileID: 1515817253}
   groundMask:
     serializedVersion: 2
@@ -1636,7 +1636,7 @@ MonoBehaviour:
   pointsToGoTo:
   - {fileID: 536011545}
   - {fileID: 123772932}
-  health: 2.7
+  health: 0
   lineOfSightDistance: 0
   rayStartingPoint: {fileID: 0}
   detectionRange: 0

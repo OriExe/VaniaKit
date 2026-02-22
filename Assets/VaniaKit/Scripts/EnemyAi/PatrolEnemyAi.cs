@@ -9,11 +9,11 @@ namespace Vaniakit.Ai
         private bool aiIdle;
         [SerializeField] private float speed = 2;
         [SerializeField] private Transform[] pointsToGoTo;
-        [SerializeField] private float health;
-        [Header("PLayer Detection ranges")]
+        [SerializeField] protected int health;
+        [Header("Player Detection ranges")]
         [Tooltip("Line of Sight Distance in Yellow")]
         [SerializeField] private float lineOfSightDistance;
-
+        private static Transform _player; //Reference to the player
         [SerializeField] private Transform rayStartingPoint;
         [Tooltip("Detection Range in Red")]
         [SerializeField] private float detectionRange;
@@ -21,34 +21,50 @@ namespace Vaniakit.Ai
         [SerializeField] private float groundedDetectionRange;
         [SerializeField] private Transform groundCheck;
         [SerializeField] private LayerMask groundMask;
-        protected bool isGrounded;
+        protected bool IsGrounded;
+        protected Vector2 LookingDirection = Vector2.right;
+        
         #region Events
-        protected virtual void onDeath()
+        protected virtual void OnDeath()
         {
-
+            Debug.Log("Enemy has died");
         }
-        protected virtual void onTakenDamage()
+        protected virtual void OnTakenDamage()
         {
-
+            Debug.Log("Enemy has taken damage" + health);
         }
         
-        protected virtual void onPlayerInLineOfSight()
+        protected virtual void OnPlayerInLineOfSight()
         {
-                
-            Debug.Log("Player in line of sight");
+                //Finish this later
+            Debug.Log("Player is in line of sight");
         }
 
-        protected virtual void onPlayerNearby()
+        /// <summary>
+        /// By default this will face the direction of the player and attack them
+        /// </summary>
+        protected virtual void OnPlayerNearby()
         {
             Debug.Log("Player Nearby");
-        }
-
-        protected virtual void onIdle()
-        {
+            if (_player.transform.position.x < transform.position.x)
+            {
+                LookingDirection = Vector2.left;
+            }
+            else if (_player.transform.position.x > transform.position.x)
+            {
+                LookingDirection = Vector2.right;
+            }
             
+            Vector2 targetPoint = new Vector2(_player.position.x, transform.position.y);
+            transform.position = Vector2.MoveTowards(transform.position, targetPoint, speed / 1 * Time.deltaTime);
         }
 
-        protected virtual void onReachedPatrolPoint(int index)
+        protected virtual void OnIdle()
+        {
+            Debug.unityLogger.Log("idle");
+        }
+
+        protected virtual void OnReachedPatrolPoint(int index)
         {
             Invoke("switchPointToPatrol", 4f);
         }
@@ -56,22 +72,28 @@ namespace Vaniakit.Ai
 
         private void Update()
         {
-            patrolling();
-            detectPlayer();
+            if (!detectPlayer())
+                patrolling();
             applyGravity();
         }
 
         //Runs code that detects if the player is in either detection radius
-        void detectPlayer()
+        private bool detectPlayer()
         {
+            bool playerDetected = false; //If player is detected in any method the function returns true
             if (lineOfSightDistance > 0f) //Only runs if the line of the sight is more than 0
             {
-                RaycastHit2D hit = Physics2D.Raycast(rayStartingPoint.position, Vector2.right, lineOfSightDistance);
+                RaycastHit2D hit = Physics2D.Raycast(rayStartingPoint.position, LookingDirection, lineOfSightDistance);
                 if (hit)
                 {
                     if (hit.transform.CompareTag("Player"))
                     {
-                        onPlayerInLineOfSight();
+                        playerDetected = true;
+                        if (_player == null) //Makes sure the player isn't null when executing
+                        {
+                            _player = hit.transform;
+                        }
+                        OnPlayerInLineOfSight();
                     }
                 }
             }
@@ -85,23 +107,32 @@ namespace Vaniakit.Ai
                     {
                         if (hit.transform.CompareTag("Player"))
                         {
-                            onPlayerNearby();
+                            playerDetected = true;
+                            if (_player == null) //Makes sure the player isn't null when executing
+                            {
+                                _player = hit.transform;
+                            }
+                            OnPlayerNearby();
                         }
                     }
                 }
             }
+            return playerDetected;
         }
-        void applyGravity()
+        /// <summary>
+        /// Applies gravity so the Ai starts falling
+        /// </summary>
+        private void applyGravity()
         {
             if (groundCheck == null)
             {
                 Debug.LogWarning("Ground Check is null Ai won't fall");
                 return;
             }
-            isGrounded = Physics2D.OverlapCircle(groundCheck.position, groundedDetectionRange, groundMask);
-            if (!isGrounded)
+            IsGrounded = Physics2D.OverlapCircle(groundCheck.position, groundedDetectionRange, groundMask);
+            if (!IsGrounded)
             {
-                transform.position = new Vector3(transform.position.x, transform.position.y + -0.981f * Time.deltaTime, transform.position.z);
+                transform.position = new Vector3(transform.position.x, transform.position.y + -9.81f * Time.deltaTime, transform.position.z);
             }
         }
         public void OnHit(int damage = 0, bool isCritical = false)
@@ -114,10 +145,10 @@ namespace Vaniakit.Ai
             {
                 health-=damage;
             }
-            onTakenDamage();
+            OnTakenDamage();
             if (health == 0)
             {
-                onDeath();
+                OnDeath();
                 Destroy(gameObject);
             }
         }
@@ -132,7 +163,7 @@ namespace Vaniakit.Ai
 
             if (Vector2.Distance(pointsToGoTo[pointToFollowIndex].position, transform.position) < 0.1f && !aiIdle)
             {
-                onReachedPatrolPoint(pointToFollowIndex);
+                OnReachedPatrolPoint(pointToFollowIndex);
                 aiIdle = true;
             }
 
@@ -144,11 +175,23 @@ namespace Vaniakit.Ai
             }
         }
 
+        /// <summary>
+        /// Goes to a different patrol point
+        /// </summary>
         protected void switchPointToPatrol()
         {
             pointToFollowIndex++;
             pointToFollowIndex %= pointsToGoTo.Length;
             aiIdle = false;
+            
+            if (pointsToGoTo[pointToFollowIndex].position.x < transform.position.x)
+            {
+                LookingDirection = Vector2.left;
+            }
+            else if (pointsToGoTo[pointToFollowIndex].position.x > transform.position.x)
+            {
+                LookingDirection = Vector2.right;
+            }
         }
 
 
@@ -157,7 +200,7 @@ namespace Vaniakit.Ai
             Gizmos.color = Color.red;
             Gizmos.DrawWireSphere(transform.position, detectionRange);
             Gizmos.color = Color.yellow;
-            Gizmos.DrawRay(rayStartingPoint.position, Vector2.right * lineOfSightDistance);
+            Gizmos.DrawRay(rayStartingPoint.position, LookingDirection * lineOfSightDistance);
             Gizmos.color = Color.white;
             Gizmos.DrawWireSphere(groundCheck.position, groundedDetectionRange);
         }
