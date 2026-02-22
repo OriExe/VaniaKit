@@ -118,5 +118,25 @@ namespace Vaniakit.ResourceManager
         }
         
     }
+
+    [System.Serializable]
+    public class InventoryItem
+    {
+        //Item Object class
+        public string itemName;
+        public int category;
+        public string description;
+        public bool isStackable;
+
+        //public string prefabPath;
+        //Inventory slot class
+        public int inventorySlotAmountOfItem;
+        public bool inventorySlotSpawnAtStart;
+    }
+
+    public class InventoryItemList
+    {
+        public List<InventoryItem> items;
+    }
 }
 

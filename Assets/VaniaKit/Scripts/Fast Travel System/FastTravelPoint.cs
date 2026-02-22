@@ -89,7 +89,7 @@ namespace Vaniakit.FastTravelSystem
     }
     
     /// <summary>
-    /// List of arrays that holds all the fast travel points
+    /// List of arrays that holds all the fast travel points in the game
     /// </summary>
     [Serializable]
     public class FastTravelPoints
@@ -110,7 +110,18 @@ namespace Vaniakit.FastTravelSystem
         public float y;
         public float z;
     }
-    
+
+    [Serializable]
+    public class FastTravelPointInfo
+    {
+        public bool isUnlocked;
+        public FastTravelData travelPointData;
+    }
+
+    public class accessibleFastTravelPoints
+    {
+        public List<FastTravelPointInfo> allTravelPoints;
+    }
     /// <summary>
     /// The editor that shows the make a json file button
     /// </summary>

@@ -1,4 +1,6 @@
 using System;
+using System.IO;
+using UnityEditor;
 using Vaniakit.ResourceManager;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -119,6 +121,7 @@ namespace Vaniakit.Items
         {
             GameObject player = GameObject.FindGameObjectWithTag("Player");
             GameObject obj = Instantiate(gameObject, player.transform.position, Quaternion.identity, player.transform);
+            print(AssetDatabase.GetAssetPath(gameObject));
             //obj.transform.position = new Vector3(0, 0, 0);
         }
 
