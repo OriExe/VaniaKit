@@ -1,11 +1,8 @@
 using System;
 using System.Collections.Generic;
-using System.Drawing;
-using System.Globalization;
-using System.IO;
 using UnityEngine;
 using UnityEditor;
-using UnityEngine.SceneManagement;
+
 
 namespace Vaniakit.FastTravelSystem
 {
@@ -125,6 +122,7 @@ namespace Vaniakit.FastTravelSystem
     /// <summary>
     /// The editor that shows the make a json file button
     /// </summary>
+#if UNITY_EDITOR
     [CustomEditor(typeof(FastTravelPoint))]
     public class FastTravelPointEditor : Editor 
     {
@@ -139,5 +137,7 @@ namespace Vaniakit.FastTravelSystem
             }
         }
     }
+#endif
+    
 }
 
