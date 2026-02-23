@@ -132,6 +132,13 @@ namespace Vaniakit.ResourceManager
         //Inventory slot class
         public int inventorySlotAmountOfItem;
         public bool inventorySlotSpawnAtStart;
+
+        public InventoryItem(int amountOfItem, bool spawnAtStart, string pathOfItem)
+        {
+            path = pathOfItem;
+            inventorySlotAmountOfItem = amountOfItem;
+            inventorySlotSpawnAtStart = spawnAtStart;
+        }
     }
 
     public class InventoryItemList
