@@ -1,0 +1,43 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bbb281ee3bf0b054c82ac2347e9e782c, type: 3}
+  m_Name: Item group
+  m_EditorClassIdentifier: 
+  m_GroupName: Item group
+  m_GUID: 4d198731684063fc788f8345fc527137
+  m_SerializeEntries:
+  - m_GUID: 033d23a60c3a04d32898ae21d6098c94
+    m_Address: Assets/VaniaKit/Items/Sword.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: d2e5c77e03098360aa75287b3297ac6c
+    m_Address: Assets/VaniaKit/Items/DoubleJumpAblity.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: dcda93daa4f27d2dda6d9410b88b4c11
+    m_Address: Assets/VaniaKit/Items/DoubleJumpEnable.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: e22782cf15030e78ba23deb22192ac65
+    m_Address: Assets/VaniaKit/Items/SwordGameObj.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  m_ReadOnly: 0
+  m_Settings: {fileID: 11400000, guid: ecf55f15f4cb3b095b09fa109029e47b, type: 2}
+  m_SchemaSet:
+    m_Schemas:
+    - {fileID: 11400000, guid: 0538d0416b906a8db92c030ff2272523, type: 2}
+    - {fileID: 11400000, guid: 1aa824d5e9ef414c1a8cbe1a401c1f9c, type: 2}
