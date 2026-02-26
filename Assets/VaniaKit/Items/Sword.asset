@@ -12,8 +12,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 394675387a5b204fe8cc4454a4b418da, type: 3}
   m_Name: Sword
   m_EditorClassIdentifier: 
-  name: Sword
+  itemName: Sword
   description: "This is a Weapon\t"
   category: 0
   stackable: 0
   actionScript: {fileID: 6929517341094651990, guid: e22782cf15030e78ba23deb22192ac65, type: 3}
+  saveReference:
+    m_AssetGUID: 033d23a60c3a04d32898ae21d6098c94
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_SubObjectGUID: 
+    m_EditorAssetChanged: 0

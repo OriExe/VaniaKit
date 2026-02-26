@@ -12,8 +12,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 394675387a5b204fe8cc4454a4b418da, type: 3}
   m_Name: DoubleJumpAblity
   m_EditorClassIdentifier: 
-  name: Double Jump Ablity
+  itemName: Double Jump Ablity
   description: 
   category: 1
   stackable: 0
   actionScript: {fileID: 1288846760577823422, guid: dcda93daa4f27d2dda6d9410b88b4c11, type: 3}
+  saveReference:
+    m_AssetGUID: d2e5c77e03098360aa75287b3297ac6c
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_SubObjectGUID: 
+    m_EditorAssetChanged: 0

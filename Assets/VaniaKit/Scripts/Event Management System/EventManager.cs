@@ -11,13 +11,13 @@ namespace Vaniakit.Events
         /// </summary>
         /// <param name="eventToSave"></param>
         ///
-        private static List<string>  allTriggeredEvents;
+        private static List<string>  allTriggeredEvents =  new List<string>();
         public const string fileNameForEMSystem = "VaniakitEvents.json";
         
         public static void saveEvent(string eventName)
         {
             allTriggeredEvents.Add(eventName);
-            saveEventSystem();
+            Debug.Log(eventName + "has been saved");
         }
 
         public static bool hasEventBeenTriggeredBefore(string eventName)
@@ -32,25 +32,21 @@ namespace Vaniakit.Events
             }
         }
 
-        public static void loadEventSystem()
+        public static void loadEventSystem(EventList allEvents)
         {
-            if (!JsonInstructions.loadJsonArray(fileNameForEMSystem, out EventList allEvents))
-            {
-                 Debug.Log("No events saved in Event Manager!");
-                 allTriggeredEvents = new List<string>();
-            }
-            else
-            {
-                Debug.Log(allEvents.events.Count + "Events have been loaded");
-                allTriggeredEvents = allEvents.events;
-            }
+            Debug.Log(allEvents.events.Count + "Events have been loaded");
+            allTriggeredEvents = allEvents.events;
         }
-
-        private static void saveEventSystem()
+        
+        /// <summary>
+        /// Saves the current events triggered in a save file
+        /// </summary>
+        /// <returns></returns>
+        public static EventList saveEventSystem()
         {
             EventList allEvents = new EventList();
             allEvents.events = allTriggeredEvents;
-            JsonInstructions.saveAsJsonArray(allEvents, fileNameForEMSystem);
+            return allEvents;
         }
     }
 

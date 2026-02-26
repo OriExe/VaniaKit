@@ -6,6 +6,6 @@ public class FastInteract : MonoBehaviour,IInteractable
     public void onInteract()
     {
         Debug.Log("Interacted");
-        FastTravelSystem.teleportToPoint(FastTravelSystem.allPoints[1]);
+        FastTravelSystem.teleportToPoint(FastTravelSystem.allActivePoints[1]);
     }
 }

@@ -121,7 +121,7 @@ namespace Vaniakit.Items
         {
             GameObject player = GameObject.FindGameObjectWithTag("Player");
             GameObject obj = Instantiate(gameObject, player.transform.position, Quaternion.identity, player.transform);
-            print(AssetDatabase.GetAssetPath(gameObject));
+            // print(AssetDatabase.GetAssetPath(gameObject)); //Won't work in the built game 
             //obj.transform.position = new Vector3(0, 0, 0);
         }
 

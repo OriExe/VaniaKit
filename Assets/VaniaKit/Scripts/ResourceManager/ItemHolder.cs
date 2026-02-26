@@ -17,7 +17,7 @@ namespace Vaniakit.ResourceManager
             }
             else
             {
-                Debug.Log(item.item.getName()  + " has no IEquipable script attached");
+                Debug.Log(item.item.GetName()  + " has no IEquipable script attached");
             }
         }
       

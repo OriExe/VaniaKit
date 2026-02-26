@@ -1,8 +1,9 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
-using UnityEditor;
 using UnityEngine;
+using UnityEngine.AddressableAssets;
+using UnityEngine.ResourceManagement.AsyncOperations;
+using UnityEngine.ResourceManagement.ResourceLocations;
 using Vaniakit.Manager;
 
 namespace Vaniakit.ResourceManager
@@ -22,7 +23,17 @@ namespace Vaniakit.ResourceManager
 
         public static void addItemToInventory(InventorySlot itemToGive)
         {
-            _instance.items.Add(itemToGive);
+            if (!_instance.items.Contains(itemToGive))
+            {
+                _instance.items.Add(itemToGive);
+            }
+            else
+            {
+                Debug.Log(itemToGive.item.GetName() + " has already been added to the inventory");
+            }
+
+            InventoryItem newItem = new InventoryItem(itemToGive.GetAmountOfItem(),itemToGive.spawnAtStart,itemToGive.item.GetSaveReference());
+            
         }
         public static List<InventorySlot> GetAllItems() //Returns all items in the list
         {
@@ -35,7 +46,6 @@ namespace Vaniakit.ResourceManager
         /// <returns></returns>
         IEnumerator Start()
         {
-            loadAllNecessaryItems();
             yield return new WaitForSeconds(2);
             //Checks if the main manager exists 
             if (Managers.instance == null)
@@ -67,10 +77,76 @@ namespace Vaniakit.ResourceManager
                 }
                 else
                 {
-                    Debug.Log(item.item.getName()  + " has no IEquipable script attached");
+                    Debug.Log(item.item.GetName()  + " has no IEquipable script attached");
                 }
-                    
             }
+        }
+
+        /// <summary>
+        /// Loads the save file and adds all the items to the inventory 
+        /// </summary>
+        /// <param name="items"></param>
+        /// <returns></returns>
+        public static IEnumerator LoadFromSave(InventoryItemList items)
+        {
+            List<InventorySlot>  newSlots = new List<InventorySlot>();
+            if (items.items.Count <= 0)
+            {
+                Debug.Log("No items saved in inventory");
+            }
+            else
+            {
+                int count = 0;
+                List<AsyncOperationHandle<ItemObject>> loadedItems= new List<AsyncOperationHandle<ItemObject>>();
+                foreach (InventoryItem item in items.items)
+                {
+                    Addressables.LoadAssetAsync<ItemObject>(item.path).Completed += //Loads item from code
+                        (OperationHandle) =>
+                        {
+                            loadedItems.Add(OperationHandle);
+                            if (OperationHandle.Status == AsyncOperationStatus.Succeeded)
+                            {
+                                InventorySlot itemInInventory = new InventorySlot();
+                                itemInInventory.item = OperationHandle.Result;
+                                itemInInventory.spawnAtStart = item.inventorySlotSpawnAtStart;
+                                itemInInventory.AddAmount(item.inventorySlotAmountOfItem);
+                                if (OperationHandle.Result.actionScript.TryGetComponent(out IEquipable script))
+                                    itemInInventory.SetScriptInGame(script);
+                                else
+                                    Debug.Log(OperationHandle.Result.GetName() + " has no IEquipable script attached");
+                                newSlots.Add(itemInInventory);
+                                count++;
+                            }
+                        };
+                }
+
+                while (count < items.items.Count) ///Runs till it goes through every item in the save
+                {
+                    yield return null;
+                }
+                _instance.items = newSlots;
+                
+            }
+            loadAllNecessaryItems();
+        }
+
+        
+
+
+       
+        /// <summary>
+        /// Returns a serializable list that can then be saved in a save file
+        /// </summary>
+        /// <returns></returns>
+        public static InventoryItemList saveInventory()
+        {
+            InventoryItemList listToSave = new  InventoryItemList();
+            listToSave.items = new List<InventoryItem>();
+            foreach (InventorySlot item in _instance.items)
+            {
+                listToSave.items.Add(new InventoryItem(item.GetAmountOfItem(),item.spawnAtStart,item.item.GetSaveReference()));
+            }
+            return listToSave;
         }
     }
 
@@ -102,8 +178,8 @@ namespace Vaniakit.ResourceManager
             {
                 itemCode = script;
             }
-        }
 
+        }
         public IEquipable GetItemScriptInGame()
         {
             if (itemCode != null)
@@ -116,18 +192,24 @@ namespace Vaniakit.ResourceManager
             }
             return null;
         }
+
+        public int GetAmountOfItem()
+        {
+            return amountOfItem;
+        }
+
+       
         
     }
 
     [System.Serializable]
     public class InventoryItem
     {
-        //Item Object class
-        public string itemName;
-        public int category;
-        public string description;
-        public bool isStackable;
-
+        /// <summary>
+        /// Path to adresssible
+        /// </summary>
+        public string path;
+        
         //public string prefabPath;
         //Inventory slot class
         public int inventorySlotAmountOfItem;
@@ -141,9 +223,21 @@ namespace Vaniakit.ResourceManager
         }
     }
 
+    [System.Serializable]
     public class InventoryItemList
     {
         public List<InventoryItem> items;
+    }
+    
+    /// <summary>
+    /// Defines an inventory object that can be added in Unity
+    /// </summary>
+    [System.Serializable]
+    public class AssetReferenceInventoryObject : AssetReferenceT<ItemObject>
+    {
+        public AssetReferenceInventoryObject(string guid) : base(guid)
+        {
+        }
     }
 }
 
