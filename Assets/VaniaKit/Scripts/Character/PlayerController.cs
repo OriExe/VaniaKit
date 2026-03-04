@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -15,6 +16,7 @@ namespace Vaniakit.Player
         private InputAction m_InteractAction;
         delegate void OnPlayerDead();
         OnPlayerDead onPlayerDead;
+        private List<Transform> triggersinRange = new List<Transform>();
         #region Events
 
         /// <summary>
@@ -34,13 +36,12 @@ namespace Vaniakit.Player
             Debug.Log("Player has taken critical damage of  " + damage + " + : Current Health: " + currentHealth);
         }
 
-        protected virtual void onPlayerInteractedWithAnObject(string nameOfObject)
+        protected virtual void onPlayerInteractedWithAnObject(System.Object nameOfObject)
         {
-            Debug.Log("Interacted with a " + nameOfObject);
+            Debug.Log("Interacted with a " + nameOfObject.ToString());
         }
         #endregion
         
-       
         // Start is called once before the first execution of Update after the MonoBehaviour is created
         void Awake()
         {
@@ -60,10 +61,32 @@ namespace Vaniakit.Player
             DontDestroyOnLoad(gameObject);
             m_InteractAction = InputSystem.actions.FindAction("Interact");
         }
-        
+
         /// <summary>
         /// Event that triggers when the player dies
         /// </summary>
+        protected void Update()
+        {
+            if (m_InteractAction.WasPressedThisFrame())
+            {
+                foreach (Transform trigger in triggersinRange)
+                {
+                    try
+                    {
+                        if (trigger.TryGetComponent(out IInteractable interactable))
+                        {
+                            interactable.onInteract();
+                            onPlayerInteractedWithAnObject(interactable.GetType());
+                        }
+                    }
+                    catch (NullReferenceException)
+                    {
+                        Debug.Log("A deleted object has been found");
+                    }
+                   
+                }
+            }
+        }
 
         private void onEnable()
         {
@@ -83,6 +106,24 @@ namespace Vaniakit.Player
             
         }
 
+        private void OnTriggerEnter2D(Collider2D other)
+        {
+            if (other.transform.parent != transform) //Won't run if the trigger is a child of the player object 
+            {
+                triggersinRange.Add(other.transform);
+                Debug.Log("A trigger has been saved");
+            }
+        }
+
+        private void OnTriggerExit2D(Collider2D other)
+        {
+            if (triggersinRange.Contains(other.transform))
+            {
+                Debug.Log("A trigger has been been deleted");
+                triggersinRange.Remove(other.transform);
+            }
+        }
+
         #region Getters
         public Rigidbody2D getPlayerRigidbody()
         {
@@ -91,19 +132,6 @@ namespace Vaniakit.Player
         
         #endregion
         
-
-        private void OnTriggerStay2D(Collider2D other)
-        {
-            if (m_InteractAction.WasPressedThisFrame())
-            {
-                if (other.TryGetComponent(out IInteractable interactable))
-                {
-                    interactable.onInteract();
-                    onPlayerInteractedWithAnObject(interactable.GetType().ToString());
-                }
-            }
-        }
-
         /// <summary>
         /// Can be activated by an enemy or trap and do damage to the player
         /// </summary>
