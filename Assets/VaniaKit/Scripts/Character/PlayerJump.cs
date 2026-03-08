@@ -8,7 +8,7 @@ namespace Vaniakit.Player
     public class PlayerJump : MonoBehaviour
     {
         private Rigidbody2D rb => _playerController.getPlayerRigidbody();
-        [SerializeField]private float jumpSpeed;
+        [SerializeField]private float jumpHeight;
         [Header("GroundCheck")]
         [SerializeField] private LayerMask groundLayers;
         public bool isGrounded {get; private set;}
@@ -79,7 +79,7 @@ namespace Vaniakit.Player
             isGrounded = Physics2D.OverlapCircle(groundCheck.position, groundCheckRadius, groundLayers);
 
           
-            if (isDashing) //don't run while dashing
+            if (isDashing || Items.WallJump.PlayerHangingOnWall) //don't allow jumping while dashing or wall jumping
                 return;
             if (m_jumpAction.WasPressedThisFrame() && isGrounded) //When the player presses the jump button
             {
@@ -116,7 +116,7 @@ namespace Vaniakit.Player
         /// </summary>
         private void jump()
         {
-            rb.linearVelocity = new Vector2(rb.linearVelocity.x, jumpSpeed);
+            rb.linearVelocity = new Vector2(rb.linearVelocity.x, jumpHeight);
         }
         
         /// <summary>
@@ -124,7 +124,7 @@ namespace Vaniakit.Player
         /// </summary>
         private void doubleJump()
         {
-            rb.linearVelocity = new Vector2(rb.linearVelocity.x, doubleJumpMultiplier * jumpSpeed);
+            rb.linearVelocity = new Vector2(rb.linearVelocity.x, doubleJumpMultiplier * jumpHeight);
             playerHasDoubleJumped = true;
         }
         
@@ -140,6 +140,12 @@ namespace Vaniakit.Player
         {
             doubleJumpEnabled = enable;
         }
+
+        public float getMaxJumpHeightValue()
+        {
+            return jumpHeight;
+        }
+        
         private void OnDrawGizmosSelected()
         {
             if (groundCheck == null)

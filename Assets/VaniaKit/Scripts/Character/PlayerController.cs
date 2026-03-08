@@ -52,6 +52,7 @@ namespace Vaniakit.Player
             else
             {
                 Destroy(gameObject);
+                return;
             }
             currentHealth = startingHealth;
             if (rb == null)
