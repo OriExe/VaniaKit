@@ -51,11 +51,15 @@ namespace Vaniakit.Items
                 playerParent = transform.parent;
             playerController = playerParent.GetComponent<PlayerController>();
             playerJump = playerParent.GetComponent<PlayerJump>();
+            m_jumpAction = InputSystem.actions.FindAction("Jump");
         }
         private void Update()
         {
-            if (playerJump.isGrounded) //Won't run if player is on ground
+            if (playerJump.isGrounded)
+            {
+                PlayerHangingOnWall = false;
                 return; 
+            }//Won't run if player is on ground
             //If player right side overlapping with ground layermask
             if (Physics2D.OverlapCircle(rightSideOfPlayer.position, wallDetectionRadius, groundLayerMask))
             {
@@ -86,11 +90,13 @@ namespace Vaniakit.Items
                 {
                     slideDownSpeedSet = false;
                     playerJumpedFromWall = false;
+                    PlayerHangingOnWall = false;
                 }
                 else if (!jumpingFromLeftWall && playerController.getPlayerRigidbody().linearVelocity.x >= 0f) //Going back right now
                 {
                     slideDownSpeedSet = false;
                     playerJumpedFromWall = false;
+                    PlayerHangingOnWall = false;
                 }
             }
            
@@ -114,12 +120,12 @@ namespace Vaniakit.Items
                 if (jumpingFromLeftWall)
                 {
                     playerController.getPlayerRigidbody().linearVelocity =
-                        new Vector2(pushBackForce, playerJump.getMaxJumpHeightValue()); //Launch player
+                        new Vector2(-pushBackForce, playerJump.getMaxJumpHeightValue()); //Launch player
                 }
                 else
                 {
                     playerController.getPlayerRigidbody().linearVelocity =
-                        new Vector2(-pushBackForce, playerJump.getMaxJumpHeightValue()); //Launch player
+                        new Vector2(pushBackForce, playerJump.getMaxJumpHeightValue()); //Launch player
                 }
             }
         }

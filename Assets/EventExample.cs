@@ -10,6 +10,7 @@ public class EventExample : MonoBehaviour
     }
     
 }
+#if UNITY_EDITOR
 [CustomEditor(typeof(EventExample))]
 public class FastTravelPointEditor : Editor 
 {
@@ -23,3 +24,4 @@ public class FastTravelPointEditor : Editor
          }
     }
 }
+#endif
