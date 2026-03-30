@@ -29,6 +29,7 @@ namespace Vaniakit.Player
         // Update is called once per frame
         void Update()
         {
+            
             transform.position = Vector2.Lerp(transform.position, player.transform.position, 2f * Time.deltaTime);
             transform.position = new Vector3(transform.position.x, transform.position.y, -10f);
         }

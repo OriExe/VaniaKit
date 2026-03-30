@@ -62,6 +62,7 @@ namespace Vaniakit.Player
 
             if (hasDashed) //When dashing
             {
+                Vaniakit.Player.PlayerCamera.snapCameraToPlayer();
                 dashTimeLeft-= Time.deltaTime;
                 int playerDirection;
                 if (PlayerMovement.returnHorizontalLookState() == PlayerMovement.lookStatesHorizontal.left)
