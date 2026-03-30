@@ -44,6 +44,10 @@ namespace Vaniakit.Map
                     {
                         fadePanel = Instantiate(fadePanelObj, uiCanvas.transform); //If it is it creates it as a gameobject
                     }
+                    else
+                    {
+                        fadePanel = fadePanelObj;
+                    }
                 }
             }
         }

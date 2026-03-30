@@ -441,7 +441,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0c123c83a1c20a9d78953be66accfe70, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  jumpSpeed: 9.68
+  jumpHeight: 0
   groundLayers:
     serializedVersion: 2
     m_Bits: 8
@@ -1366,8 +1366,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 96ecd926644168956adbac8f03a0b43a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  destination: Right Spawn
-  sceneName: Level1
+  destination: Left Spawn
+  sceneName: SampleScene
 --- !u!61 &1552607679
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -1823,7 +1823,7 @@ GameObject:
   - component: {fileID: 1724123085}
   - component: {fileID: 1724123087}
   m_Layer: 0
-  m_Name: FTSystem
+  m_Name: FtP
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1884,7 +1884,7 @@ Transform:
   m_GameObject: {fileID: 1724123084}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -5.398688, y: 0.53088003, z: 0.055426355}
+  m_LocalPosition: {x: -0.59, y: 0.91, z: 0.055426355}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1899,9 +1899,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 1724123084}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: af0aef50d1e68d54c80834bc480f1bcc, type: 3}
+  m_Script: {fileID: 11500000, guid: f475fa66a2624c679653fbd7e7cdd06d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  pointName: GrassLands
 --- !u!1 &1895722879
 GameObject:
   m_ObjectHideFlags: 0

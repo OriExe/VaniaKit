@@ -12,8 +12,8 @@ namespace Vaniakit.FastTravelSystem
     public class FastTravelPoint : Vaniakit.Misc.ATeleporterMonoBehaviour, IInteractable
     {
         //private FastTravelData TravelData;
-        [SerializeField]private string pointName = "example";
-
+        [SerializeField]public string pointName = "example";
+        [Tooltip("It should be a prefab")]
         #region Events
 
         protected virtual void onPlayerLoadedHere()
@@ -22,7 +22,7 @@ namespace Vaniakit.FastTravelSystem
         }
 
         #endregion
-        
+
         /// <summary>
         /// Unused Method for Saving the data in a json file
         /// Duplicates shouldn't exist
@@ -65,7 +65,20 @@ namespace Vaniakit.FastTravelSystem
         //     // Vaniakit.Json.JsonInstructions.saveAsJsonArray(allPoints, FastTravelSystem.fileNameForFTSystem); //Saves the json file 
         //
         // }
-        
+
+        /// <summary>
+        /// Opens a basic fast travel menu can be modified in the player's own script 
+        /// </summary>
+        protected virtual void openFastTravelMenu()
+        {
+            Debug.Log("Point is already added");
+            if (FastTravelUi.instance == null)
+            {
+                Debug.LogError("No FastTravelUi exists");
+                return;
+            }
+            FastTravelUi.instance.gameObject.SetActive(true);
+        }
         public override bool amITheRightObject(string gameObjectName)
         {
             if (gameObjectName == gameObject.name)
@@ -78,9 +91,17 @@ namespace Vaniakit.FastTravelSystem
 
         public void onInteract()
         {
-            Debug.Log("Fast Travel has been Unlocked");
-            FastTravelSystem.savePointToArray(this, gameObject);
+            if (!FastTravelSystem.doesPointInArrayExst(pointName))
+            {
+                Debug.Log("Fast Travel has been Unlocked");
+                FastTravelSystem.savePointToArray(this, gameObject);
+            }
+            else
+            {
+                openFastTravelMenu();
+            }
         }
+        
     }
     
     /// <summary>

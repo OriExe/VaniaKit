@@ -27,9 +27,9 @@ namespace Vaniakit.FastTravelSystem
 
         public static void savePointToArray(FastTravelPoint point, GameObject gameObjectOfPoints)
         {
-            //Adds all the Travel points for this value
+            //Adds all the Fast travel data to the array for this value
             FastTravelData TravelData = new FastTravelData();
-            TravelData.PointName = point.name;
+            TravelData.PointName = point.pointName;
             TravelData.SceneName = gameObjectOfPoints.scene.name;
             TravelData.GameObjectName = gameObjectOfPoints.name;
             TravelData.x = gameObjectOfPoints.transform.position.x;
@@ -37,6 +37,30 @@ namespace Vaniakit.FastTravelSystem
             TravelData.z = gameObjectOfPoints.transform.position.z;
             allActivePoints.Add(TravelData);
         }
+
+        public static bool doesPointInArrayExst(string pointName)
+        {
+            foreach (FastTravelData point in allActivePoints)
+            {
+                if (point.PointName == pointName)
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+        public static FastTravelData findPointInArray(string pointName)
+        {
+            foreach (FastTravelData point in allActivePoints)
+            {
+                if (point.PointName == pointName)
+                {
+                    return point;
+                }
+            }
+            return null;
+        }
+        
         
         /// <summary>
         /// Loads all the points when the game starts in an array in memory
