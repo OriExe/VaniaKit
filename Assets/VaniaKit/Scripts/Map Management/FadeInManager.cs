@@ -21,6 +21,29 @@ namespace Vaniakit.Map
             if (instance == null)
             {
                 instance = this;
+                
+                if (uiCanvas == null) //Checks if ui exists
+                {
+                    Debug.Log("There is no ui canvas for the manager to use");
+                }
+                else
+                {
+                    if (fadePanelObj == null) //Checks if there is a fade panel to use already 
+                    {
+                        createAFadePanel();
+                    }
+                    else
+                    {
+                        if (fadePanelObj.gameObject.scene.rootCount == 0) //Checks if the object is a prefab
+                        {
+                            fadePanel = Instantiate(fadePanelObj, uiCanvas.transform); //If it is it creates it as a gameobject
+                        }
+                        else
+                        {
+                            fadePanel = fadePanelObj;
+                        }
+                    }
+                }
             }
             else
             {
@@ -28,28 +51,7 @@ namespace Vaniakit.Map
                 Destroy(gameObject);
             }
             
-            if (uiCanvas == null)
-            {
-                Debug.Log("There is no ui canvas for the manager to use");
-            }
-            else
-            {
-                if (fadePanelObj == null) //Checks if there is a fade panel to use already 
-                {
-                    createAFadePanel();
-                }
-                else
-                {
-                    if (fadePanelObj.gameObject.scene.rootCount == 0) //Checks if the object is a prefab
-                    {
-                        fadePanel = Instantiate(fadePanelObj, uiCanvas.transform); //If it is it creates it as a gameobject
-                    }
-                    else
-                    {
-                        fadePanel = fadePanelObj;
-                    }
-                }
-            }
+           
         }
         
         /// <summary>

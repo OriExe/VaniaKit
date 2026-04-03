@@ -1,6 +1,6 @@
 using System;
 using UnityEngine;
-using VaniaKit.DialogueSystem;
+using Vaniakit.DialogueSystem;
 public class interactDialogueScript : AiDialogue, IInteractable
 {
     public void onInteract()

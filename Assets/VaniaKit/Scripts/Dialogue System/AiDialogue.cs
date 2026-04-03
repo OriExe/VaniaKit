@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace VaniaKit.DialogueSystem
+namespace Vaniakit.DialogueSystem
 {
     public class AiDialogue : MonoBehaviour
     {
