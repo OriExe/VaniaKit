@@ -7,7 +7,7 @@ namespace Vaniakit.SaveSystem
 {
     public static class SaveSystem 
     {
-        private const string dataFileName = "SaveFile1.json";
+        public static string dataFileName = "SaveFile1.json"; //The name of the current saveFile being accessed
         /// <summary>
         /// Saves all the data by calling all the save methods in each category
         /// </summary>
@@ -17,18 +17,19 @@ namespace Vaniakit.SaveSystem
             newData.eventList = Vaniakit.Events.EventManager.saveEventSystem();
             newData.accessibleFastTravelPoints = Vaniakit.FastTravelSystem.FastTravelSystem.saveActiveFastTravelPoints();
             newData.inventoryItemList = Vaniakit.ResourceManager.Inventory.saveInventory();
+            newData.playerCheckPointData = Vaniakit.Map.Checkpoint.activeCheckPointData;
             JsonInstructions.saveAsJsonArray(newData, dataFileName);
         }
         
         
         /// <summary>
-        /// Loads
+        /// Loads the save data
         /// </summary>
         /// <returns></returns>
         public static IEnumerator LoadAllData()
         {
             saveData newData = new saveData();
-            if (JsonInstructions.loadJsonArray(dataFileName, out newData))
+            if (JsonInstructions.loadJsonArray(dataFileName, out newData)) //Returns true if file exists
             {
                 Vaniakit.Events.EventManager.loadEventSystem(newData.eventList); //Loads all events
                 Vaniakit.FastTravelSystem.FastTravelSystem.allActivePoints = newData.accessibleFastTravelPoints.travelPoints;
@@ -48,8 +49,9 @@ namespace Vaniakit.SaveSystem
     [System.Serializable]
     public class saveData
     {
-        public Vaniakit.Events.EventList eventList;
-        public Vaniakit.FastTravelSystem.FastTravelPoints accessibleFastTravelPoints;
-        public Vaniakit.ResourceManager.InventoryItemList inventoryItemList;
+        public Vaniakit.Events.EventList eventList; //Data holding all the triggered events
+        public Vaniakit.FastTravelSystem.FastTravelPoints accessibleFastTravelPoints; //Data holding all the fast travel points found by the player
+        public Vaniakit.ResourceManager.InventoryItemList inventoryItemList; //Data holding the player's inventory
+        public Vaniakit.Map.CheckPointData playerCheckPointData; //Data holding the player's last checkpoint
     }
 }
