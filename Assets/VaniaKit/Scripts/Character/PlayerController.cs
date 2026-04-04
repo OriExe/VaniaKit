@@ -167,9 +167,14 @@ namespace Vaniakit.Player
                 onPlayerHitCritical(damage);
         }
         
-        
-        
-        
+        /// <summary>
+        /// Teleports the player to their spawn point in the game scene after loading the game
+        /// </summary>
+        /// <param name="position"></param>
+        public static void teleportPlayer(Vector3 position)
+        {
+            instance.gameObject.transform.position = position;
+        }
     }
     
 }

@@ -14,10 +14,12 @@ namespace Vaniakit.Collections
     {
         [SerializeField] private string showText;
         private bool playerNearby;
+        [SerializeField] private bool itemCanBeEquipped = true;
         private InputAction m_InteractAction;
-        private void Start()
+        
+        protected virtual void onPlayerPickedUpItem()
         {
-            
+            Destroy(gameObject);
         }
 
         private void OnTriggerEnter2D(Collider2D other)
@@ -40,8 +42,8 @@ namespace Vaniakit.Collections
 
         public void onInteract()
         {
-            givePlayerItem(true);
-            Destroy(gameObject);
+            givePlayerItem(itemCanBeEquipped);
+            onPlayerPickedUpItem();
         }
     }
 }

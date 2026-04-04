@@ -8,12 +8,8 @@ using Vaniakit.Manager;
 
 namespace Vaniakit.Map
 {
-        [RequireComponent(typeof(BoxCollider2D))]
     public class SceneTeleporter : Vaniakit.Misc.ATeleporterMonoBehaviour
     {
-        //VARIABLES NEEDED
-        //SceneToLoad
-        //WhereToTeleportPlayer [determined by a list of game objects //I could use tags to get the obj 
         
         [Tooltip("The name of the gameobject you want to teleport to.")]
         [SerializeField] private String destination;
@@ -35,8 +31,14 @@ namespace Vaniakit.Map
         
         private void Start()
         {
-            GetComponent<BoxCollider2D>().isTrigger = true;
-            
+            try
+            {
+                GetComponent<BoxCollider2D>().isTrigger = true;
+            }
+            catch (Exception e)
+            {
+                Debug.Log("No box colider on this sceneTeleporter");
+            }
         }
 
         /// <summary>

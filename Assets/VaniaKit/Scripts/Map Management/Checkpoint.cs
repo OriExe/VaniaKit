@@ -39,7 +39,7 @@ namespace Vaniakit.Map
     [Serializable]
     public class CheckPointData
     {
-        [HideInInspector]public string sceneName;
+        [HideInInspector]public string sceneName = "";
         [HideInInspector]public string gameObjectName;
     }
 }
