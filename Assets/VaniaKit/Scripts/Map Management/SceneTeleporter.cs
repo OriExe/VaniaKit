@@ -47,6 +47,8 @@ namespace Vaniakit.Map
         /// <param name="other"></param>
         private void OnTriggerEnter2D(Collider2D other)
         {
+            if (sceneName == "" || destination == "")
+                return;
             if (!justTeleported && other.CompareTag("Player"))
             {
                 Debug.Log("Trigger entered");
@@ -65,6 +67,7 @@ namespace Vaniakit.Map
         {
             if (gameObjectName == gameObject.name)
             {
+                MusicManager.sceneLoaded(gameObject.scene.name);
                 onPlayerLoadedHere();
                 justTeleported = true;
                 return true;

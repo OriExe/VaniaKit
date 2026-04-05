@@ -8,8 +8,8 @@ namespace Vaniakit.Map
     /// </summary>
     public class Checkpoint : MonoBehaviour
     {
-        [SerializeField]private CheckPointData checkPointData;
-        public static CheckPointData activeCheckPointData { get; private set; }
+        private CheckPointData checkPointData;
+        public static CheckPointData activeCheckPointData;
 
         protected virtual void onPlayerActivatedCheckpoint()
         {
@@ -17,6 +17,7 @@ namespace Vaniakit.Map
         }
         protected void Awake()
         {
+            checkPointData = new CheckPointData();
             checkPointData.sceneName = gameObject.scene.name;
             checkPointData.gameObjectName = gameObject.name;
         }

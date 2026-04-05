@@ -7,7 +7,7 @@ namespace Vaniakit.Player
     [RequireComponent(typeof(PlayerController))]
     public class PlayerJump : MonoBehaviour
     {
-        private Rigidbody2D rb => _playerController.getPlayerRigidbody();
+        private Rigidbody2D rb => PlayerController.getPlayerRigidbody();
         [SerializeField]private float jumpHeight;
         [Header("GroundCheck")]
         [SerializeField] private LayerMask groundLayers;

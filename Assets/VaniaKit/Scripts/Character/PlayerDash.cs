@@ -45,7 +45,7 @@ namespace Vaniakit.Player
             
             playerJump = GetComponentInParent<PlayerJump>();
             _playerController = GetComponentInParent<PlayerController>();
-            currentGravityScale = _playerController.getPlayerRigidbody().gravityScale; //Stores the current gravity scale when the game starts NOTE this will mean any gravity scale changes made won't be saved and this script will revert back to the old instance when dashed is used.
+            currentGravityScale = PlayerController.getPlayerRigidbody().gravityScale; //Stores the current gravity scale when the game starts NOTE this will mean any gravity scale changes made won't be saved and this script will revert back to the old instance when dashed is used.
             DashAction = InputSystem.actions.FindAction("Dash");
         }
 
@@ -56,7 +56,7 @@ namespace Vaniakit.Player
             {
                 hasDashed = true;
                 playerJump.isDashing = true;
-                _playerController.getPlayerRigidbody().gravityScale = 0;
+                PlayerController.getPlayerRigidbody().gravityScale = 0;
                 onPlayerDash();
             }
 
@@ -81,7 +81,7 @@ namespace Vaniakit.Player
             {
                 playerJump.isDashing = false;
                 hasDashed = false;
-                _playerController.getPlayerRigidbody().gravityScale = currentGravityScale;
+                PlayerController.getPlayerRigidbody().gravityScale = currentGravityScale;
                 onPlayerDashFinish();
             }
 

@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using Vaniakit.Player;
 
 namespace Vaniakit.Ai
 {
@@ -8,22 +9,26 @@ namespace Vaniakit.Ai
         private int pointToFollowIndex;
         private bool aiIdle;
         [SerializeField] private float speed = 2;
-        [SerializeField] private Transform[] pointsToGoTo;
         [SerializeField] protected int health;
+        [SerializeField] private Transform[] pointsToGoTo;
+        
         [Header("Player Detection ranges")]
         [Tooltip("Line of Sight Distance in Yellow")]
         [SerializeField] private float lineOfSightDistance;
         private static Transform _player; //Reference to the player
         [SerializeField] private Transform rayStartingPoint;
+        
         [Tooltip("Detection Range in Red")]
         [SerializeField] private float detectionRange;
+        
         [Header("Grounded Values")]
         [SerializeField] private float groundedDetectionRange;
         [SerializeField] private Transform groundCheck;
         [SerializeField] private LayerMask groundMask;
         protected bool IsGrounded;
         protected Vector2 LookingDirection = Vector2.right;
-        
+        [Tooltip("Time to wait to switch to the next point after going to a point ")]
+        [SerializeField] protected float timeToWait; //Time to wait 
         #region Events
         protected virtual void OnDeath()
         {
@@ -66,7 +71,7 @@ namespace Vaniakit.Ai
 
         protected virtual void OnReachedPatrolPoint(int index)
         {
-            Invoke("switchPointToPatrol", 4f);
+            Invoke("switchPointToPatrol", timeToWait);
         }
         #endregion
 
@@ -135,7 +140,7 @@ namespace Vaniakit.Ai
                 transform.position = new Vector3(transform.position.x, transform.position.y + -9.81f * Time.deltaTime, transform.position.z);
             }
         }
-        public void OnHit(int damage = 0, bool isCritical = false)
+        public void OnHit(int damage = 0, bool isCritical = false, float cooldownPeriod = 0f, IDamageable.Direction direction = IDamageable.Direction.none)
         {
             if (isCritical)
             {
@@ -193,10 +198,11 @@ namespace Vaniakit.Ai
                 LookingDirection = Vector2.right;
             }
         }
-
-
+        
         private void OnDrawGizmosSelected()
         {
+            if (rayStartingPoint == null)
+                rayStartingPoint = transform;
             Gizmos.color = Color.red;
             Gizmos.DrawWireSphere(transform.position, detectionRange);
             Gizmos.color = Color.yellow;

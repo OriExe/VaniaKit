@@ -81,18 +81,18 @@ namespace Vaniakit.Items
             if (m_jumpAction.WasReleasedThisFrame() && slideDownSpeedSet)
             {
                 slideDownSpeedSet = false;
-                playerController.getPlayerRigidbody().linearVelocity = new Vector2(playerController.getPlayerRigidbody().linearVelocity.x,0f);
+                PlayerController.getPlayerRigidbody().linearVelocity = new Vector2(PlayerController.getPlayerRigidbody().linearVelocity.x,0f);
             }
 
             if (playerJumpedFromWall) //If player has jumped from a wall
             {
-                if (jumpingFromLeftWall && playerController.getPlayerRigidbody().linearVelocity.x <= 0f) //Going left now
+                if (jumpingFromLeftWall && PlayerController.getPlayerRigidbody().linearVelocity.x <= 0f) //Going left now
                 {
                     slideDownSpeedSet = false;
                     playerJumpedFromWall = false;
                     PlayerHangingOnWall = false;
                 }
-                else if (!jumpingFromLeftWall && playerController.getPlayerRigidbody().linearVelocity.x >= 0f) //Going back right now
+                else if (!jumpingFromLeftWall && PlayerController.getPlayerRigidbody().linearVelocity.x >= 0f) //Going back right now
                 {
                     slideDownSpeedSet = false;
                     playerJumpedFromWall = false;
@@ -108,23 +108,23 @@ namespace Vaniakit.Items
                 return;
             if (!slideDownSpeedSet)
             {
-                playerController.getPlayerRigidbody().linearVelocity = new Vector2(playerController.getPlayerRigidbody().linearVelocity.x,0f); //Stops player going up
-                normalGravityScale = playerController.getPlayerRigidbody().gravityScale; //Save current gravity scale when not jumping
+                PlayerController.getPlayerRigidbody().linearVelocity = new Vector2(PlayerController.getPlayerRigidbody().linearVelocity.x,0f); //Stops player going up
+                normalGravityScale = PlayerController.getPlayerRigidbody().gravityScale; //Save current gravity scale when not jumping
                 slideDownSpeedSet = true; 
-                playerController.getPlayerRigidbody().gravityScale = slideDownSpeed; //Sets currents gravity to zero so player sticks onto wall
+                PlayerController.getPlayerRigidbody().gravityScale = slideDownSpeed; //Sets currents gravity to zero so player sticks onto wall
             }
             if (m_jumpAction.WasPressedThisFrame()) //When player exits wall
             {
                 playerJumpedFromWall = true;
-                playerController.getPlayerRigidbody().gravityScale = normalGravityScale; //Set gravity back to normal
+                PlayerController.getPlayerRigidbody().gravityScale = normalGravityScale; //Set gravity back to normal
                 if (jumpingFromLeftWall)
                 {
-                    playerController.getPlayerRigidbody().linearVelocity =
+                    PlayerController.getPlayerRigidbody().linearVelocity =
                         new Vector2(-pushBackForce, playerJump.getMaxJumpHeightValue()); //Launch player
                 }
                 else
                 {
-                    playerController.getPlayerRigidbody().linearVelocity =
+                    PlayerController.getPlayerRigidbody().linearVelocity =
                         new Vector2(pushBackForce, playerJump.getMaxJumpHeightValue()); //Launch player
                 }
             }

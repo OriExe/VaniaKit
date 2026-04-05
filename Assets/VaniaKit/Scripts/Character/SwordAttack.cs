@@ -8,6 +8,11 @@ namespace Vaniakit.Items
         [SerializeField] private Transform player;
         [SerializeField] private float howLongAttackBoxAppears = 0.7f;
         [SerializeField] private int damage;
+
+        protected virtual void onDamageableComponentHit()
+        {
+            Debug.Log("Hit a damageable component");
+        }
         private void Awake()
         {
             if (player == null)
@@ -31,7 +36,7 @@ namespace Vaniakit.Items
             if (!other.CompareTag("Player") && other.TryGetComponent<IDamageable>(out IDamageable damageable))
             {
                 damageable.OnHit(damage);
-                Debug.Log("Hit");
+                onDamageableComponentHit();
             }
             else
             {

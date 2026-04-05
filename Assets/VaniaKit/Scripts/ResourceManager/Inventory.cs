@@ -21,6 +21,10 @@ namespace Vaniakit.ResourceManager
             }
         }
 
+        public static void removeItemFromInventory(InventorySlot item)
+        {
+            _instance.items.Remove(item);
+        }
         public static void addItemToInventory(InventorySlot itemToGive)
         {
             if (!_instance.items.Contains(itemToGive))

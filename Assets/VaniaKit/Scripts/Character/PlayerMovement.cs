@@ -24,7 +24,7 @@ namespace Vaniakit.Player
         private static PlayerMovement _instance; 
         private lookStatesHorizontal playerHorizontalLookState; //Where is the player currently looking
         private lookStatesVertical playerVerticalLookState = lookStatesVertical.none;
-        private Rigidbody2D rb => _playerController.getPlayerRigidbody();
+        private Rigidbody2D rb => PlayerController.getPlayerRigidbody();
         private InputAction m_moveAction;
         [SerializeField]private float movementSpeed;
         private bool playerNotMoving;//Static Instance of player controller
@@ -130,7 +130,7 @@ namespace Vaniakit.Player
         public static lookStatesVertical returnVerticalLookState()
         {
             return _instance.playerVerticalLookState;
-        }
+        }   
     }
 }
 

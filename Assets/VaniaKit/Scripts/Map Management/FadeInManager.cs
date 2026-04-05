@@ -79,7 +79,7 @@ namespace Vaniakit.Map
             StartCoroutine(loadNewScene(sceneName, destination));
         }
         
-        public IEnumerator unFadeFromBlack() 
+        public IEnumerator unFadeFromBlack()  //Unfades from black
         {
             if (uiCanvas != null)
             {
@@ -122,16 +122,16 @@ namespace Vaniakit.Map
         {
             Scene currentScene = SceneManager.GetActiveScene();
             AsyncOperation sceneLoading = SceneManager.LoadSceneAsync(sceneName);//Load scene async
-            while (sceneLoading.isDone == false)
+            while (sceneLoading.isDone == false) //Wait for scene to load
             {
                 yield return null;
             }
 
             //If scene loaded teleport the player to the spawn point 
            
-            if (sceneLoading.isDone)
+            if (sceneLoading.isDone) //Scene has loaded
             {
-                SceneManager.SetActiveScene(SceneManager.GetSceneByName(sceneName));
+                SceneManager.SetActiveScene(SceneManager.GetSceneByName(sceneName)); 
                 Debug.Log("Scene loading done");
                 findSpawnPoint(sceneName, destination);
                 MapManagementEvents.instance.onRoomFullyLoaded();
@@ -162,7 +162,7 @@ namespace Vaniakit.Map
         private void findSpawnPoint(string sceneName, string destination)
         {
             ATeleporterMonoBehaviour[] sceneTeleporter = FindObjectsByType<ATeleporterMonoBehaviour>(FindObjectsSortMode.None);
-            Transform spawnPoint = null;
+            Vector2 spawnPoint = Vector2.zero;
 
             foreach (ATeleporterMonoBehaviour spawnPoints in sceneTeleporter)
             {
@@ -172,14 +172,14 @@ namespace Vaniakit.Map
                     if (spawnPoints.amITheRightObject(destination))
                     {
                         Debug.Log("Found destination");
-                        spawnPoint = spawnPoints.gameObject.transform;
+                        spawnPoint = new Vector2(spawnPoints.transform.position.x, spawnPoints.transform.position.y); //Where the player will teleport
                         break;
                     }
                 }
             }
-            if (spawnPoint != null)
+            if (spawnPoint != Vector2.zero) //Changed to vector 2 as transport.postion could make the player be unseen
             {
-                GameObject.FindGameObjectWithTag("Player").transform.position = spawnPoint.position;
+                GameObject.FindGameObjectWithTag("Player").transform.position = spawnPoint;
             }
             else
             { 

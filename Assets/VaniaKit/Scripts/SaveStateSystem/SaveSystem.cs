@@ -34,6 +34,7 @@ namespace Vaniakit.SaveSystem
                 Vaniakit.Events.EventManager.loadEventSystem(newData.eventList); //Loads all events
                 Vaniakit.FastTravelSystem.FastTravelSystem.allActivePoints = newData.accessibleFastTravelPoints.travelPoints; //Saves travel points to an array
                 yield return Vaniakit.Manager.Managers.instance.StartCoroutine(Vaniakit.ResourceManager.Inventory.LoadFromSave(newData.inventoryItemList)); //Starts a courtine that loads all the inventory items
+                Vaniakit.Map.Checkpoint.activeCheckPointData = newData.playerCheckPointData;
                 Debug.Log("Save loaded");
             }
             else

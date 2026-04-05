@@ -1,4 +1,5 @@
 using System;
+using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using Vaniakit.Json;
@@ -16,20 +17,22 @@ public class MainMenuScript : MonoBehaviour
     private void Start() 
     {
         sessionExists = new bool[buttonParent.transform.childCount]; 
-        int counter = 0;
+        int counter = 1;
         foreach (Transform child in buttonParent.transform) //Checks what saveData is available for each game
         {
             saveData loadedData;
             if (JsonInstructions.loadJsonArray(saveFileName + counter.ToString() + ".json", out loadedData))
             {
                 print("DataExists");
-                sessionExists[counter] = true;
+                child.GetComponentInChildren<TMP_Text>().text = "SaveFile";
+                sessionExists[counter-1] = true;
             }
             else
             {
                 print("DataDoesntExist");
                 sessionExists[counter] = false;
             }
+            counter++;
         }
     }
 

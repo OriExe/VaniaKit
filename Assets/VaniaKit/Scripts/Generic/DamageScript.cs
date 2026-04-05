@@ -17,8 +17,9 @@ namespace Vaniakit.Collections
         private float elapsedTime;
         bool startTimer = false;
 
-        private IDamageable damagedObj;
-
+        private IDamageable damagedObj; //Object currently in the damage radius
+        private GameObject TargetedObj;
+        
         private void Start()
         {
             elapsedTime = timeToDoDamageAgain;
@@ -30,7 +31,8 @@ namespace Vaniakit.Collections
             {
                 startTimer = true;
                 damagedObj = damageObj;
-                doDamage(damagedObj);
+                TargetedObj = other.gameObject;
+                doDamage(damagedObj, TargetedObj.transform.position);
 
                 //Code like this should be included in your player controller script
                 // if (isDeadly)
@@ -47,7 +49,7 @@ namespace Vaniakit.Collections
                 elapsedTime -= Time.deltaTime;
                 if (elapsedTime <= 0)
                 {
-                    doDamage(damagedObj);
+                    doDamage(damagedObj, TargetedObj.transform.position);
                 }
             }
         }
@@ -62,11 +64,12 @@ namespace Vaniakit.Collections
             }
         }
 
-        private void doDamage(IDamageable damageObj)
+        private void doDamage(IDamageable damageObj, Vector3 positionOfObj)
         {
             elapsedTime = timeToDoDamageAgain;
-            damageObj.OnHit(damage, isDeadly);
+            damageObj.OnHit(damage, isDeadly, timeToDoDamageAgain, Collections.DamageFunctions.WhereAttackTookPlace(transform.position,positionOfObj));
         }
     }
+    
 }
 

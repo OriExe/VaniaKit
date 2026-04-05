@@ -5,7 +5,7 @@ namespace Vaniakit.DialogueSystem
     public class AiDialogue : MonoBehaviour
     {
         [SerializeField] protected DialogueDataList[] allDialogue;
-        [SerializeField] protected int dialogueListIndex;
+        [SerializeField] protected int dialogueListIndex; //Which conversation do you want to have
         private int currentDialogueIndex = 0;
         protected virtual void onDialogueChangedTo(DialogueData dialogueData)
         {
@@ -45,7 +45,7 @@ namespace Vaniakit.DialogueSystem
     public class DialogueData
     {
         public string dialogue;
-        public int speakingCharacterIndex;
+        public int speakingCharacterIndex; //Who said the dialogue
     }
 
     /// <summary>

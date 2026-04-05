@@ -60,10 +60,16 @@ namespace Vaniakit.Items
             }
             
         }
+
+        #region Events
         protected virtual void onPlayerAttack()
         {
             Debug.Log("Player attacked in the " + attackingDirecton + " direction");
         }
+        
+
+        #endregion
+        
         
         // Start is called once before the first execution of Update after the MonoBehaviour is created
         void Start()
