@@ -3,6 +3,7 @@ using TMPro;
 using UnityEngine;
 using Vaniakit.Collections;
 using Vaniakit.DialogueSystem;
+using Vaniakit.Events;
 using Vaniakit.Player;
 using Vaniakit.ResourceManager;
 
@@ -12,6 +13,16 @@ public class MarkosDialogue : AiDialogue, IInteractable
     [SerializeField] private TMP_Text dialogueText;
     [SerializeField] private TMP_Text whoIsTalkingText;
     [SerializeField] private InventorySlot walletItem;
+    [SerializeField] private InventorySlot doubleJumpItem;
+
+    private void Start()
+    {
+        if (EventManager.hasEventBeenTriggeredBefore("TalkedToMarkos"))
+        {
+            dialogueListIndex = 3;
+        }
+    }
+
     public void onInteract()
     {
         ShowTextTool.hideText();
@@ -60,6 +71,14 @@ public class MarkosDialogue : AiDialogue, IInteractable
         if (dialogueListIndex == 0)
         {
             dialogueListIndex = 1;
+        }
+
+        if (dialogueListIndex == 2)
+        {
+            Inventory.addItemToInventory(doubleJumpItem);
+            doubleJumpItem.item.actionScript.GetComponent<IEquipable>().Equip();
+            EventManager.saveEvent("TalkedToMarkos");
+            dialogueListIndex = 3;
         }
     }
 }

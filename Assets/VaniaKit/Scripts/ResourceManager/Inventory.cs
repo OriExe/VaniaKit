@@ -27,7 +27,7 @@ namespace Vaniakit.ResourceManager
         }
         public static void addItemToInventory(InventorySlot itemToGive)
         {
-            if (!_instance.items.Contains(itemToGive))
+            if (!_instance.items.Contains(itemToGive)) //Shoudln't give duplicates
             {
                 _instance.items.Add(itemToGive);
             }
@@ -104,7 +104,7 @@ namespace Vaniakit.ResourceManager
                 List<AsyncOperationHandle<ItemObject>> loadedItems= new List<AsyncOperationHandle<ItemObject>>();
                 foreach (InventoryItem item in items.items)
                 {
-                    Addressables.LoadAssetAsync<ItemObject>(item.path).Completed += //Loads item from code
+                    Addressables.LoadAssetAsync<ItemObject>(item.path).Completed += //Loads item from pased on the path in the json
                         (OperationHandle) =>
                         {
                             loadedItems.Add(OperationHandle);

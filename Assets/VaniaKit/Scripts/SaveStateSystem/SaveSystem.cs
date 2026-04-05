@@ -40,6 +40,7 @@ namespace Vaniakit.SaveSystem
             else
             {
                 Debug.Log("Load Failed. File doesn't exist");
+                Inventory.loadAllNecessaryItems(); //Fixes a bug where the items don't load for some reason
                 yield return null;
             }
         

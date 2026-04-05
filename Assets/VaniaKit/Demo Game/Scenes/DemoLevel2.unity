@@ -1441,10 +1441,21 @@ MonoBehaviour:
       speakingCharacterIndex: 1
     - dialogue: Yeah whatever
       speakingCharacterIndex: 0
+  - DialogueList:
+    - dialogue: ....
+      speakingCharacterIndex: 0
   dialogueListIndex: 0
   uiPanel: {fileID: 2012700356}
   dialogueText: {fileID: 409885217}
   whoIsTalkingText: {fileID: 1446885963}
+  walletItem:
+    item: {fileID: 11400000, guid: ba7b40bad879059cb8031cb7d26dcf40, type: 2}
+    amountOfItem: 0
+    spawnAtStart: 0
+  doubleJumpItem:
+    item: {fileID: 11400000, guid: d2e5c77e03098360aa75287b3297ac6c, type: 2}
+    amountOfItem: 0
+    spawnAtStart: 1
 --- !u!61 &847706195
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -1517,7 +1528,7 @@ RectTransform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 952866669}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -10.236819}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

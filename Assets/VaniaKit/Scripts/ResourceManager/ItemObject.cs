@@ -60,6 +60,11 @@ namespace Vaniakit.ResourceManager
             return itemName;
         }
 
+        public string GetDescription()
+        {
+            return description;
+        }
+
         public string GetSaveReference()
         {
             return addressablePath;
