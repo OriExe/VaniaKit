@@ -21,8 +21,59 @@ namespace Vaniakit.FastTravelSystem
             Debug.Log("Player loaded here");
         }
 
+        protected virtual void onPlayerUnLockedTravelPoint()
+        {
+            Debug.Log("Player Unlocked a Fast Travel Point");
+        }
+
+        protected virtual void onPlayerOpenedFastTravelMenu()
+        {
+            
+        }
+        
         #endregion
 
+
+        /// <summary>
+        /// Opens a basic fast travel menu can be modified in the player's own script 
+        /// </summary>
+        protected virtual void openFastTravelMenu()
+        {
+            Debug.Log("Point is already added");
+            if (FastTravelUi.instance == null)
+            {
+                Debug.LogError("No FastTravelUi exists");
+                return;
+            }
+
+            onPlayerOpenedFastTravelMenu();
+            FastTravelUi.instance.gameObject.SetActive(true);
+        }
+        public override bool amITheRightObject(string gameObjectName)
+        {
+            if (gameObjectName == gameObject.name)
+            {
+                onPlayerLoadedHere();
+                return true;
+            }
+            return false;
+        }
+
+        public void onInteract()
+        {
+            if (!FastTravelSystem.doesPointInArrayExst(pointName))
+            {
+                Debug.Log("Fast Travel has been Unlocked");
+                FastTravelSystem.savePointToArray(this, gameObject);
+                onPlayerUnLockedTravelPoint();
+            }
+            else
+            {
+                openFastTravelMenu();
+            }
+        }
+        
+        
         /// <summary>
         /// Unused Method for Saving the data in a json file
         /// Duplicates shouldn't exist
@@ -65,43 +116,6 @@ namespace Vaniakit.FastTravelSystem
         //     // Vaniakit.Json.JsonInstructions.saveAsJsonArray(allPoints, FastTravelSystem.fileNameForFTSystem); //Saves the json file 
         //
         // }
-
-        /// <summary>
-        /// Opens a basic fast travel menu can be modified in the player's own script 
-        /// </summary>
-        protected virtual void openFastTravelMenu()
-        {
-            Debug.Log("Point is already added");
-            if (FastTravelUi.instance == null)
-            {
-                Debug.LogError("No FastTravelUi exists");
-                return;
-            }
-            FastTravelUi.instance.gameObject.SetActive(true);
-        }
-        public override bool amITheRightObject(string gameObjectName)
-        {
-            if (gameObjectName == gameObject.name)
-            {
-                onPlayerLoadedHere();
-                return true;
-            }
-            return false;
-        }
-
-        public void onInteract()
-        {
-            if (!FastTravelSystem.doesPointInArrayExst(pointName))
-            {
-                Debug.Log("Fast Travel has been Unlocked");
-                FastTravelSystem.savePointToArray(this, gameObject);
-            }
-            else
-            {
-                openFastTravelMenu();
-            }
-        }
-        
     }
     
     /// <summary>

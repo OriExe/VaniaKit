@@ -13,6 +13,11 @@ namespace Vaniakit.Items
         {
             Debug.Log("Hit a damageable component");
         }
+
+        protected virtual void onSwordActivated()
+        {
+            Debug.Log("Sword Activated");
+        }
         private void Awake()
         {
             if (player == null)
@@ -22,6 +27,7 @@ namespace Vaniakit.Items
         }
         private void OnEnable()
         {
+            onSwordActivated();
             Invoke(nameof(disableSword), howLongAttackBoxAppears);
         }
 

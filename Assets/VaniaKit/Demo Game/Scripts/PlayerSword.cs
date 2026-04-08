@@ -7,9 +7,15 @@ using Vaniakit.Player;
 public class PlayerSword : SwordAttack
 {
    [SerializeField] private float pogoForce;
+   [SerializeField] private AudioSource swordAttack;
+
+   protected override void onSwordActivated()
+   {
+      swordAttack.Play();
+   }
    protected override void onDamageableComponentHit()
    {
-      
+      PlayerJump.letDoubleJumpHappenAgain();
       switch (PlayerMovement.returnVerticalLookState())
       {
          case PlayerMovement.lookStatesVertical.up:

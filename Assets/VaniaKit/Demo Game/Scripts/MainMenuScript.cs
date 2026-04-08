@@ -30,7 +30,7 @@ public class MainMenuScript : MonoBehaviour
             else
             {
                 print("DataDoesntExist");
-                sessionExists[counter] = false;
+                sessionExists[counter-1] = false;
             }
             counter++;
         }

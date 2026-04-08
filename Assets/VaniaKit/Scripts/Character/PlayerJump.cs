@@ -7,6 +7,7 @@ namespace Vaniakit.Player
     [RequireComponent(typeof(PlayerController))]
     public class PlayerJump : MonoBehaviour
     {
+        private static PlayerJump instance;
         private Rigidbody2D rb => PlayerController.getPlayerRigidbody();
         [SerializeField]private float jumpHeight;
         [Header("GroundCheck")]
@@ -65,11 +66,22 @@ namespace Vaniakit.Player
             {
                 groundCheck = gameObject.transform;
             }
+            m_jumpAction = InputSystem.actions.FindAction("Jump");
+            
+            if (instance == null) //Should only be one instance of player jump
+            {
+                instance = this;
+            }
+            else
+            {
+                Debug.LogError("More than one PlayerJump found. Deleting object");
+                Destroy(gameObject);
+            }
         }
 
         void Start()
         {
-            m_jumpAction = InputSystem.actions.FindAction("Jump");
+            
             
         }
 
@@ -134,6 +146,11 @@ namespace Vaniakit.Player
         private void releaseJump()
         {
             rb.linearVelocity = new Vector2(rb.linearVelocity.x, 0);
+        }
+
+        public static void letDoubleJumpHappenAgain()
+        {
+            instance.playerHasDoubleJumped =false;
         }
 
         public void EnableDoubleJump(bool enable)

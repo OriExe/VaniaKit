@@ -1,4 +1,5 @@
 using System;
+using TMPro;
 using UnityEngine;
 using Vaniakit.Collections;
 using Vaniakit.Map;
@@ -10,6 +11,7 @@ public class PlayerController : Vaniakit.Player.PlayerController
     [SerializeField] private SpriteRenderer spriteRenderer;
     [SerializeField] private float force = 12f;
     private bool deadEventInvoked;
+    [SerializeField] private TMP_Text healthText;
 
     protected override void onPLayerHit(int damage = 0, IDamageable.Direction direction = IDamageable.Direction.none)
     {
@@ -22,6 +24,7 @@ public class PlayerController : Vaniakit.Player.PlayerController
         {
             getPlayerRigidbody().AddForce(new Vector2(-force, 3f), ForceMode2D.Impulse);
         }
+        healthText.text = currentHealth.ToString();
     }
     
     protected override void onPlayerHitCritical(int damage = 0, IDamageable.Direction direction = IDamageable.Direction.none)
@@ -38,6 +41,7 @@ public class PlayerController : Vaniakit.Player.PlayerController
     private void Start()
     {
         onPlayerDead += playerDead; //Subscribes to player dead event
+        healthText.text = currentHealth.ToString();
     }
 
     /// <summary>
@@ -49,7 +53,7 @@ public class PlayerController : Vaniakit.Player.PlayerController
         Camera.main.GetComponent<PlayerCamera>().enabled = false;
         getPlayerRigidbody().linearVelocity = new Vector3(0f, 25f, 0f);
         if (!deadEventInvoked)
-            Invoke("respawn", 3f);
+            Invoke(nameof(respawn), 3f);
         deadEventInvoked = true;
     }
 
@@ -62,11 +66,14 @@ public class PlayerController : Vaniakit.Player.PlayerController
         restoreHealthToNormal();
         if (Vaniakit.Map.Checkpoint.activeCheckPointData == null)
         {
-            FadeInManager.instance.FadeToBlack(LoadedFromMenuMessage.firstLevelRoomID.sceneName,LoadedFromMenuMessage.firstLevelRoomID.gameObjectName);
+            Debug.Log("Teleporting player to start");
+            StartCoroutine(FadeInManager.instance.FadeToBlack(LoadedFromMenuMessage.firstLevelRoomID.sceneName,LoadedFromMenuMessage.firstLevelRoomID.gameObjectName));
         }
         else
         {
-            FadeInManager.instance.FadeToBlack(Checkpoint.activeCheckPointData.sceneName,Checkpoint.activeCheckPointData.gameObjectName);
+            Debug.Log("Teleporting player to Checkpoint");
+            StartCoroutine(FadeInManager.instance.FadeToBlack(Checkpoint.activeCheckPointData.sceneName,Checkpoint.activeCheckPointData.gameObjectName));
         }
+        healthText.text = currentHealth.ToString();
     }
 }

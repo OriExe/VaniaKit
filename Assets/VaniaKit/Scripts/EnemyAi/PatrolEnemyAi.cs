@@ -75,7 +75,10 @@ namespace Vaniakit.Ai
         }
         #endregion
 
-        private void Update()
+        /// <summary>
+        /// Change this back to private when possible 
+        /// </summary>
+        protected void Update()
         {
             if (!detectPlayer())
                 patrolling();
@@ -88,19 +91,23 @@ namespace Vaniakit.Ai
             bool playerDetected = false; //If player is detected in any method the function returns true
             if (lineOfSightDistance > 0f) //Only runs if the line of the sight is more than 0
             {
-                RaycastHit2D hit = Physics2D.Raycast(rayStartingPoint.position, LookingDirection, lineOfSightDistance);
-                if (hit)
+                RaycastHit2D[] hits = Physics2D.RaycastAll(rayStartingPoint.position, LookingDirection, lineOfSightDistance); //Sees all things in the way of the raycast
+                foreach (RaycastHit2D thingHit in hits)
                 {
-                    if (hit.transform.CompareTag("Player"))
+                    if (thingHit)
                     {
-                        playerDetected = true;
-                        if (_player == null) //Makes sure the player isn't null when executing
+                        if (thingHit.transform.CompareTag("Player")) //If player then does action
                         {
-                            _player = hit.transform;
+                            playerDetected = true;
+                            if (_player == null) //Makes sure the player isn't null when executing
+                            {
+                                _player = thingHit.transform;
+                            }
+                            OnPlayerInLineOfSight();
                         }
-                        OnPlayerInLineOfSight();
-                    }
+                    } 
                 }
+                
             }
 
             if (detectionRange > 0f) //Only runs if the range is bigger than 0
@@ -158,7 +165,7 @@ namespace Vaniakit.Ai
             }
         }
 
-        private void patrolling()
+        protected void patrolling()
         {
             if (pointsToGoTo.Length <=1)
             {
@@ -166,7 +173,8 @@ namespace Vaniakit.Ai
                 return;
             }
 
-            if (Vector2.Distance(pointsToGoTo[pointToFollowIndex].position, transform.position) < 0.1f && !aiIdle)
+            Vector3 destination = new Vector3(pointsToGoTo[pointToFollowIndex].position.x, transform.position.y, pointsToGoTo[pointToFollowIndex].position.z);
+            if (Vector2.Distance(destination, transform.position) < 0.1f && !aiIdle)
             {
                 OnReachedPatrolPoint(pointToFollowIndex);
                 aiIdle = true;
@@ -182,8 +190,9 @@ namespace Vaniakit.Ai
 
         /// <summary>
         /// Goes to a different patrol point
+        /// It's virtual so the developer if they want this function to be used or not
         /// </summary>
-        protected void switchPointToPatrol()
+        protected virtual void switchPointToPatrol()
         {
             pointToFollowIndex++;
             pointToFollowIndex %= pointsToGoTo.Length;

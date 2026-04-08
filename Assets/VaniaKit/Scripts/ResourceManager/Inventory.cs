@@ -72,17 +72,25 @@ namespace Vaniakit.ResourceManager
         {
             foreach (InventorySlot item in _instance.items)
             {
-                if (item.item.actionScript.TryGetComponent(out IEquipable script))
+                try
                 {
-                    if (item.spawnAtStart)
-                        script.Equip();
-                    item.SetScriptInGame(script);
-                    Debug.Log("The script has an IEquipable script attached");
+                    if (item.item.actionScript.TryGetComponent(out IEquipable script))
+                    {
+                        if (item.spawnAtStart)
+                            script.Equip();
+                        item.SetScriptInGame(script);
+                        Debug.Log("The script has an IEquipable script attached");
+                    }
+                    else
+                    {
+                        Debug.Log(item.item.GetName()  + " has no IEquipable script attached");
+                    }
                 }
-                else
+                catch
                 {
-                    Debug.Log(item.item.GetName()  + " has no IEquipable script attached");
+                    Debug.Log("Item doesn't have an attach script");
                 }
+                
             }
         }
 
@@ -114,12 +122,22 @@ namespace Vaniakit.ResourceManager
                                 itemInInventory.item = OperationHandle.Result;
                                 itemInInventory.spawnAtStart = item.inventorySlotSpawnAtStart;
                                 itemInInventory.AddAmount(item.inventorySlotAmountOfItem);
-                                if (OperationHandle.Result.actionScript.TryGetComponent(out IEquipable script))
-                                    itemInInventory.SetScriptInGame(script);
-                                else
-                                    Debug.Log(OperationHandle.Result.GetName() + " has no IEquipable script attached");
-                                newSlots.Add(itemInInventory);
-                                count++;
+                                try
+                                {
+                                    if (OperationHandle.Result.actionScript.TryGetComponent(out IEquipable script))
+                                        itemInInventory.SetScriptInGame(script);
+                                    else
+                                        Debug.Log(OperationHandle.Result.GetName() + " has no IEquipable script attached");
+                                    newSlots.Add(itemInInventory);
+                                    count++;
+                                }
+                                catch
+                                {
+                                    Debug.Log("This item doesn't have a actionScript attached");
+                                    newSlots.Add(itemInInventory);
+                                    count++;
+                                }
+                               
                             }
                         };
                 }
