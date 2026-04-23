@@ -109,13 +109,13 @@ namespace Vaniakit.ResourceManager
             else
             {
                 int count = 0;
-                List<AsyncOperationHandle<ItemObject>> loadedItems= new List<AsyncOperationHandle<ItemObject>>();
+                //List<AsyncOperationHandle<ItemObject>> loadedItems= new List<AsyncOperationHandle<ItemObject>>();
                 foreach (InventoryItem item in items.items)
                 {
                     Addressables.LoadAssetAsync<ItemObject>(item.path).Completed += //Loads item from pased on the path in the json
                         (OperationHandle) =>
                         {
-                            loadedItems.Add(OperationHandle);
+                           // loadedItems.Add(OperationHandle); //Not necessary
                             if (OperationHandle.Status == AsyncOperationStatus.Succeeded)
                             {
                                 InventorySlot itemInInventory = new InventorySlot();

@@ -13,7 +13,7 @@ namespace Vaniakit.FastTravelSystem
     {
         //private FastTravelData TravelData;
         [SerializeField]public string pointName = "example";
-        [Tooltip("It should be a prefab")]
+        //[Tooltip("It should be a prefab")]
         #region Events
 
         protected virtual void onPlayerLoadedHere()

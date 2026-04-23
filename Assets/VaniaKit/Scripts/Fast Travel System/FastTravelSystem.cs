@@ -25,6 +25,11 @@ namespace Vaniakit.FastTravelSystem
             return allPoints;
         }
 
+        /// <summary>
+        /// Saves the newly found fast travel point in an array in memory so it can be teleported back to
+        /// </summary>
+        /// <param name="point"></param>
+        /// <param name="gameObjectOfPoints"></param>
         public static void savePointToArray(FastTravelPoint point, GameObject gameObjectOfPoints)
         {
             //Adds all the Fast travel data to the array for this value
@@ -49,6 +54,11 @@ namespace Vaniakit.FastTravelSystem
             }
             return false;
         }
+        /// <summary>
+        /// Outputs the fastTravelData based on the name of the point sent to the method
+        /// </summary>
+        /// <param name="pointName"></param>
+        /// <returns></returns>
         public static FastTravelData findPointInArray(string pointName)
         {
             foreach (FastTravelData point in allActivePoints)
