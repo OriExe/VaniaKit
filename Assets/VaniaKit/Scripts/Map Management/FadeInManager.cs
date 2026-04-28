@@ -169,7 +169,7 @@ namespace Vaniakit.Map
                 if (spawnPoints.gameObject.scene.name == sceneName)
                 {
                     Debug.Log("In right scene");
-                    if (spawnPoints.amITheRightObject(destination))
+                    if (spawnPoints.amITheRightObject(destination)) //Triggers an event for that spawn point and also stops it from causing an infinite teleport back and fourth loop
                     {
                         Debug.Log("Found destination");
                         spawnPoint = new Vector2(spawnPoints.transform.position.x, spawnPoints.transform.position.y); //Where the player will teleport
