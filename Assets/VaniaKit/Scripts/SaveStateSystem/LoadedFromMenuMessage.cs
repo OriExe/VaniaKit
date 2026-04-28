@@ -17,11 +17,13 @@ namespace Vaniakit.SaveSystem
 
         public static void createRoomID()
         {
-            firstLevelRoomID = new firstLevelRoom();
+            if (firstLevelRoomID == null)
+                firstLevelRoomID = new firstLevelRoom();
         }
         /// <summary>
         /// Has the game been loaded from the menu
         /// If true the game should load the scene the player last was
+        /// This is so the player doesn't load to another scene if there're debugging the game within the editor
         /// </summary>
         /// <returns></returns>
         public static bool hasGameLoadedFromMenu()

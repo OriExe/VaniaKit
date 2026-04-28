@@ -16,7 +16,7 @@ namespace Vaniakit.Json
             string json = "";
             string filePath = Application.persistentDataPath + nameOfFile;   //File path that can be updated if you want to update it to a differentPath
             
-            json = JsonUtility.ToJson(ArrayToSave, true); //Saves the json in a
+            json = JsonUtility.ToJson(ArrayToSave, true); //Turns class into json string
             File.WriteAllText(filePath, json);
             Debug.Log(json);
         }

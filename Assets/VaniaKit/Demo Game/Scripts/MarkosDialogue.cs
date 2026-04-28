@@ -54,9 +54,10 @@ public class MarkosDialogue : AiDialogue, IInteractable
 
     protected override void onDialogueStart()
     {
+        //Disable controller and enable ui panel
         uiPanel.SetActive(true);
-        PlayerController.playerControllerEnabled(false);
-        if (Inventory.GetAllItems().Contains(walletItem))
+        PlayerController.playerControllerEnabled(false); 
+        if (Inventory.GetAllItems().Contains(walletItem)) //Check if the player has the correct item in their inventory and remove it
         {
             dialogueListIndex = 2;
             Inventory.removeItemFromInventory(walletItem);
@@ -66,14 +67,15 @@ public class MarkosDialogue : AiDialogue, IInteractable
 
     protected override void onDialogueEnd()
     {
-        uiPanel.SetActive(false);
+        //Re enables player controller and disables the dialogue popup
+        uiPanel.SetActive(false); 
         PlayerController.playerControllerEnabled(true);
-        if (dialogueListIndex == 0)
+        if (dialogueListIndex == 0) //First convo completed
         {
             dialogueListIndex = 1;
         }
 
-        if (dialogueListIndex == 2)
+        if (dialogueListIndex == 2) //Triggered when the player has the item. Gives them the double jump 
         {
             Inventory.addItemToInventory(doubleJumpItem);
             doubleJumpItem.item.actionScript.GetComponent<IEquipable>().Equip();

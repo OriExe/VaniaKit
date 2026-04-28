@@ -89,9 +89,11 @@ namespace Vaniakit.Ai
         private bool detectPlayer()
         {
             bool playerDetected = false; //If player is detected in any method the function returns true
+            //Line of sight Detection code
             if (lineOfSightDistance > 0f) //Only runs if the line of the sight is more than 0
-            {
-                RaycastHit2D[] hits = Physics2D.RaycastAll(rayStartingPoint.position, LookingDirection, lineOfSightDistance); //Sees all things in the way of the raycast
+            { 
+                //Sees all things in the way of the raycast
+                RaycastHit2D[] hits = Physics2D.RaycastAll(rayStartingPoint.position, LookingDirection, lineOfSightDistance); 
                 foreach (RaycastHit2D thingHit in hits)
                 {
                     if (thingHit)
@@ -109,7 +111,7 @@ namespace Vaniakit.Ai
                 }
                 
             }
-
+            //Radius Detection code
             if (detectionRange > 0f) //Only runs if the range is bigger than 0
             {
                 RaycastHit2D[] hits = Physics2D.CircleCastAll(transform.position,detectionRange,Vector2.zero);

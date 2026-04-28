@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -112,34 +113,43 @@ namespace Vaniakit.ResourceManager
                 //List<AsyncOperationHandle<ItemObject>> loadedItems= new List<AsyncOperationHandle<ItemObject>>();
                 foreach (InventoryItem item in items.items)
                 {
-                    Addressables.LoadAssetAsync<ItemObject>(item.path).Completed += //Loads item from pased on the path in the json
+                    Addressables.LoadAssetAsync<ItemObject>(item.path).Completed += //Loads item from pased on the path in the json if sucessful
                         (OperationHandle) =>
-                        {
-                           // loadedItems.Add(OperationHandle); //Not necessary
-                            if (OperationHandle.Status == AsyncOperationStatus.Succeeded)
                             {
-                                InventorySlot itemInInventory = new InventorySlot();
-                                itemInInventory.item = OperationHandle.Result;
-                                itemInInventory.spawnAtStart = item.inventorySlotSpawnAtStart;
-                                itemInInventory.AddAmount(item.inventorySlotAmountOfItem);
-                                try
+                                // loadedItems.Add(OperationHandle); //Not necessary
+                                if (OperationHandle.Status == AsyncOperationStatus.Succeeded)
                                 {
-                                    if (OperationHandle.Result.actionScript.TryGetComponent(out IEquipable script))
-                                        itemInInventory.SetScriptInGame(script);
-                                    else
-                                        Debug.Log(OperationHandle.Result.GetName() + " has no IEquipable script attached");
-                                    newSlots.Add(itemInInventory);
-                                    count++;
-                                }
-                                catch
-                                {
-                                    Debug.Log("This item doesn't have a actionScript attached");
-                                    newSlots.Add(itemInInventory);
-                                    count++;
-                                }
+                                    InventorySlot itemInInventory = new InventorySlot();
+                                    itemInInventory.item = OperationHandle.Result;
+                                    itemInInventory.spawnAtStart = item.inventorySlotSpawnAtStart;
+                                    itemInInventory.AddAmount(item.inventorySlotAmountOfItem);
+                                    try
+                                    {
+                                        if (OperationHandle.Result.actionScript.TryGetComponent(out IEquipable script))
+                                            itemInInventory.SetScriptInGame(script);
+                                        else
+                                            Debug.Log(OperationHandle.Result.GetName() + " has no IEquipable script attached");
+                                        newSlots.Add(itemInInventory);
+                                        count++;
+                                    }
+                                    catch
+                                    {
+                                        Debug.Log("This item doesn't have a actionScript attached");
+                                        newSlots.Add(itemInInventory);
+                                        count++;
+                                    }
                                
-                            }
-                        };
+                                }
+                                else
+                                {
+                                    count++;
+                                    Debug.Log("One item wasn't found");
+                                }
+                                
+                            };
+                    
+                 
+                    
                 }
 
                 while (count < items.items.Count) ///Runs till it goes through every item in the save
