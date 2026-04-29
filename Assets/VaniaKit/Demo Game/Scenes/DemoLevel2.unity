@@ -5808,6 +5808,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5749258053103887075, guid: 7cd6663b2bd3001eab0eeda3377ca150, type: 3}
+      propertyPath: health
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5749258053103887075, guid: 7cd6663b2bd3001eab0eeda3377ca150, type: 3}
       propertyPath: pointsToGoTo.Array.size
       value: 2
       objectReference: {fileID: 0}

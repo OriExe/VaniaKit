@@ -5,6 +5,8 @@ using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.AsyncOperations;
 using UnityEngine.ResourceManagement.ResourceLocations;
+using UnityEngine.SceneManagement;
+using Vaniakit.Json;
 using Vaniakit.Manager;
 
 namespace Vaniakit.ResourceManager
@@ -114,44 +116,41 @@ namespace Vaniakit.ResourceManager
                 foreach (InventoryItem item in items.items)
                 {
                     Addressables.LoadAssetAsync<ItemObject>(item.path).Completed += //Loads item from pased on the path in the json if sucessful
-                        (OperationHandle) =>
+                    (OperationHandle) =>
+                    {
+                        // loadedItems.Add(OperationHandle); //Not necessary
+                        if (OperationHandle.Status == AsyncOperationStatus.Succeeded)
+                        {
+                            InventorySlot itemInInventory = new InventorySlot();
+                            itemInInventory.item = OperationHandle.Result;
+                            itemInInventory.spawnAtStart = item.inventorySlotSpawnAtStart;
+                            itemInInventory.AddAmount(item.inventorySlotAmountOfItem);
+                            try
                             {
-                                // loadedItems.Add(OperationHandle); //Not necessary
-                                if (OperationHandle.Status == AsyncOperationStatus.Succeeded)
-                                {
-                                    InventorySlot itemInInventory = new InventorySlot();
-                                    itemInInventory.item = OperationHandle.Result;
-                                    itemInInventory.spawnAtStart = item.inventorySlotSpawnAtStart;
-                                    itemInInventory.AddAmount(item.inventorySlotAmountOfItem);
-                                    try
-                                    {
-                                        if (OperationHandle.Result.actionScript.TryGetComponent(out IEquipable script))
-                                            itemInInventory.SetScriptInGame(script);
-                                        else
-                                            Debug.Log(OperationHandle.Result.GetName() + " has no IEquipable script attached");
-                                        newSlots.Add(itemInInventory);
-                                        count++;
-                                    }
-                                    catch
-                                    {
-                                        Debug.Log("This item doesn't have a actionScript attached");
-                                        newSlots.Add(itemInInventory);
-                                        count++;
-                                    }
-                               
-                                }
+                                if (OperationHandle.Result.actionScript.TryGetComponent(out IEquipable script))
+                                    itemInInventory.SetScriptInGame(script);
                                 else
-                                {
-                                    count++;
-                                    Debug.Log("One item wasn't found");
-                                }
-                                
-                            };
-                    
-                 
-                    
+                                    Debug.Log(OperationHandle.Result.GetName() + " has no IEquipable script attached");
+                                newSlots.Add(itemInInventory);
+                                count++;
+                            }
+                            catch
+                            {
+                                Debug.Log("This item doesn't have a actionScript attached");
+                                newSlots.Add(itemInInventory);
+                                count++;
+                            }
+                        }
+                        else
+                        {
+                            count++;
+                            Debug.LogError("One item wasn't found");
+                            JsonInstructions.deleteFile(SaveSystem.SaveSystem.dataFileName);
+                            Application.Quit();
+                        }
+                        
+                    };
                 }
-
                 while (count < items.items.Count) ///Runs till it goes through every item in the save
                 {
                     yield return null;

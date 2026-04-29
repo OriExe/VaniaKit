@@ -44,5 +44,14 @@ namespace Vaniakit.Json
                 return false;
             }
         }
+        /// <summary>
+        /// Used for deleting a corrupted file
+        /// </summary>
+        /// <param name="fileName"></param>
+        public static void deleteFile(string fileName)
+        {
+            File.Delete(Application.persistentDataPath + fileName);
+            Debug.Log("File Deleted sucessfully");
+        }
     }
 }

@@ -1,3 +1,4 @@
+using System;
 using UnityEngine.SceneManagement;
 using UnityEngine;
 using UnityEngine.UI;
@@ -76,7 +77,11 @@ namespace Vaniakit.Map
                 }
             }
             
-            StartCoroutine(loadNewScene(sceneName, destination));
+            yield return StartCoroutine(loadNewScene(sceneName, destination));
+            if (SceneManager.GetActiveScene().name != sceneName)
+            {
+                Debug.LogError("Requested Scene not found. Is it in the build menu or did  you spell the scene name incorrectly");
+            }
         }
         
         public IEnumerator unFadeFromBlack()  //Unfades from black
@@ -126,7 +131,6 @@ namespace Vaniakit.Map
             {
                 yield return null;
             }
-
             //If scene loaded teleport the player to the spawn point 
            
             if (sceneLoading.isDone) //Scene has loaded
@@ -134,6 +138,7 @@ namespace Vaniakit.Map
                 SceneManager.SetActiveScene(SceneManager.GetSceneByName(sceneName)); 
                 Debug.Log("Scene loading done");
                 findSpawnPoint(sceneName, destination);
+                MusicManager.sceneLoaded(sceneName);
                 MapManagementEvents.instance.onRoomFullyLoaded();
                 PlayerCamera.snapCameraToPlayer(); //Snap view to the camera
                 StartCoroutine(unFadeFromBlack()); //Reveal scene

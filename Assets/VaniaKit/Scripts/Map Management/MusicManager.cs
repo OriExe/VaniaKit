@@ -19,9 +19,6 @@ namespace Vaniakit.Map
                 Debug.LogWarning("Another instance already exists");
                 Destroy(gameObject);
             }
-            #if UNITY_EDITOR
-                sceneLoaded("DemoLevel1");
-            #endif
         }
 
         public static void sceneLoaded(string sceneName) //When new scene has loaded

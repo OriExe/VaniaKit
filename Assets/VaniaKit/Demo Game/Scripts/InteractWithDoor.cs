@@ -45,7 +45,6 @@ public class InteractWithDoor : ATeleporterMonoBehaviour,IInteractable
     {
         if (gameObjectName == gameObject.name)
         {
-            MusicManager.sceneLoaded(gameObject.scene.name);
             //onPlayerLoadedHere();
             //justTeleported = true;
             return true;

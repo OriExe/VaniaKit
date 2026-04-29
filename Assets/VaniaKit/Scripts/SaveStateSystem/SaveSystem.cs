@@ -1,5 +1,6 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using Vaniakit.ResourceManager;
 using Vaniakit.Json;
 
@@ -31,10 +32,19 @@ namespace Vaniakit.SaveSystem
             saveData newData = new saveData();
             if (JsonInstructions.loadJsonArray(dataFileName, out newData)) //Returns true if file exists
             {
-                Vaniakit.Events.EventManager.loadEventSystem(newData.eventList); //Loads all events
-                Vaniakit.FastTravelSystem.FastTravelSystem.allActivePoints = newData.accessibleFastTravelPoints.travelPoints; //Saves travel points to an array
                 yield return Vaniakit.Manager.Managers.instance.StartCoroutine(Vaniakit.ResourceManager.Inventory.LoadFromSave(newData.inventoryItemList)); //Starts a courtine that loads all the inventory items
-                Vaniakit.Map.Checkpoint.activeCheckPointData = newData.playerCheckPointData;
+                try
+                {
+                    Vaniakit.Events.EventManager.loadEventSystem(newData.eventList); //Loads all events
+                    Vaniakit.FastTravelSystem.FastTravelSystem.allActivePoints = newData.accessibleFastTravelPoints.travelPoints; //Saves travel points to an array
+                    Vaniakit.Map.Checkpoint.activeCheckPointData = newData.playerCheckPointData;
+                }
+                catch ///Closes the game if a corrupted save file is detected. also in the inventory script
+                {
+                    Debug.Log("Load Failed, File is corrupted");
+                    JsonInstructions.deleteFile(dataFileName);
+                    Application.Quit(); 
+                }
                 Debug.Log("Save loaded");
             }
             else
