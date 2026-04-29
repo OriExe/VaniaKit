@@ -331,7 +331,6 @@ MonoBehaviour:
   m_VerticalAlignment: 512
   m_textAlignment: 65535
   m_characterSpacing: 0
-  m_characterHorizontalScale: 1
   m_wordSpacing: 0
   m_lineSpacing: 0
   m_lineSpacingMax: 0
@@ -1678,7 +1677,6 @@ MonoBehaviour:
   m_VerticalAlignment: 512
   m_textAlignment: 65535
   m_characterSpacing: 0
-  m_characterHorizontalScale: 1
   m_wordSpacing: 0
   m_lineSpacing: 0
   m_lineSpacingMax: 0
@@ -1925,6 +1923,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 8
   timeToWait: 0.5
+  spriteR: {fileID: 1892913150}
   bullet: {fileID: 9136763221665681757, guid: 5ef6ea381cf418812aa488b1a24de2b4, type: 3}
   bulletSpawn:
   - {fileID: 954077388}

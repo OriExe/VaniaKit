@@ -10681,7 +10681,6 @@ MonoBehaviour:
   m_VerticalAlignment: 512
   m_textAlignment: 65535
   m_characterSpacing: 0
-  m_characterHorizontalScale: 1
   m_wordSpacing: 0
   m_lineSpacing: 0
   m_lineSpacingMax: 0
@@ -16686,6 +16685,11 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 2625990142105441425, guid: 7cd6663b2bd3001eab0eeda3377ca150, type: 3}
   m_PrefabInstance: {fileID: 691994595263010237}
   m_PrefabAsset: {fileID: 0}
+--- !u!212 &1244774151 stripped
+SpriteRenderer:
+  m_CorrespondingSourceObject: {fileID: 7113965068419788003, guid: 7cd6663b2bd3001eab0eeda3377ca150, type: 3}
+  m_PrefabInstance: {fileID: 691994595263010237}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1253688874
 GameObject:
   m_ObjectHideFlags: 0
@@ -17707,7 +17711,6 @@ MonoBehaviour:
   m_VerticalAlignment: 512
   m_textAlignment: 65535
   m_characterSpacing: 0
-  m_characterHorizontalScale: 1
   m_wordSpacing: 0
   m_lineSpacing: 0
   m_lineSpacingMax: 0
@@ -18685,6 +18688,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5749258053103887075, guid: 7cd6663b2bd3001eab0eeda3377ca150, type: 3}
+      propertyPath: health
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5749258053103887075, guid: 7cd6663b2bd3001eab0eeda3377ca150, type: 3}
+      propertyPath: sprite
+      value: 
+      objectReference: {fileID: 1244774151}
     - target: {fileID: 5749258053103887075, guid: 7cd6663b2bd3001eab0eeda3377ca150, type: 3}
       propertyPath: pointsToGoTo.Array.size
       value: 2

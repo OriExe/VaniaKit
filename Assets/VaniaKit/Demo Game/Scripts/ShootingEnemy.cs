@@ -3,6 +3,7 @@ using Vaniakit.Ai;
 
 public class ShootingEnemy : PatrolEnemyAi
 {
+    [SerializeField] private SpriteRenderer spriteR;
     [SerializeField] private GameObject bullet;
     [SerializeField] private Transform[] bulletSpawn;
     private int bulletIndex = 1;
@@ -17,6 +18,17 @@ public class ShootingEnemy : PatrolEnemyAi
             timeLeft = timeTillNextShot;
             Instantiate(bullet, bulletSpawn[bulletIndex].position, bulletSpawn[bulletIndex].rotation);
         }
+    }
+
+    protected override void OnTakenDamage()
+    {
+        spriteR.color = Color.red;
+        Invoke("changetoWhite", 1.2f);
+    }
+
+    void changetoWhite()
+    {
+        spriteR.color = Color.white;
     }
 
     void Update()
