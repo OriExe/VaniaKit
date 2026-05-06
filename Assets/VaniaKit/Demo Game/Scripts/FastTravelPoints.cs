@@ -28,6 +28,7 @@ public class FastTravelPoints : FastTravelPoint
 
     protected override void onPlayerUnLockedTravelPoint()
     {
+        UiIndicator.increaseAmountFound();
         ShowTextTool.showText("Press E to open Fast Travel Menu ");
     }
     
