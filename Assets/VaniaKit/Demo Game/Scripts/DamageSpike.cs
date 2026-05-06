@@ -1,4 +1,6 @@
+using System;
 using UnityEngine;
+using Vaniakit.Collections;
 
 public class DamageSpike : MonoBehaviour,IDamageable
 {
@@ -6,5 +8,17 @@ public class DamageSpike : MonoBehaviour,IDamageable
         IDamageable.Direction directionOfAttack = IDamageable.Direction.none)
     {
         Vaniakit.Player.PlayerController.getPlayerRigidbody().AddForce(new Vector2(0f, 13f), ForceMode2D.Impulse);
+    }
+
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.CompareTag("Player"))
+            ShowTextTool.showText("Tip: You can attack the spike downwards to fly up ");
+    }
+
+    private void OnTriggerExit2D(Collider2D other)
+    {
+        if (other.CompareTag("Player"))
+            ShowTextTool.hideText();
     }
 }
