@@ -1,6 +1,7 @@
 using System;
 using UnityEngine;
 using Vaniakit.Collections;
+using Vaniakit.Events;
 using Vaniakit.Map;
 
 
@@ -9,6 +10,24 @@ using Vaniakit.Map;
 /// </summary>
 public class CheckpointTriggerWithInteract : Checkpoint,IInteractable
 {
+    [SerializeField] private Animator animator;
+    [SerializeField] private string checkpointActivatedAnimationTrigger;
+    [SerializeField] private string AnimationTrigger;
+
+    private void Start()
+    {
+        if (EventManager.hasEventBeenTriggeredBefore("CheckPointActivated"))
+        {
+            animator.SetTrigger(AnimationTrigger);
+        }
+    }
+
+    protected override void onPlayerActivatedCheckpoint()
+    {
+        EventManager.saveEvent("CheckPointActivated");
+        animator.SetTrigger(checkpointActivatedAnimationTrigger);
+    }
+
     public void onInteract()
     {
         TriggerCheckPoint();

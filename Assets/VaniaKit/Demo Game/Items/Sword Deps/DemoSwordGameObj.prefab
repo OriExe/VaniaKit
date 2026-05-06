@@ -260,6 +260,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1653171902661365433}
   - component: {fileID: -6336090094033009518}
+  - component: {fileID: 408036468359728832}
   m_Layer: 0
   m_Name: DemoSwordGameObj
   m_TagString: Untagged
@@ -298,3 +299,19 @@ MonoBehaviour:
   range: 10
   secondsToWaitTillNextAttack: 0.42
   attackingBox: {fileID: 2228714785293332058}
+--- !u!114 &408036468359728832
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6929517341094651990}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4eab53ea9e3120ef5b4eba2bd1dd8737, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  range: 10
+  secondsToWaitTillNextAttack: 0.42
+  attackingBox: {fileID: 2228714785293332058}
+  animator: {fileID: 0}

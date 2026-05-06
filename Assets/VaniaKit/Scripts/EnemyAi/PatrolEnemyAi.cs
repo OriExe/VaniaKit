@@ -71,7 +71,7 @@ namespace Vaniakit.Ai
 
         protected virtual void OnReachedPatrolPoint(int index)
         {
-            Invoke("switchPointToPatrol", timeToWait);
+            Invoke(nameof(switchPointToPatrol), timeToWait);
         }
         #endregion
 

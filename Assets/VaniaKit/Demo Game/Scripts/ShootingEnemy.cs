@@ -10,6 +10,7 @@ public class ShootingEnemy : PatrolEnemyAi
     [SerializeField] private float timeTillNextShot;
     [SerializeField] private GameObject sprite;
     private float timeLeft;
+    [SerializeField] private Animator animator;
     protected override void OnPlayerInLineOfSight()
     {
         patrolling();
@@ -24,6 +25,7 @@ public class ShootingEnemy : PatrolEnemyAi
     {
         spriteR.color = Color.red;
         Invoke("changetoWhite", 1.2f);
+        animator.SetTrigger("TakesDamage");
     }
 
     void changetoWhite()

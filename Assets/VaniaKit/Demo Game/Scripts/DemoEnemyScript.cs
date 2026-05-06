@@ -6,6 +6,7 @@ public class DemoEnemyScript : PatrolEnemyAi
 {
     [SerializeField] private AudioSource deathSound;
     [SerializeField] private SpriteRenderer sprite;
+    [SerializeField] private Animator animator;
     protected override void OnDeath()
     {
         deathSound.Play();
@@ -19,5 +20,26 @@ public class DemoEnemyScript : PatrolEnemyAi
     void changetoWhite()
     {
         sprite.color = Color.white;
+    }
+
+    protected override void OnReachedPatrolPoint(int index)
+    {
+        animator.SetBool("IsMoving", false);
+        base.OnReachedPatrolPoint(index);
+    }
+
+    protected override void switchPointToPatrol()
+    {
+        animator.SetBool("IsMoving", true);
+        if (LookingDirection == Vector2.right)
+        {
+
+            sprite.flipX = true;
+        }
+        else if (LookingDirection == Vector2.left)
+        {
+            sprite.flipX = false;
+        }
+        base.switchPointToPatrol();
     }
 }

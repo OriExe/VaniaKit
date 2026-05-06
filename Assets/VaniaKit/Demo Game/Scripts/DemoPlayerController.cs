@@ -12,9 +12,11 @@ public class PlayerController : Vaniakit.Player.PlayerController
     [SerializeField] private float force = 12f;
     private bool deadEventInvoked;
     [SerializeField] private TMP_Text healthText;
+    [SerializeField] private Animator animator;
 
     protected override void onPLayerHit(int damage = 0, IDamageable.Direction direction = IDamageable.Direction.none)
     {
+        animator.SetTrigger("isTakingDamage");
         spriteRenderer.color = Color.red;
         if (direction == IDamageable.Direction.left)
         {
@@ -75,5 +77,10 @@ public class PlayerController : Vaniakit.Player.PlayerController
             StartCoroutine(FadeInManager.instance.FadeToBlack(Checkpoint.activeCheckPointData.sceneName,Checkpoint.activeCheckPointData.gameObjectName));
         }
         healthText.text = currentHealth.ToString();
+    }
+
+    public Animator returnAnimator()
+    {
+        return animator;
     }
 }

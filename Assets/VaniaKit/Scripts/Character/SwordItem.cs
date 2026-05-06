@@ -72,7 +72,7 @@ namespace Vaniakit.Items
         
         
         // Start is called once before the first execution of Update after the MonoBehaviour is created
-        void Start()
+        void Awake()
         {
             m_attack = InputSystem.actions.FindAction("Attack");
         }
