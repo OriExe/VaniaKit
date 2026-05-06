@@ -259,7 +259,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1653171902661365433}
-  - component: {fileID: -6336090094033009518}
   - component: {fileID: 408036468359728832}
   m_Layer: 0
   m_Name: DemoSwordGameObj
@@ -284,21 +283,6 @@ Transform:
   - {fileID: 7207861264198767070}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &-6336090094033009518
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6929517341094651990}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2af7ff28bda4c0d93aa3a1ac07948b65, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  range: 10
-  secondsToWaitTillNextAttack: 0.42
-  attackingBox: {fileID: 2228714785293332058}
 --- !u!114 &408036468359728832
 MonoBehaviour:
   m_ObjectHideFlags: 0

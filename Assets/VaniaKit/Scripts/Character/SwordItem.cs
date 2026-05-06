@@ -84,7 +84,7 @@ namespace Vaniakit.Items
             if (attackingCooldown <= 0)
             {
                 attackingCooldown = 0;
-                if (m_attack.IsPressed())
+                if (m_attack.WasPressedThisFrame())
                 {
                     attackingBox.SetActive(true);
                     attackingCooldown = secondsToWaitTillNextAttack;
