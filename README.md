@@ -12,16 +12,16 @@ Once the game has loaded, press the empty button start a new game or the SaveFil
 
 ## Controls 
 ### Keyboard and mouse
-A and D is is to move 
-SpaceBar to jump and while in the air press spacebar again to double jump (You'll need the double jump ablity)
-Left mouse button to attack (You will need a sword you won't have a sword at the start)
-E to interact with objects and npc's
-If you press W you can attack upwards and if you press s you can attack downwards
+A and D is is to move \
+SpaceBar to jump and while in the air press spacebar again to double jump (You'll need the double jump ablity)\
+Left mouse button to attack (You will need a sword you won't have a sword at the start)\
+E to interact with objects and npc's\
+If you press W you can attack upwards and if you press s you can attack downwards\
 
 ### Controller
-Note you can't use the controller to navigate menus you'll have to switch to keyboard and mouse for this action
-A button to jump, press to again to double jump (you'll need the double jump ablity)
-Y button to interact
-X buttton to attack (you'll need to collect the sword first)
-Left joystick to move
-If you move the left joystick up you can attack upwards and if you move it down you can attack downwards
+Note you can't use the controller to navigate menus you'll have to switch to keyboard and mouse for this action\
+A button to jump, press to again to double jump (you'll need the double jump ablity)\
+Y button to interact\
+X buttton to attack (you'll need to collect the sword first)\
+Left joystick to move\
+If you move the left joystick up you can attack upwards and if you move it down you can attack downwards\
