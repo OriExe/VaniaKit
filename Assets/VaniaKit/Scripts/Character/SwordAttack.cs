@@ -9,6 +9,8 @@ namespace Vaniakit.Items
         [SerializeField] private float howLongAttackBoxAppears = 0.7f;
         [SerializeField] private int damage;
 
+        
+
         protected virtual void onDamageableComponentHit()
         {
             Debug.Log("Hit a damageable component");

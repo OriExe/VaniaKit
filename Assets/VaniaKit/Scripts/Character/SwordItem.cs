@@ -15,9 +15,9 @@ namespace Vaniakit.Items
         [SerializeField] private float secondsToWaitTillNextAttack;
         private float attackingCooldown;
         private InputAction m_attack;
-        
         [SerializeField] private GameObject attackingBox;
-
+        [SerializeField] private float spawnOffsetx = 1f;
+        [SerializeField] private float spawnOffsety = 1f;
         protected enum playerLookingDirection
         {
             up,
@@ -26,7 +26,7 @@ namespace Vaniakit.Items
             left
         }
         /// <summary>
-        /// States the directin the player attacks at, can be used with the onPlayerAttack event.
+        /// States the direction the player attacks at, can be used with the onPlayerAttack event.
         /// </summary>
         /// <exception cref="ArgumentOutOfRangeException"></exception>
         protected playerLookingDirection attackingDirecton
@@ -84,7 +84,7 @@ namespace Vaniakit.Items
             if (attackingCooldown <= 0)
             {
                 attackingCooldown = 0;
-                if (m_attack.WasPressedThisFrame())
+                if (m_attack.WasPressedThisFrame()) //Triggers the box to appear in a certain direction
                 {
                     attackingBox.SetActive(true);
                     attackingCooldown = secondsToWaitTillNextAttack;
@@ -92,19 +92,19 @@ namespace Vaniakit.Items
                     switch (PlayerMovement.returnVerticalLookState())
                     {
                         case PlayerMovement.lookStatesVertical.up:
-                            attackingBox.transform.localPosition = new Vector3(transform.localPosition.x,1f,transform.localPosition.z);
+                            attackingBox.transform.localPosition = new Vector3(transform.localPosition.x,spawnOffsety,transform.localPosition.z);
                             break;
                         case PlayerMovement.lookStatesVertical.down:
-                            attackingBox.transform.localPosition = new Vector3(transform.localPosition.x,-1f,transform.localPosition.z);
+                            attackingBox.transform.localPosition = new Vector3(transform.localPosition.x,-spawnOffsety,transform.localPosition.z);
                             break;
                         case PlayerMovement.lookStatesVertical.none:
                             switch (PlayerMovement.returnHorizontalLookState())
                             {
                                 case PlayerMovement.lookStatesHorizontal.left:
-                                    attackingBox.transform.localPosition = new Vector3(-1f,transform.localPosition.y,transform.localPosition.z);
+                                    attackingBox.transform.localPosition = new Vector3(-spawnOffsetx,transform.localPosition.y,transform.localPosition.z);
                                     break;
                                 case PlayerMovement.lookStatesHorizontal.right:
-                                    attackingBox.transform.localPosition = new Vector3(1f,transform.localPosition.y,transform.localPosition.z);
+                                    attackingBox.transform.localPosition = new Vector3(spawnOffsetx,transform.localPosition.y,transform.localPosition.z);
                                     break;
                                 default:
                                     throw new ArgumentOutOfRangeException();
