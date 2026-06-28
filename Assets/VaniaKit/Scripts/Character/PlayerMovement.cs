@@ -53,6 +53,15 @@ namespace Vaniakit.Player
             none,
         }
     
+        protected virtual void vkStart()
+        {
+            
+        }
+
+        protected virtual void vkUpdate()
+        {
+            
+        }
         // Start is called once before the first execution of Update after the MonoBehaviour is created
         private void Awake()
         {
@@ -63,6 +72,11 @@ namespace Vaniakit.Player
             {
                 _instance = this;
             }
+        }
+
+        private void Start()
+        {
+            vkStart();
         }
 
         // Update is called once per frame
@@ -111,8 +125,8 @@ namespace Vaniakit.Player
                 }
                 
             }
-           
             #endregion
+            vkUpdate();
         }
 
         

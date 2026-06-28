@@ -12,6 +12,15 @@ namespace Vaniakit.Collections
         private static ShowTextTool instance;
         [SerializeField]private TMP_Text textComponent;
         [Tooltip("Does the text component have a parent such as the parent time \n Make true if you want to hide the button as well ")]
+        protected virtual void vkStart()
+        {
+            
+        }
+
+        protected virtual void vkUpdate()
+        {
+            
+        }
         private void Start()
         {
             if (instance == null)
@@ -22,8 +31,14 @@ namespace Vaniakit.Collections
                 Destroy(gameObject);
             }
             gameObject.SetActive(false);
+            vkStart();
         }
-        
+
+        private void Update()
+        {
+            vkUpdate();
+        }
+
         public static void showText(string textToShow)
         {
             try

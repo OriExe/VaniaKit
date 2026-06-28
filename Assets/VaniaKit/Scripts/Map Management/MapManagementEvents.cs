@@ -7,6 +7,15 @@ namespace Vaniakit.Map
     {
         public static MapManagementEvents instance;
 
+        protected virtual void vkStart()
+        {
+            
+        }
+
+        protected virtual void vkUpdate()
+        {
+            
+        }
         private void Start()
         {
             if (instance == null)
@@ -16,6 +25,12 @@ namespace Vaniakit.Map
                 Debug.Log("There are multiple Map managers loaded, Deleting one!");
                 Destroy(gameObject);
             }
+            vkStart();
+        }
+
+        private void Update()
+        {
+            vkUpdate();
         }
 
         /// <summary>

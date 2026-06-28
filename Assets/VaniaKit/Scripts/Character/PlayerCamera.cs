@@ -11,6 +11,15 @@ namespace Vaniakit.Player
     {
         [SerializeField] protected GameObject player;
         protected static PlayerCamera instance;
+        protected virtual void vkStart()
+        {
+            
+        }
+
+        protected virtual void vkUpdate()
+        {
+            
+        }
         // Start is called once before the first execution of Update after the MonoBehaviour is created
         void Start()
         {
@@ -24,6 +33,7 @@ namespace Vaniakit.Player
             {
                 Destroy(gameObject);
             }
+            vkStart();
         }
 
         // Update is called once per frame
@@ -32,6 +42,7 @@ namespace Vaniakit.Player
             
             transform.position = Vector2.Lerp(transform.position, player.transform.position, 2f * Time.deltaTime);
             transform.position = new Vector3(transform.position.x, transform.position.y, -10f);
+            vkUpdate();
         }
 
         /// <summary>

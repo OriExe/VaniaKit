@@ -17,6 +17,7 @@ namespace Vaniakit.Collections
         [SerializeField] private bool itemCanBeEquipped = true;
         private InputAction m_InteractAction;
         
+
         protected virtual void onPlayerPickedUpItem()
         {
             Destroy(gameObject);

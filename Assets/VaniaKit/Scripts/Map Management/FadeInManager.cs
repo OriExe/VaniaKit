@@ -17,6 +17,16 @@ namespace Vaniakit.Map
         [SerializeField] private Image fadePanelObj;
 
         public float timetakenToFade;
+        
+        protected virtual void vkStart()
+        {
+            
+        }
+
+        protected virtual void vkUpdate()
+        {
+            
+        }
         void Start()
         {
             if (instance == null)
@@ -51,10 +61,14 @@ namespace Vaniakit.Map
                 Debug.Log("Another FadeInManager is already created");
                 Destroy(gameObject);
             }
-            
-           
+            vkStart();
         }
-        
+
+        private void Update()
+        {
+            vkUpdate();
+        }
+
         /// <summary>
         /// Fade the current scene to black. Then load the next scene
         /// </summary>

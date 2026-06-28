@@ -9,6 +9,17 @@ namespace Vaniakit.FastTravelSystem
         public static FastTravelUi instance;
         [SerializeField] private GameObject fastTravelButtonPrefab;
         [SerializeField]private GameObject buttonHolderParent;
+        protected virtual void vkStart()
+        {
+            
+        }
+
+        protected virtual void vkUpdate()
+        {
+            
+        }
+        
+        
         private void Start()
         {
             if (instance == null)
@@ -26,6 +37,12 @@ namespace Vaniakit.FastTravelSystem
             {
                 buttonHolderParent = gameObject;
             }
+            vkStart();
+        }
+
+        private void Update()
+        {
+            vkUpdate();
         }
 
         private void OnEnable()

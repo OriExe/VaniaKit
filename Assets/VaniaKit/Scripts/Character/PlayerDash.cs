@@ -39,6 +39,16 @@ namespace Vaniakit.Player
         private float currentGravityScale;
         
         private PlayerJump playerJump;
+        
+        protected virtual void vkStart()
+        {
+            
+        }
+
+        protected virtual void vkUpdate()
+        {
+            
+        }
         // Start is called once before the first execution of Update after the MonoBehaviour is created
         private void Start()
         {
@@ -47,6 +57,7 @@ namespace Vaniakit.Player
             _playerController = GetComponentInParent<PlayerController>();
             currentGravityScale = PlayerController.getPlayerRigidbody().gravityScale; //Stores the current gravity scale when the game starts NOTE this will mean any gravity scale changes made won't be saved and this script will revert back to the old instance when dashed is used.
             DashAction = InputSystem.actions.FindAction("Dash");
+            vkStart();
         }
 
         // Update is called once per frame https://www.youtube.com/watch?v=lckH-nJi2j8
@@ -91,6 +102,7 @@ namespace Vaniakit.Player
                 dashTimeLeft = dashingTime;
                 onPlayerDashReady();
             }
+            vkUpdate();
             
         }
         public void Equip()

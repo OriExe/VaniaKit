@@ -11,10 +11,32 @@ namespace Vaniakit.Map
         private CheckPointData checkPointData;
         public static CheckPointData activeCheckPointData;
 
+        #region Events
         protected virtual void onPlayerActivatedCheckpoint()
         {
             Debug.Log("Checkpoint activated");
         }
+        #endregion
+        protected virtual void vkStart()
+        {
+            
+        }
+
+        protected virtual void vkUpdate()
+        {
+            
+        }
+
+        protected virtual void Start()
+        {
+            vkStart();
+        }
+
+        protected virtual void Update()
+        {
+            vkUpdate();
+        }
+
         protected void Awake()
         {
             checkPointData = new CheckPointData();

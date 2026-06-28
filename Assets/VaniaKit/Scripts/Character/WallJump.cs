@@ -45,6 +45,15 @@ namespace Vaniakit.Items
             Debug.Log("Player Left Left Wall");
         }
         #endregion
+        protected virtual void vkStart()
+        {
+            
+        }
+
+        protected virtual void vkUpdate()
+        {
+            
+        }
         void Start()
         {
             if (playerParent == null)
@@ -52,6 +61,7 @@ namespace Vaniakit.Items
             playerController = playerParent.GetComponent<PlayerController>();
             playerJump = playerParent.GetComponent<PlayerJump>();
             m_jumpAction = InputSystem.actions.FindAction("Jump");
+            vkStart();
         }
         private void Update()
         {
@@ -98,6 +108,7 @@ namespace Vaniakit.Items
                     playerJumpedFromWall = false;
                     PlayerHangingOnWall = false;
                 }
+                vkUpdate();
             }
            
         }

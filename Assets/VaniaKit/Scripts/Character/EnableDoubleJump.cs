@@ -2,6 +2,9 @@ using UnityEngine;
 
 namespace Vaniakit.Items
 {
+    /// <summary>
+    /// An item that can be stored in your inventory that enables and disables the double jump 
+    /// </summary>
     public class EnableDoubleJump : MonoBehaviour, IEquipable
     {
         public void Equip()
@@ -14,10 +17,8 @@ namespace Vaniakit.Items
         {
             GameObject player = GameObject.FindGameObjectWithTag("Player");
             player.GetComponent<Vaniakit.Player.PlayerJump>().EnableDoubleJump(false);
-        }
+        } 
     }
 }
-/// <summary>
-/// An item that can be stored in your inventory that enables and disables the double jump 
-/// </summary>
+
 

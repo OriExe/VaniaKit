@@ -20,9 +20,19 @@ namespace Vaniakit.Collections
         private IDamageable damagedObj; //Object currently in the damage radius
         private GameObject TargetedObj;
         
+        protected virtual void vkStart()
+        {
+            
+        }
+
+        protected virtual void vkUpdate()
+        {
+            
+        }
         private void Start()
         {
             elapsedTime = timeToDoDamageAgain;
+            vkStart();
         }
 //
         private void OnCollisionEnter2D(Collision2D other)
@@ -52,6 +62,7 @@ namespace Vaniakit.Collections
                     doDamage(damagedObj, TargetedObj.transform.position);
                 }
             }
+            vkUpdate();
         }
 
         private void OnCollisionExit2D(Collision2D other)

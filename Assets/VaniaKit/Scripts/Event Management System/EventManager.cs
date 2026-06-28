@@ -14,6 +14,7 @@ namespace Vaniakit.Events
         private static List<string>  allTriggeredEvents =  new List<string>();
         public const string fileNameForEMSystem = "VaniakitEvents.json";
         
+        
         public static void saveEvent(string eventName)
         {
             allTriggeredEvents.Add(eventName);

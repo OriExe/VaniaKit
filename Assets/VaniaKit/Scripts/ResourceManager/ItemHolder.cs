@@ -6,6 +6,15 @@ namespace Vaniakit.ResourceManager
     public class ItemHolder : MonoBehaviour
     {
         [SerializeField] InventorySlot item;
+        protected virtual void vkStart()
+        {
+            
+        }
+
+        protected virtual void vkUpdate()
+        {
+            
+        }
         // Start is called once before the first execution of Update after the MonoBehaviour is created
         private void Awake()
         {
@@ -27,7 +36,17 @@ namespace Vaniakit.ResourceManager
             }
            
         }
-      
+
+        private void Start()
+        {
+            vkStart();
+        }
+
+        private void Update()
+        {
+            vkUpdate();
+        }
+
         protected void givePlayerItem(bool equipItem = false)
         {
             Inventory.addItemToInventory(item);

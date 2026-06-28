@@ -14,12 +14,13 @@ public class CheckpointTriggerWithInteract : Checkpoint,IInteractable
     [SerializeField] private string checkpointActivatedAnimationTrigger;
     [SerializeField] private string AnimationTrigger;
 
-    private void Start()
+    protected override void Start()
     {
         if (EventManager.hasEventBeenTriggeredBefore("CheckPointActivated"))
         {
             animator.SetTrigger(AnimationTrigger);
         }
+        base.Start();
     }
 
     protected override void onPlayerActivatedCheckpoint()

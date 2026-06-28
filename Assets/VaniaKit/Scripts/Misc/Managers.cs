@@ -37,6 +37,15 @@ namespace Vaniakit.Manager
             Debug.Log("onPreviousGameStarted");
         }
         #endregion
+        protected virtual void vkStart()
+        {
+            
+        }
+
+        protected virtual void vkUpdate()
+        {
+            
+        }
         // Start is called once before the first execution of Update after the MonoBehaviour is created
         void Start()
         {
@@ -52,6 +61,12 @@ namespace Vaniakit.Manager
                 Debug.Log("There is more than one Manager system, Destroying other managers!");
                 Destroy(gameObject);
             }
+            vkStart();
+        }
+
+        private void Update()
+        {
+            vkUpdate();
         }
 
 

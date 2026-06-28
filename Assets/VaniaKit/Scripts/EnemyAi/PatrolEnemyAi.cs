@@ -75,6 +75,21 @@ namespace Vaniakit.Ai
         }
         #endregion
 
+        protected virtual void vkStart()
+        {
+            
+        }
+
+        protected virtual void vkUpdate()
+        {
+            
+        }
+
+        private void Start()
+        {
+            vkStart();
+        }
+
         /// <summary>
         /// Change this back to private when possible 
         /// </summary>
@@ -83,6 +98,7 @@ namespace Vaniakit.Ai
             if (!detectPlayer())
                 patrolling();
             applyGravity();
+            vkUpdate();
         }
 
         //Runs code that detects if the player is in either detection radius

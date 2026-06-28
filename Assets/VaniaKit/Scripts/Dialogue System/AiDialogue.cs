@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 namespace Vaniakit.DialogueSystem
@@ -7,6 +8,8 @@ namespace Vaniakit.DialogueSystem
         [SerializeField] protected DialogueDataList[] allDialogue;
         [SerializeField] protected int dialogueListIndex; //Which conversation do you want to have
         private int currentDialogueIndex = 0;
+
+        #region Events
         protected virtual void onDialogueChangedTo(DialogueData dialogueData)
         {
             Debug.Log("Character " + dialogueData.speakingCharacterIndex + " has said " + dialogueData.dialogue);
@@ -19,6 +22,27 @@ namespace Vaniakit.DialogueSystem
         protected virtual void onDialogueEnd()
         {
             Debug.Log("Dialogue system has ended with" + gameObject.name);
+        }
+        #endregion
+
+        protected virtual void vkStart()
+        {
+            
+        }
+
+        protected virtual void vkUpdate()
+        {
+            
+        }
+
+        private void Start()
+        {
+            vkStart();
+        }
+
+        private void Update()
+        {
+            vkUpdate();
         }
 
         protected void triggerDialogue()

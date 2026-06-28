@@ -15,6 +15,16 @@ namespace Vaniakit.ResourceManager
     {
         private static Inventory _instance;
         [SerializeField]private List<InventorySlot> items;
+        protected virtual void vkStart()
+        {
+            
+        }
+
+        protected virtual void vkUpdate()
+        {
+            
+        }
+        
         void Awake()
         {
             //Keeps the inventory alive between levels
@@ -22,6 +32,32 @@ namespace Vaniakit.ResourceManager
             {
                 _instance = this; //Spawns a static value of the inventory 
             }
+        }
+        /// <summary>
+        /// Checks if there's an instance of the manager script 
+        /// </summary>
+        /// <returns></returns>
+        IEnumerator Start()
+        {
+            vkStart();
+            yield return new WaitForSeconds(2);
+            //Checks if the main manager exists 
+            if (Managers.instance == null)
+            {
+                Debug.LogWarning("There is no Manager found in the scene. You should add one otherwise your inventory will be deleted");
+            }
+            else
+            {
+                if (Managers.instance.gameObject.transform != gameObject.transform.parent)
+                {
+                    Debug.LogWarning("Your Inventory is not the child of the main managers object. You should move your Inventory there otherwise your Inventory may be deleted when you load another scene");
+                }
+            }
+        }
+
+        private void Update()
+        {
+            vkUpdate();
         }
 
         public static void removeItemFromInventory(InventorySlot item)
@@ -47,26 +83,8 @@ namespace Vaniakit.ResourceManager
             return _instance.items;
         }
         
-        /// <summary>
-        /// Checks if there's an instance of the manager script 
-        /// </summary>
-        /// <returns></returns>
-        IEnumerator Start()
-        {
-            yield return new WaitForSeconds(2);
-            //Checks if the main manager exists 
-            if (Managers.instance == null)
-            {
-                Debug.LogWarning("There is no Manager found in the scene. You should add one otherwise your inventory will be deleted");
-            }
-            else
-            {
-                if (Managers.instance.gameObject.transform != gameObject.transform.parent)
-                {
-                    Debug.LogWarning("Your Inventory is not the child of the main managers object. You should move your Inventory there otherwise your Inventory may be deleted when you load another scene");
-                }
-            }
-        }
+        
+       
 
         /// <summary>
         /// Loads all item that should start at the start of the game another function so it works with the save method in the future

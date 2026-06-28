@@ -29,7 +29,7 @@ namespace Vaniakit.Map
         }
         #endregion
         
-        private void Start()
+        protected override void Start()
         {
             try
             {
@@ -39,6 +39,7 @@ namespace Vaniakit.Map
             {
                 Debug.Log("No box colider on this sceneTeleporter");
             }
+            base.Start();
         }
 
         /// <summary>

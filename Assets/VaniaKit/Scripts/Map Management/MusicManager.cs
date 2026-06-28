@@ -10,6 +10,15 @@ namespace Vaniakit.Map
         private Music currentAreaType;
         [SerializeField] private AudioSource audioSource;
 
+        protected virtual void vkStart()
+        {
+            
+        }
+
+        protected virtual void vkUpdate()
+        {
+            
+        }
         private void Start()
         {
             if (_instance == null)
@@ -19,6 +28,12 @@ namespace Vaniakit.Map
                 Debug.LogWarning("Another instance already exists");
                 Destroy(gameObject);
             }
+            vkStart();
+        }
+
+        private void Update()
+        {
+            vkUpdate();
         }
 
         public static void sceneLoaded(string sceneName) //When new scene has loaded

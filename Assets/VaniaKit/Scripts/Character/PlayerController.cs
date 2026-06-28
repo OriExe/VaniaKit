@@ -47,7 +47,23 @@ namespace Vaniakit.Player
             Debug.Log("Player can take more damage");
         }
         #endregion
-        
+
+
+        protected virtual void vkStart()
+        {
+            
+        }
+
+        protected virtual void vkUpdate()
+        {
+            
+        }
+
+        private void Start()
+        {
+            vkStart();
+        }
+
         // Start is called once before the first execution of Update after the MonoBehaviour is created
         void Awake()
         {
@@ -103,9 +119,10 @@ namespace Vaniakit.Player
                    
                 }
             }
+            vkUpdate();
         }
         
-        private void onEnable()
+        private void OnEnable()
         {
             inputActions.FindActionMap("Player").Enable();
         }

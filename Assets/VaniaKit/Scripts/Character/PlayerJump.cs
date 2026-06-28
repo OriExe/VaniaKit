@@ -59,6 +59,16 @@ namespace Vaniakit.Player
             Debug.Log("Player Leaves Ground");
         }
         #endregion
+        
+        protected virtual void vkStart()
+        {
+            
+        }
+
+        protected virtual void vkUpdate()
+        {
+            
+        }
         private void Awake()
         {
             _playerController = GetComponent<PlayerController>();
@@ -79,10 +89,10 @@ namespace Vaniakit.Player
             }
         }
 
+        
         void Start()
         {
-            
-            
+            vkStart();
         }
 
         // Update is called once per frame
@@ -121,6 +131,7 @@ namespace Vaniakit.Player
                 isInAir = false;
                 onPlayerLand();
             }
+            vkUpdate();
         }
         
         /// <summary>

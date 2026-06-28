@@ -70,11 +70,24 @@ namespace Vaniakit.Items
 
         #endregion
         
-        
+        protected virtual void vkStart()
+        {
+            
+        }
+
+        protected virtual void vkUpdate()
+        {
+            
+        }
         // Start is called once before the first execution of Update after the MonoBehaviour is created
         void Awake()
         {
             m_attack = InputSystem.actions.FindAction("Attack");
+        }
+
+        private void Start()
+        {
+            vkStart();
         }
 
         // Update is called once per frame
@@ -117,7 +130,7 @@ namespace Vaniakit.Items
                     onPlayerAttack();
                 }
             }
-            
+            vkUpdate();
         }
 
         /// <summary>

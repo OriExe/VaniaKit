@@ -10,12 +10,28 @@ namespace Vaniakit.Collections
       [SerializeField] private string tagName;
       private static string whatIsACheckpoint = "";
       private static List<Transform> allCheckPointsInScene;
+      protected virtual void vkStart()
+      {
+            
+      }
+
+      protected virtual void vkUpdate()
+      {
+            
+      }
       private void Start()
       {
          if (whatIsACheckpoint == "")
             whatIsACheckpoint = tagName;
          findAllCheckPointsInScene();
+         vkStart();
       }
+
+      private void Update()
+      {
+         vkUpdate();
+      }
+
       /// <summary>
       /// Teleport player to the nearest checkpoint when called
       /// </summary>
