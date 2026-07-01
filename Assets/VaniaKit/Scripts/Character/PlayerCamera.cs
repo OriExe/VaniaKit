@@ -59,7 +59,8 @@ namespace Vaniakit.Player
         /// </summary>
         public static void snapCameraToPlayer()
         {
-            instance.snapCamToPlayer();
+            if (instance != null)
+                instance.snapCamToPlayer();
         }
     }
 }
