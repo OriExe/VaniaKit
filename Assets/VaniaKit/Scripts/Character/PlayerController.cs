@@ -122,23 +122,24 @@ namespace Vaniakit.Player
             vkUpdate();
         }
         
-        private void OnEnable()
-        {
-            inputActions.FindActionMap("Player").Enable();
-        }
-
-        private void OnDisable()
-        {
-            try
-            {
-                inputActions.FindActionMap("player").Disable();
-            }
-            catch 
-            {
-              Debug.Log("Game has ended or player has teleported to another scene");
-            }
-            
-        }
+        //Doesn't seem to work 
+        // private void OnEnable()
+        // {
+        //     inputActions.FindActionMap("Player").Enable();
+        // }
+        //
+        // private void OnDisable()
+        // {
+        //     try
+        //     {
+        //         inputActions.FindActionMap("Player").Disable();
+        //     }
+        //     catch 
+        //     {
+        //       Debug.Log("Game has ended or player has teleported to another scene");
+        //     }
+        //     
+        // }
 
         private void OnTriggerEnter2D(Collider2D other)
         {
