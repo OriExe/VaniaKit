@@ -2,6 +2,8 @@ using System;
 using UnityEngine;
 using System.Collections.Generic;
 using System.Collections;
+
+//Help from https://www.youtube.com/watch?v=nhiFx28e7JY
 namespace Vaniakit.Ai
 {
     public class AiGrid : MonoBehaviour
@@ -17,17 +19,19 @@ namespace Vaniakit.Ai
         {
             nodeDiameter = nodeRadius * 2;
             gridsizeX = Mathf.RoundToInt(gridWorldSize.x/nodeDiameter);
-            gridsizeY = Mathf.RoundToInt(gridWorldSize.y/nodeDiameter)*2;
+            gridsizeY = Mathf.RoundToInt(gridWorldSize.y/nodeDiameter)*2; //2 was added as it fixes issue where the y grid was too small
             createGrid();
         }
 
+        //Creates a 2d grid
         void createGrid()
         {
              grid = new VkNode[gridsizeX, gridsizeY];
              Vector3 worldBottomLeft = transform.position - Vector3.right * gridWorldSize.x/2 - Vector3.up * gridWorldSize.y/2;
-             //Create the node
+             
              for (int x = 0; x < gridsizeX; x++)
              {
+                 //Creates a node
                  for (int y = 0; y < gridsizeY; y++)
                  {
                      Vector3 worldPoint = worldBottomLeft + Vector3.right * (x * nodeDiameter) + Vector3.up * (y * nodeRadius); //Got rid of vector 3 foward
@@ -50,10 +54,11 @@ namespace Vaniakit.Ai
                 }
             }
         }
-
+        
+        //Converts world position to node not finished yet
         public VkNode NodeFromWorldPoint(Vector3 worldPosition)
         {
-            //Converts world position to node not finished yet
+            
             return new VkNode(false, worldPosition);
         }
     }
