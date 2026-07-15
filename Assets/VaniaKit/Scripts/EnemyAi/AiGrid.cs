@@ -12,8 +12,10 @@ namespace Vaniakit.Ai
         [SerializeField]private Vector2 gridWorldSize;
         [SerializeField] private float nodeRadius;
         private VkNode[,] grid;
-
+        
         private float nodeDiameter;
+        Vector3 worldBottomLeft;
+        Vector3 worldTopRight;
         int gridsizeX, gridsizeY;
         private void Start()
         {
@@ -27,8 +29,9 @@ namespace Vaniakit.Ai
         void createGrid()
         {
              grid = new VkNode[gridsizeX, gridsizeY];
-             Vector3 worldBottomLeft = transform.position - Vector3.right * gridWorldSize.x/2 - Vector3.up * gridWorldSize.y/2;
+             worldBottomLeft = transform.position - Vector3.right * gridWorldSize.x/2 - Vector3.up * gridWorldSize.y/2;
              
+             Debug.Log(new Vector3(worldBottomLeft.x * gridWorldSize.x, worldBottomLeft.y * gridWorldSize.y, 0) * 0.5f);
              for (int x = 0; x < gridsizeX; x++)
              {
                  //Creates a node
@@ -40,6 +43,18 @@ namespace Vaniakit.Ai
                  }
              }
         }
+
+        private VkNode playerNode;
+
+        void Update()
+        {
+            tempMethod();
+        }
+        void tempMethod()
+        {
+             playerNode = NodeFromWorldPoint(player.position);
+        }
+        public Transform player;
         private void OnDrawGizmos()
         {
             //Need to make it x and y as it targets 2d space
@@ -49,8 +64,17 @@ namespace Vaniakit.Ai
             {
                 foreach (VkNode node in grid)
                 {
-                    Gizmos.color = (node.walkable) ? new Color(0f,1f,0f,0.5f) : new Color(1f,0f,0f,0.5f);
+                    
+                    if (playerNode == node)
+                    {
+                        Gizmos.color = Color.cyan;
+                    }
+                    else
+                    {
+                        Gizmos.color = (node.walkable) ? new Color(0f,1f,0f,0.5f) : new Color(1f,0f,0f,0.5f);
+                    }
                     Gizmos.DrawCube(node.worldPosition, Vector3.one * (nodeDiameter - 0.1f));
+                   
                 }
             }
         }
@@ -58,8 +82,16 @@ namespace Vaniakit.Ai
         //Converts world position to node not finished yet
         public VkNode NodeFromWorldPoint(Vector3 worldPosition)
         {
-            
-            return new VkNode(false, worldPosition);
+            //Make the distant a percentage (a value of 0 and 1)
+            float percentX = (worldPosition.x - worldBottomLeft.x);
+            float percentY = (worldPosition.y - worldBottomLeft.y); 
+            percentX = Mathf.Clamp01(percentX);
+            percentY = Mathf.Clamp01(percentY);
+
+            int x = Mathf.RoundToInt((gridsizeX-1) * percentX);
+            int y = Mathf.RoundToInt((gridsizeY-1) * percentY);
+            Debug.Log("X is " + x + " and Y is " + y + "\n Meanwhile percentX is " + percentX + " and percent y is" + percentY);
+            return grid[x,y];
         }
     }
 
