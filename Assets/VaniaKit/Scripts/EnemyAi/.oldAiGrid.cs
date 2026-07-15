@@ -1,8 +1,8 @@
-using System;
 using UnityEngine;
-using System.Collections.Generic;
-using System.Collections;
 
+///
+/// Script is not in use as I don't know how to get the node get position to work
+///
 //Help from https://www.youtube.com/watch?v=nhiFx28e7JY
 namespace Vaniakit.Ai
 {
