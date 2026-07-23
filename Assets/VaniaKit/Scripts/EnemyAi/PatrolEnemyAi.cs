@@ -97,7 +97,7 @@ namespace Vaniakit.Ai
             vkStart();
         }
 
-        private Transform target;
+        [SerializeField]private Transform target;
         /// <summary>
         /// Change this back to private when possible 
         /// </summary>
@@ -245,9 +245,17 @@ namespace Vaniakit.Ai
             Gizmos.DrawRay(rayStartingPoint.position, LookingDirection * lineOfSightDistance);
             Gizmos.color = Color.white;
             Gizmos.DrawWireSphere(groundCheck.position, groundedDetectionRange);
-            
             //Ai pathfinding gizmos
+            if (Application.isPlaying)
+            {
+                foreach (VkAiNode node in path)
+                {
+                    Gizmos.color = Color.white;
+                    Gizmos.DrawCube(node.position,new Vector3(1,1,1));
+                }
+            }
             
+           
         }
         
         
@@ -272,6 +280,11 @@ namespace Vaniakit.Ai
 
                     if (checkX >= 0 && checkX < AiGridUnity.getGridSize().x && checkY >= 0 && checkY < AiGridUnity.getGridSize().y)
                     {
+                        if (AiGridUnity.allGridNodes[checkX, checkY] == null)
+                        {
+                            VkAiNode newNode = new VkAiNode(new Vector3Int(checkX,checkY,0));
+                            AiGridUnity.allGridNodes[checkX, checkY] = newNode;
+                        }
                         neighbours.Add(AiGridUnity.allGridNodes[checkX, checkY]);
                     }
                 }
@@ -331,12 +344,13 @@ namespace Vaniakit.Ai
 
 		    Vector3Int startPosition = AiGridUnity.getPathFindingGrid().WorldToCell(startPos);; // starting point
 		    Vector3Int endPosition = AiGridUnity.getPathFindingGrid().WorldToCell(targetPos);
-
 		    List<VkAiNode> openSet = new List<VkAiNode>(); // open set is the set of nodes to be evaluated
 		    HashSet<VkAiNode> ClosedSet = new HashSet<VkAiNode>(); // closed set is the set of nodes already evaluated
 
             VkAiNode startNode = new VkAiNode(startPosition);
             VkAiNode targetNode = new VkAiNode(endPosition);
+            AiGridUnity.allGridNodes[startPosition.x, startPosition.y] = startNode;
+            AiGridUnity.allGridNodes[endPosition.x, endPosition.y] = targetNode;
             
 		    openSet.Add(startNode); // add the start node to the open set
 

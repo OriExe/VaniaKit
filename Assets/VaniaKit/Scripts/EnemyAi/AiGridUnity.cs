@@ -7,7 +7,6 @@ namespace Vaniakit.Ai
     {
         [SerializeField] private Grid aiGrid;
         [SerializeField] private LayerMask unwalkableLayerMask;
-        [SerializeField] private Transform player;
         [Tooltip("How many nodes it takes to reach the top right corner of the playable space")]
         [SerializeField]private Vector2Int topRightCorner;
         private static AiGridUnity instance;
