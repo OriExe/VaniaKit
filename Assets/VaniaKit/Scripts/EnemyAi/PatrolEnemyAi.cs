@@ -108,7 +108,9 @@ namespace Vaniakit.Ai
             // applyGravity();
             //vkUpdate();
             FindPath(transform.position,target.position);
+            FollowPath();
         }
+        
 
         //Runs code that detects if the player is in either detection radius
         private bool detectPlayer()
@@ -248,10 +250,19 @@ namespace Vaniakit.Ai
             //Ai pathfinding gizmos
             if (Application.isPlaying)
             {
+                int counter = 0;
                 foreach (VkAiNode node in path)
                 {
-                    Gizmos.color = Color.white;
+                    if (counter == 0)
+                        Gizmos.color = Color.blue;
+                    else  if (counter == 1)
+                        Gizmos.color = Color.yellow;
+                    else if (counter == 2)
+                        Gizmos.color = Color.red;
+                    else 
+                        Gizmos.color = Color.white;
                     Gizmos.DrawCube(node.position,new Vector3(1,1,1));
+                    counter++;
                 }
             }
             
@@ -336,7 +347,14 @@ namespace Vaniakit.Ai
                 return 14 * dstY + 10 * (dstX - dstY);
             return 14 * dstX + 10 * (dstY - dstX);
         }
-        
+
+        void FollowPath()
+        {
+            Vector2 currenPosition = transform.position;
+            Vector2 targetPosition = new  Vector2(path[0].position.x, path[0].position.y);
+            if (Vector2.Distance(currenPosition, target.position) > 0.8f) //Fix this 
+                transform.position = Vector2.MoveTowards(currenPosition,targetPosition, speed * Time.deltaTime);
+        }
         void FindPath(Vector3 startPos, Vector3 targetPos)
 	    {
 
@@ -400,7 +418,7 @@ namespace Vaniakit.Ai
 		    long nanosecondsPerTick = (1000L * 1000L * 1000L) / Stopwatch.Frequency;
 		    long numberOfTicks = timer.ElapsedTicks;
 		    long nanoseconds = numberOfTicks * nanosecondsPerTick;
-		    Debug.Log(string.Format("The A* Search from {0} to {1} took {2} nanoseconds to complete.", startPos.ToString(), targetPos.ToString(), nanoseconds.ToString()));
+		    //Debug.Log(string.Format("The A* Search from {0} to {1} took {2} nanoseconds to complete.", startPos.ToString(), targetPos.ToString(), nanoseconds.ToString()));
 	    }
 
       
